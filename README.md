@@ -1,31 +1,476 @@
-# Hackathon — KILINGOS
+# 🐻 Mundo dos Ursos — Hackathon LEPV
 
-## Equipe
-- Trinta: ideias, lógica e métricas.
-- Pontes: pesquisa, textos e apresentação.
-- Lopes: coordenação, construção com IA e testes de uso.
-- Kilim: estrutura técnica, integração e publicação.
+> Mundo social online 2D em que aprender gera conquistas, moedas e novas formas de se expressar entre amigos.
 
-## Desafio
-Os cinco desafios apresentados estão em docs/DESAFIOS_EDUCACAO.md. A equipe ainda precisa escolher o público e o problema específico.
+**Status:** planejamento do protótipo. Este repositório ainda não contém o jogo implementado.  
+**Tecnologias propostas:** Godot, Inkscape e assistência de GPT/Claude por ferramentas MCP compatíveis.  
+**Nome do jogo:** provisório.
 
-## Execução
-A tecnologia ainda será escolhida. Quando houver aplicação, registrar aqui requisitos, instalação, variáveis necessárias e comando para executar.
+## Índice
 
-## Entrega
-Requisitos observados no print da organização; conferir no regulamento oficial:
-- Prazo: 31/10/2026 às 13h (confirmar fuso com a organização).
-- Repositório obrigatório.
-- Slides obrigatórios em PDF, até 20 MB.
-- Descrição de até 500 caracteres.
-- Atenção: os slides posteriores apresentam vídeo de até 5 minutos, plano de negócio em PDF e aplicação/MVP publicado como entregas. Isso diverge dos campos opcionais da plataforma; preparar todos e confirmar os formatos com a organização. Veja docs/ENTREGAS_AVALIACAO.md.
+- [Visão do produto](#visão-do-produto)
+- [Escopo do protótipo](#escopo-do-protótipo)
+- [Mundo, personagens e progressão](#mundo-personagens-e-progressão)
+- [Os três minijogos](#os-três-minijogos)
+- [Divisão entre quatro pessoas](#divisão-entre-quatro-pessoas)
+- [Passo a passo de desenvolvimento](#passo-a-passo-de-desenvolvimento)
+- [Integração e arquitetura](#integração-e-arquitetura)
+- [Desenvolvimento com IA e MCP](#desenvolvimento-com-ia-e-mcp)
+- [Economia e precificação](#economia-e-precificação)
+- [Critérios de conclusão](#critérios-de-conclusão)
+- [Decisões pendentes](#decisões-pendentes)
 
-## Documentação
-- docs/DESAFIOS_EDUCACAO.md: cinco desafios e notas da abertura.
-- docs/ENTREGAS_AVALIACAO.md: fases, critérios, entregas e checklist.
-- docs/PLANO.md: escopo, tarefas e critérios de conclusão.
-- docs/DECISOES.md: decisões e justificativas.
-- docs/USO_IA.md: como a equipe orientou e verificou a IA.
+## Visão do produto
 
-Não colocar senhas, tokens ou dados pessoais no repositório.
+A inspiração é a experiência social de mundos como Club Penguin: encontrar amigos, explorar espaços, jogar e exibir uma identidade própria. Personagens, cenários e assets devem ter identidade original.
 
+O ciclo central é:
+
+**Encontrar amigos → escolher uma missão → jogar e aprender → ganhar moedas e selos → personalizar o urso → voltar ao lobby e mostrar.**
+
+A hipótese de engajamento é que itens visíveis e conquistas compartilhadas motivem o retorno. A hipótese de negócio é que responsáveis aceitem uma assinatura que amplie a personalização em uma experiência divertida com progresso de aprendizagem perceptível. Ambas precisam de validação.
+
+## Escopo do protótipo
+
+| Elemento | Entrega inicial |
+|---|---|
+| Plataforma | Navegador, com salas pequenas |
+| Personagem gratuito | Urso marrom |
+| Assinatura demonstrativa | Variante panda e cosméticos exclusivos |
+| Direções | Frente, costas, esquerda e direita |
+| Pet | Peixe voador com capacete ou bacia de água |
+| Matemática | Duelo online 1x1 com cartas |
+| Português | Barco com perguntas e obstáculos |
+| Ciências | Foguete de tronco com meteoros, combustível e perguntas |
+| Mundo | Lobby, bosque panda, porto polar, área do tronco-foguete e área comercial |
+| Lojas | Uma de cosméticos e uma de pets |
+| Progressão | Moedas, inventário, selos e missões diárias |
+| Interação social | Jogadores visíveis, apelidos e emotes predefinidos |
+| Persistência | Perfil, saldo, conquistas e itens equipados recuperados ao reconectar |
+
+O lobby e o duelo são multiplayer. Barco e foguete começam como experiências individuais conectadas ao mesmo perfil.
+
+A assinatura deve estar identificada como **simulação no protótipo**. Cobrança real é uma etapa posterior.
+
+## Mundo, personagens e progressão
+
+### Mapa
+
+| Área | Identidade | Função |
+|---|---|---|
+| Lobby | Praça dos ursos | Encontro, emotes, missões e acessos |
+| Bosque panda | Bambu e arena original | Duelo matemático |
+| Porto polar | Neve, gelo e barcos | Minijogo de português |
+| Clareira do foguete | Tronco oco preparado para decolar | Entrada do minijogo de ciências |
+| Área comercial | Duas lojas identificáveis | Cosméticos e pets |
+
+No acesso ao foguete, o urso entra no buraco do tronco e uma animação curta mostra a decolagem.
+
+### Personagens e arte
+
+- Urso marrom como base gratuita.
+- Panda como primeira variante de assinatura.
+- Sprites nas quatro direções; movimento troca a imagem conforme a direção.
+- Mesmo tamanho de tela, posição dos pés e pontos de encaixe em todas as variantes.
+- Roupas e acessórios acompanham a direção do personagem.
+- Pet segue o urso; primeira versão com um peixe e um recipiente de água.
+- Variações de peixes e novos cosméticos entram após o ciclo principal funcionar.
+- SVGs editáveis no Inkscape e exports padronizados para o Godot.
+
+### Progressão
+
+| Sistema | Papel |
+|---|---|
+| Moedas | Comprar itens gratuitos e pets |
+| Selos | Registrar conquistas específicas |
+| Domínio | Reconhecer aprendizagem em desafios novos |
+| Exploração | Liberar cenários ou elementos conforme o progresso |
+| Missão diária | Dar um objetivo curto para a sessão |
+| Assinatura | Ampliar expressão visual sem vantagem competitiva |
+
+Exemplos de selos: primeira partida concluída, explorador dos três jogos e domínio inicial de multiplicação. Critérios de domínio devem exigir questões variadas, não apenas repetir a mesma resposta.
+
+Primeira missão diária sugerida: concluir uma sessão de um minijogo. Cada missão pode conceder sua recompensa uma única vez por dia, usando a data definida pelo servidor.
+
+## Os três minijogos
+
+### 1. Duelo matemático — 1x1
+
+**Cenário:** habitat do panda.  
+**Conceito:** jogadores usam cartas com problemas para atacar; o adversário responde para defender.
+
+Regras iniciais propostas para teste:
+
+1. Cada jogador começa com 5 pontos de energia.
+2. O jogador da vez escolhe uma carta fácil, média ou difícil.
+3. O servidor seleciona uma questão do tema e da dificuldade.
+4. O adversário responde.
+5. Acerto bloqueia o ataque; erro reduz a energia e mostra uma explicação.
+6. O turno passa ao outro jogador.
+7. A partida termina por energia ou limite de rodadas, com regra explícita de empate.
+
+Começar com dano igual e quantidade limitada de cartas por dificuldade. Alterações de dano e tempo de resposta dependem de testes.
+
+**Primeiro tema:** escolher multiplicação ou soma de frações.  
+**Estados:** aguardando jogadores → seleção de carta → resposta → resolução → próximo turno ou resultado.
+
+O servidor controla turnos, questões, validação das respostas e resultado. A resposta correta não deve ser enviada ao cliente antes da resolução.
+
+### 2. Barco de português
+
+**Cenário:** habitat do urso polar.  
+**Conceito:** acertos fazem o barco avançar; erros provocam obstáculos.
+
+1. O barco chega a um ponto de pergunta.
+2. A ação pausa para leitura de um texto curto.
+3. O jogador escolhe a resposta.
+4. Acerto produz um impulso.
+5. Erro provoca uma animação de iceberg ou outro obstáculo e uma penalidade pequena.
+6. O jogo apresenta a explicação.
+7. A viagem continua até o destino ou o fim das condições da fase.
+
+Começar com interpretação de textos curtos e uma única rota. Durante a pergunta, a ação permanece pausada para que leitura e desvio de obstáculos não disputem atenção.
+
+### 3. Foguete de ciências
+
+**Cenário:** foguete feito de tronco.  
+**Conceito:** desviar de meteoros, coletar moedas e responder perguntas para recuperar combustível.
+
+1. O urso entra no tronco e decola.
+2. O jogador controla o foguete e desvia dos obstáculos.
+3. O combustível diminui com o tempo.
+4. Cápsulas de combustível abrem uma pergunta e pausam a ação.
+5. Acerto recupera mais combustível.
+6. Erro mostra a explicação e concede recuperação menor.
+7. O jogador coleta moedas durante o percurso.
+8. A sessão termina ao chegar ao destino ou acabar o combustível.
+
+Os conteúdos podem incluir biologia, física e química, sempre adequados ao ano escolar escolhido. Começar com um conjunto pequeno e coerente de conhecimentos gerais.
+
+## Divisão entre quatro pessoas
+
+Os nomes serão preenchidos pelo grupo.
+
+| Pessoa | Frente | Responsabilidade | Entrega verificável |
+|---|---|---|---|
+| **1** | Mundo e integração | Godot, rede, mapas, movimento, perfil, persistência, inventário e lógica das lojas | Dois jogadores se encontram e veem os itens equipados um do outro |
+| **2** | Matemática | Deck, perguntas, turnos, combate e integração do duelo | Dois jogadores concluem uma partida com resultado consistente |
+| **3** | Português e ciências | Barco, foguete, obstáculos, perguntas e resultados | Ambos os jogos iniciam, terminam e retornam ao lobby |
+| **4** | Arte, economia e produto | Inkscape, assets, catálogo, preços, assinatura, validação e apresentação | Arte consistente e proposta de monetização com custos e hipóteses explícitos |
+
+### Pessoa 1 — Mundo e integração
+
+- [ ] Fixar a versão do Godot e criar o projeto.
+- [ ] Criar o lobby com arte provisória.
+- [ ] Implementar movimento e quatro direções.
+- [ ] Conectar dois clientes à mesma sala.
+- [ ] Sincronizar posição, direção, aparência e emotes.
+- [ ] Criar portais e retorno dos minijogos.
+- [ ] Implementar perfil, saldo, inventário e persistência.
+- [ ] Implementar lojas com o catálogo da pessoa 4.
+- [ ] Integrar resultados, selos e missões diárias.
+- [ ] Preparar o acesso à versão publicada.
+
+### Pessoa 2 — Duelo matemático
+
+- [ ] Construir primeiro uma partida local.
+- [ ] Implementar cartas e quantidade por dificuldade.
+- [ ] Ler questões de um banco padronizado.
+- [ ] Implementar turnos, energia, feedback e empate.
+- [ ] Integrar a partida à rede com a pessoa 1.
+- [ ] Tratar desconexão e ações fora do turno.
+- [ ] Aplicar animações de ataque, defesa e comemoração.
+- [ ] Emitir o resultado para o sistema central.
+
+### Pessoa 3 — Barco e foguete
+
+- [ ] Implementar o barco com formas provisórias.
+- [ ] Conectar perguntas, avanço, obstáculos e feedback.
+- [ ] Concluir o fluxo de entrada, resultado e retorno.
+- [ ] Implementar o foguete com meteoros e combustível.
+- [ ] Adicionar cápsulas, perguntas pausadas e moedas.
+- [ ] Integrar a animação de decolagem.
+- [ ] Emitir resultados no mesmo formato do duelo.
+- [ ] Ajustar duração e dificuldade após testes.
+
+### Pessoa 4 — Arte, economia e produto
+
+- [ ] Definir paleta, proporções e padrão dos assets.
+- [ ] Criar urso marrom nas quatro direções.
+- [ ] Criar panda e um acessório nas mesmas proporções.
+- [ ] Criar pet e elementos visuais dos cenários.
+- [ ] Criar cartas, ícones de moedas, selos e botões.
+- [ ] Definir catálogo e preços em moedas.
+- [ ] Calcular tempo estimado para conquistar cada item.
+- [ ] Definir benefícios e três hipóteses de preço da assinatura.
+- [ ] Estimar custos fixos e variáveis.
+- [ ] Validar a proposta com jogadores e responsáveis.
+- [ ] Preparar apresentação e roteiro de demonstração.
+
+**Divisão da loja:** pessoa 1 implementa compra, saldo e inventário; pessoa 4 entrega catálogo, imagens, preços e regras.
+
+**Revisão pedagógica:** pessoas 2 e 3 revisam suas questões; pessoa 4 coordena uma segunda leitura humana antes da demonstração.
+
+## Passo a passo de desenvolvimento
+
+### Etapa 0 — Alinhamento e preparação
+
+- Escolher faixa etária e ano escolar.
+- Confirmar navegador como plataforma inicial.
+- Fixar versão do Godot, convenções e pastas.
+- Testar as capacidades reais dos servidores MCP escolhidos.
+- Definir formato das questões, resultados e itens.
+- Atribuir as quatro frentes aos integrantes.
+
+**Pronto quando:** todos abrem o mesmo projeto e conseguem executar uma cena simples.
+
+### Etapa 1 — Provar o ciclo social
+
+1. Pessoa 1 conecta dois jogadores no lobby.
+2. Pessoa 2 cria uma partida matemática mínima.
+3. Pessoa 3 constrói a primeira versão do barco.
+4. Pessoa 4 produz um urso e um acessório, além da primeira tabela de preços.
+5. Integrar: partida → recompensa → compra → equipar → outro jogador vê.
+
+**Pronto quando:** o ciclo completo funciona em dois clientes, mesmo com arte provisória.
+
+### Etapa 2 — Completar o protótipo
+
+1. Finalizar os três minijogos.
+2. Adicionar os destinos e as duas lojas.
+3. Integrar pet, panda, selos e missão diária.
+4. Persistir progresso e itens.
+5. Adicionar feedback pedagógico às perguntas.
+6. Aplicar a identidade visual.
+
+**Pronto quando:** todos os jogos retornam ao lobby e compartilham o mesmo perfil.
+
+### Etapa 3 — Validar e apresentar
+
+1. Testar em dois computadores.
+2. Corrigir conexão, turnos, compras e recompensas.
+3. Observar entendimento das perguntas e vontade de voltar.
+4. Ajustar preços em moedas e duração das sessões.
+5. Finalizar hipótese de assinatura e custos.
+6. Gravar ou ensaiar a demonstração completa.
+7. Registrar instruções reais de instalação e execução quando o código existir.
+
+## Integração e arquitetura
+
+### Contratos compartilhados
+
+| Objeto | Campos mínimos |
+|---|---|
+| Questão | ID, matéria, tema, dificuldade, enunciado, alternativas, resposta correta, explicação |
+| Resultado | ID da sessão, jogo, acertos, tentativas, conclusão, habilidades praticadas |
+| Item | ID, categoria, preço, requisito de assinatura, requisito de selo, assets por direção |
+| Perfil | ID do jogador, apelido, aparência, saldo, inventário, itens equipados, selos, missões |
+
+O banco completo contém a resposta correta; a mensagem enviada ao jogador durante a pergunta contém apenas os campos públicos.
+
+### Regras de integração
+
+- Os minijogos informam resultados; o sistema central valida e concede recompensas.
+- Cada sessão só pode ser recompensada uma vez.
+- Compras validam saldo e requisitos no servidor.
+- O servidor controla o duelo e a data das missões diárias.
+- Resultados dos jogos individuais precisam de validação antes de alterar saldo.
+- Desconexões e empates têm tratamento explícito.
+- Pessoa 1 mantém configurações e cenas compartilhadas.
+- Cada integrante trabalha em sua área e integra mudanças pequenas.
+
+### Estrutura sugerida para implementação futura
+
+```text
+assets/
+  source/           # SVGs editáveis
+  characters/
+  cosmetics/
+  pets/
+  environments/
+  ui/
+scenes/
+  world/
+  player/
+  minigames/
+    math/
+    language/
+    science/
+  shops/
+scripts/
+  core/
+  network/
+  progression/
+data/
+  questions/
+  items/
+  achievements/
+  missions/
+```
+
+Essa estrutura é uma proposta; as pastas e o código ainda serão criados.
+
+### Rede
+
+Para navegador, usar WebSocket/WSS como ponto de partida. A exportação web não dispõe do transporte UDP usado pelo ENet.
+
+- [Multiplayer no Godot](https://docs.godotengine.org/en/4.7/tutorials/networking/high_level_multiplayer.html)
+- [Demonstração oficial de multiplayer WebSocket](https://godotengine.org/asset-library/asset/2801)
+
+Verificar a documentação correspondente à versão que a equipe instalar.
+
+## Desenvolvimento com IA e MCP
+
+### Preparação
+
+1. Selecionar e revisar os servidores MCP disponíveis para Godot e Inkscape.
+2. Confirmar compatibilidade com as versões instaladas.
+3. Testar leitura do projeto, criação de uma cena, execução e captura dos erros.
+4. Confirmar edição de SVG e exportação de assets.
+5. Se uma operação não estiver disponível via MCP, usar os arquivos do projeto e a CLI adequada.
+6. Cada integrante trabalha em sua cópia/branch para evitar edições concorrentes na mesma cena.
+
+A conexão MCP não está configurada por este documento. Suas capacidades dependem da implementação escolhida.
+
+O Inkscape permite exportações por linha de comando: [documentação oficial](https://wiki.inkscape.org/wiki/Using_the_Command_Line).
+
+### Ciclo de trabalho
+
+**Tarefa pequena → IA inspeciona → implementa → pessoa executa → devolve erros e imagens → IA corrige → salvar versão funcionando.**
+
+Usar IA para preparar questões durante o desenvolvimento e revisar cada resposta antes de incluí-la no banco. O protótipo pode funcionar sem chamadas a modelos durante as partidas.
+
+### Prompt comum
+
+> Inspecione o projeto antes de editar. Implemente apenas a tarefa descrita, respeitando a versão do Godot e os contratos existentes. Liste os arquivos alterados e como verificar o resultado. Não altere áreas de outros integrantes sem explicar a dependência. Não declare testes como executados se não os executou.
+
+### Prompt da pessoa 1
+
+> Crie primeiro um lobby mínimo no Godot para navegador com dois clientes conectados por WebSocket, movimento e quatro direções visuais. Use arte provisória e separe jogador, sala e rede. Mostre como testar com dois clientes antes de adicionar inventário e lojas.
+
+### Prompt da pessoa 2
+
+> Crie um duelo matemático por turnos em uma cena isolada. Use estados explícitos para seleção de carta, resposta, resolução e fim. Leia perguntas do formato combinado. Comece localmente e separe a integração de rede. Trate empate, desconexão e tentativa de ação fora do turno.
+
+### Prompt da pessoa 3
+
+> Crie barco de português e foguete de ciências em cenas independentes. Ambos leem o mesmo formato de questões e emitem o mesmo formato de resultado. Comece pelo barco com formas provisórias. Pause a ação durante perguntas. Conclua início, resultado e retorno antes de implementar o foguete.
+
+### Prompt da pessoa 4
+
+> Defina uma identidade vetorial original para um mundo de ursos: paleta, proporções, quatro direções e encaixes dos acessórios. Prepare SVGs editáveis. Proponha catálogo, preços em moedas e sessões necessárias para cada compra. Separe hipóteses de fatos; não invente dados de mercado.
+
+## Economia e precificação
+
+**Responsável: pessoa 4.** Valores abaixo são hipóteses para testar, não preços validados.
+
+### Três fontes de valor dos itens
+
+| Tipo | Aquisição | Significado social |
+|---|---|---|
+| Estilo | Moedas ou assinatura | Expressar preferências |
+| Conquista | Domínio e desafios | Mostrar algo que conseguiu fazer |
+| Memória coletiva | Eventos e missões em grupo | Registrar participação com amigos |
+
+Pagamento não aumenta dano, acertos, pontuação ou chances de vitória. Alguns itens desejáveis devem continuar disponíveis por conquista.
+
+### Economia inicial em moedas
+
+| Evento ou item | Valor inicial de teste |
+|---|---:|
+| Partida concluída | +20 moedas |
+| Bônus de aprendizagem | Até +10 moedas |
+| Acessório básico | 100 moedas |
+| Roupa especial | 300 moedas |
+| Pet | 500 moedas |
+
+Um acessório básico exigiria aproximadamente quatro ou cinco partidas. Medir se o esforço é agradável e ajustar antes de aumentar o catálogo.
+
+Moedas coletadas no foguete devem entrar na mesma política de recompensas, com limites explícitos, para evitar que um jogo torne os demais irrelevantes.
+
+### Assinatura
+
+Benefícios iniciais propostos:
+
+- Variante panda.
+- Cosméticos exclusivos.
+- Variações visuais de pets.
+- Futuras opções adicionais de personalização.
+
+Aprendizagem principal, conquistas e competição permanecem acessíveis sem vantagem paga.
+
+A equipe deve definir o comportamento após cancelamento. Hipótese inicial: itens permanecem registrados, mas benefícios exclusivos exigem assinatura ativa para uso. Comunicar a regra claramente.
+
+### Trabalho de precificação
+
+- [ ] Propor três preços mensais para pesquisa com responsáveis.
+- [ ] Estimar jogadores ativos e proporção de assinantes em cenários conservador, intermediário e otimista.
+- [ ] Levantar hospedagem, armazenamento, tráfego e taxas de pagamento.
+- [ ] Incluir produção de conteúdo e suporte.
+- [ ] Separar custo da IA usada no desenvolvimento de eventual IA em produção.
+- [ ] Calcular contribuição e ponto de equilíbrio.
+- [ ] Testar se o valor percebido sustenta a renovação.
+
+**Contribuição por assinante = receita líquida da assinatura − custo variável por assinante.**
+
+**Resultado mensal estimado = contribuição total dos assinantes − custo dos usuários gratuitos − custos fixos.**
+
+Não assumir que toda criança interessada converterá em assinatura.
+
+### Métricas para o primeiro teste
+
+- Jogadores que completam a primeira missão.
+- Jogadores que querem retornar em outro dia.
+- Acertos em questões novas sobre o conteúdo praticado.
+- Tempo até a primeira compra com moedas.
+- Itens que despertam interesse ao serem vistos em outro jogador.
+- Interesse do responsável em pagar e motivo da decisão.
+
+## Critérios de conclusão
+
+### Checklist funcional
+
+- [ ] Dois jogadores acessam o mesmo lobby.
+- [ ] Movimento e direção aparecem corretamente para ambos.
+- [ ] Duelo 1x1 mantém turnos e resultado consistentes.
+- [ ] Barco e foguete podem ser concluídos.
+- [ ] Perguntas têm respostas e explicações revisadas.
+- [ ] Recompensas não são concedidas duas vezes para a mesma sessão.
+- [ ] Loja impede compra sem saldo.
+- [ ] Acessório equipado fica visível para o outro jogador.
+- [ ] Pet acompanha o personagem.
+- [ ] Missão diária e pelo menos um selo funcionam.
+- [ ] Progresso permanece após reconexão.
+- [ ] Assinatura simulada está identificada.
+- [ ] Hipóteses de preços e custos estão documentadas.
+
+### Roteiro da demonstração
+
+1. Dois colegas entram na praça.
+2. Um convida o outro para o duelo matemático.
+3. Eles jogam e recebem o resultado.
+4. Um compra e equipa um acessório.
+5. O outro vê a mudança no lobby.
+6. O grupo demonstra o barco.
+7. O urso entra no tronco, decola e joga ciências.
+8. Um selo ou missão é concluído.
+9. A loja apresenta o panda e a assinatura demonstrativa.
+
+## Decisões pendentes
+
+- [ ] Nome definitivo e identidade do jogo.
+- [ ] Nomes dos responsáveis pelas quatro frentes.
+- [ ] Faixa etária e ano escolar.
+- [ ] Versão do Godot e servidores MCP.
+- [ ] Tema inicial do duelo.
+- [ ] Regras finais de dano, rodadas e empate.
+- [ ] Conteúdos iniciais de português e ciências.
+- [ ] Requisitos de desbloqueio dos cenários.
+- [ ] Modelo de perfil e recuperação de acesso.
+- [ ] Hospedagem da demonstração.
+- [ ] Preço e regras finais da assinatura.
+- [ ] Conferência das entregas e dos prazos no regulamento oficial.
+
+---
+
+**Prioridade de execução:** provar cedo o ciclo jogar → conquistar → equipar → mostrar para um amigo.
