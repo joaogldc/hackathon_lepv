@@ -39,6 +39,7 @@ A hipótese de engajamento é que itens visíveis e conquistas compartilhadas mo
 | Assinatura demonstrativa | Variante panda e cosméticos exclusivos |
 | Direções | Frente, costas, esquerda e direita |
 | Pet | Peixe voador com capacete ou bacia de água |
+| Toca pessoal | Uma toca por urso, editável com móveis e decoração; amigos podem visitar |
 | Matemática | Duelo online 1x1 com cartas |
 | Português | Barco com perguntas e obstáculos |
 | Ciências | Foguete de tronco com meteoros, combustível e perguntas |
@@ -76,6 +77,23 @@ No acesso ao foguete, o urso entra no buraco do tronco e uma animação curta mo
 - Pet segue o urso; primeira versão com um peixe e um recipiente de água.
 - Variações de peixes e novos cosméticos entram após o ciclo principal funcionar.
 - SVGs editáveis no Inkscape e exports padronizados para o Godot.
+
+### Toca personalizável
+
+**Cada urso tem sua própria toca editável:** um espaço pessoal para decorar, guardar a identidade do jogador e receber amigos.
+
+- Todo jogador recebe uma toca básica gratuita.
+- No modo de edição, o dono pode posicionar, mover e remover móveis e decorações.
+- Itens removidos voltam ao inventário.
+- A decoração e as posições ficam salvas ao sair e reconectar.
+- Amigos podem visitar com autorização do dono; apenas o proprietário pode editar.
+- Móveis e enfeites podem ser comprados com moedas ou conquistados em missões e selos.
+- A loja de cosméticos inclui uma categoria de decoração.
+- Coleções temáticas para assinantes são uma hipótese de monetização, mantendo a edição básica gratuita.
+
+**Primeira versão:** um cômodo, posicionamento em grade e poucos itens, como cama, tapete, luminária e troféu. Expansões de cômodos ficam para depois.
+
+**Ciclo social:** jogar → conquistar uma decoração → editar a toca → convidar um amigo para conhecer.
 
 ### Progressão
 
@@ -168,6 +186,8 @@ Os nomes serão preenchidos pelo grupo.
 - [ ] Criar portais e retorno dos minijogos.
 - [ ] Implementar perfil, saldo, inventário e persistência.
 - [ ] Implementar lojas com o catálogo da pessoa 4.
+- [ ] Implementar toca pessoal, editor em grade, visitas e salvamento da decoração.
+- [ ] Validar no servidor propriedade dos itens e permissão de edição da toca.
 - [ ] Integrar resultados, selos e missões diárias.
 - [ ] Preparar o acesso à versão publicada.
 
@@ -201,6 +221,8 @@ Os nomes serão preenchidos pelo grupo.
 - [ ] Criar pet e elementos visuais dos cenários.
 - [ ] Criar cartas, ícones de moedas, selos e botões.
 - [ ] Definir catálogo e preços em moedas.
+- [ ] Criar o interior da toca e os primeiros móveis e enfeites.
+- [ ] Definir preços de decoração e opções gratuitas e de assinatura.
 - [ ] Calcular tempo estimado para conquistar cada item.
 - [ ] Definir benefícios e três hipóteses de preço da assinatura.
 - [ ] Estimar custos fixos e variáveis.
@@ -239,7 +261,7 @@ Os nomes serão preenchidos pelo grupo.
 1. Finalizar os três minijogos.
 2. Adicionar os destinos e as duas lojas.
 3. Integrar pet, panda, selos e missão diária.
-4. Persistir progresso e itens.
+4. Implementar toca editável e visitas; persistir progresso, itens e decoração.
 5. Adicionar feedback pedagógico às perguntas.
 6. Aplicar a identidade visual.
 
@@ -265,6 +287,7 @@ Os nomes serão preenchidos pelo grupo.
 | Resultado | ID da sessão, jogo, acertos, tentativas, conclusão, habilidades praticadas |
 | Item | ID, categoria, preço, requisito de assinatura, requisito de selo, assets por direção |
 | Perfil | ID do jogador, apelido, aparência, saldo, inventário, itens equipados, selos, missões |
+| Toca | ID, proprietário, tema, permissão de visita e itens posicionados com ID de instância, item e coordenadas |
 
 O banco completo contém a resposta correta; a mensagem enviada ao jogador durante a pergunta contém apenas os campos públicos.
 
@@ -273,6 +296,7 @@ O banco completo contém a resposta correta; a mensagem enviada ao jogador duran
 - Os minijogos informam resultados; o sistema central valida e concede recompensas.
 - Cada sessão só pode ser recompensada uma vez.
 - Compras validam saldo e requisitos no servidor.
+- Edições da toca validam proprietário, itens disponíveis e posições permitidas; visitantes não podem editar.
 - O servidor controla o duelo e a data das missões diárias.
 - Resultados dos jogos individuais precisam de validação antes de alterar saldo.
 - Desconexões e empates têm tratamento explícito.
@@ -395,6 +419,7 @@ Benefícios iniciais propostos:
 - Variante panda.
 - Cosméticos exclusivos.
 - Variações visuais de pets.
+- Coleções temáticas de móveis e decoração para a toca, como hipótese a validar.
 - Futuras opções adicionais de personalização.
 
 Aprendizagem principal, conquistas e competição permanecem acessíveis sem vantagem paga.
@@ -439,6 +464,9 @@ Não assumir que toda criança interessada converterá em assinatura.
 - [ ] Loja impede compra sem saldo.
 - [ ] Acessório equipado fica visível para o outro jogador.
 - [ ] Pet acompanha o personagem.
+- [ ] Cada jogador acessa sua própria toca e posiciona, move e remove decorações.
+- [ ] Decoração permanece após reconexão.
+- [ ] Um amigo autorizado visita e vê a toca; visitantes não conseguem editar.
 - [ ] Missão diária e pelo menos um selo funcionam.
 - [ ] Progresso permanece após reconexão.
 - [ ] Assinatura simulada está identificada.
@@ -454,7 +482,8 @@ Não assumir que toda criança interessada converterá em assinatura.
 6. O grupo demonstra o barco.
 7. O urso entra no tronco, decola e joga ciências.
 8. Um selo ou missão é concluído.
-9. A loja apresenta o panda e a assinatura demonstrativa.
+9. Um jogador decora sua toca e recebe o colega para uma visita.
+10. A loja apresenta o panda, opções de decoração e a assinatura demonstrativa.
 
 ## Decisões pendentes
 
