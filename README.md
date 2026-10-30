@@ -7,7 +7,7 @@
 - Kilim: estrutura técnica, integração e publicação.
 
 ## Desafio
-Aguardando o enunciado oficial. Registrar público, problema, critérios e restrições antes de escolher a tecnologia.
+Os cinco desafios apresentados estão em docs/DESAFIOS_EDUCACAO.md. A equipe ainda precisa escolher o público e o problema específico.
 
 ## Execução
 A tecnologia ainda será escolhida. Quando houver aplicação, registrar aqui requisitos, instalação, variáveis necessárias e comando para executar.
@@ -18,11 +18,14 @@ Requisitos observados no print da organização; conferir no regulamento oficial
 - Repositório obrigatório.
 - Slides obrigatórios em PDF, até 20 MB.
 - Descrição de até 500 caracteres.
-- Vídeo/demo e solução no ar opcionais.
+- Atenção: os slides posteriores apresentam vídeo de até 5 minutos, plano de negócio em PDF e aplicação/MVP publicado como entregas. Isso diverge dos campos opcionais da plataforma; preparar todos e confirmar os formatos com a organização. Veja docs/ENTREGAS_AVALIACAO.md.
 
 ## Documentação
+- docs/DESAFIOS_EDUCACAO.md: cinco desafios e notas da abertura.
+- docs/ENTREGAS_AVALIACAO.md: fases, critérios, entregas e checklist.
 - docs/PLANO.md: escopo, tarefas e critérios de conclusão.
 - docs/DECISOES.md: decisões e justificativas.
 - docs/USO_IA.md: como a equipe orientou e verificou a IA.
 
 Não colocar senhas, tokens ou dados pessoais no repositório.
+
