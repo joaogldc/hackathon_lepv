@@ -37,6 +37,7 @@ var result_dialog: AcceptDialog
 var transition_tween: Tween
 var exit_armed := false
 var map_view: Control
+var student_dashboard: Control
 var signs: Array[Node2D] = []
 @onready var recompensa_moedas: CanvasLayer = $RecompensaMoedas
 @onready var recompensa_xp: CanvasLayer = $RecompensaXP
@@ -120,6 +121,17 @@ func _process(_delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if recompensa_moedas.visible or recompensa_xp.visible:
 		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		var dashboard_key: int = event.keycode if event.keycode else event.physical_keycode
+		if is_instance_valid(student_dashboard) and student_dashboard.visible:
+			if dashboard_key == KEY_R or dashboard_key == KEY_ESCAPE:
+				_close_student_dashboard()
+			get_viewport().set_input_as_handled()
+			return
+		if dashboard_key == KEY_R and Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
+			_toggle_student_dashboard()
+			get_viewport().set_input_as_handled()
+			return
 	if is_instance_valid(commerce_ui) and Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
 		if not is_instance_valid(quests) and commerce_ui.handle_key(event):
 			_close_map()
@@ -166,6 +178,25 @@ func _input(event: InputEvent) -> void:
 				_close_map()
 				get_viewport().set_input_as_handled()
 				return
+
+func _toggle_student_dashboard() -> void:
+	if not Network.active or not Network.players.has(multiplayer.get_unique_id()):
+		return
+	if is_instance_valid(student_dashboard):
+		_close_student_dashboard()
+		return
+	_close_map()
+	_close_quests()
+	if is_instance_valid(commerce_ui):
+		commerce_ui.close_window()
+	student_dashboard = load("res://scenes/ui/dashboard/student_dashboard.tscn").instantiate() as Control
+	game_layer.add_child(student_dashboard)
+
+func _close_student_dashboard() -> void:
+	if is_instance_valid(student_dashboard):
+		student_dashboard.queue_free()
+		student_dashboard = null
+	get_viewport().gui_release_focus()
 
 func _toggle_map() -> void:
 	if not Network.active or not Network.players.has(multiplayer.get_unique_id()):
@@ -243,6 +274,7 @@ func _sync_players() -> void:
 	if not Network.active:
 		_close_map()
 		_close_quests()
+		_close_student_dashboard()
 		xp_pendente=false
 		recompensa_moedas.fechar()
 		recompensa_xp.reiniciar_sessao()
