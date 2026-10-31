@@ -1,4 +1,5 @@
 extends Node2D
+const CLOTHING := preload("res://scripts/player/clothing_assets.gd")
 ## Optional Inkscape exports: assets/characters/brown/{front,back,left,right}.png.
 const PET := preload("res://scripts/player/pet_companion.gd")
 const COSMETICS := preload("res://scripts/player/cosmetics.gd")
@@ -83,7 +84,7 @@ func _draw() -> void:
 			if direction != "left":
 				draw_circle(Vector2(11 + offset, -50), 3, Color("342c2a"))
 	draw_set_transform(Vector2.ZERO)
-	COSMETICS.paint(self,outfit,direction,Vector2(0,-seat_height if sitting else 0))
+	COSMETICS.paint(self,outfit,direction,Vector2(0,-seat_height if sitting else 0),1.0,animation_time,moving,sitting)
 	var font := ThemeDB.fallback_font
 	var width := font.get_string_size(nickname, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
 	var nick_y:=-68.0-seat_height if sitting else -68.0

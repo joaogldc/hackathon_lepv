@@ -1,7 +1,7 @@
 extends Node
 ## Shared catalog. Clients request IDs, never arbitrary scene paths.
 const PORTALS := {
-	"dojo": {"title": "Entrar no dojo", "position": Vector2(576, 400), "scene": "res://scenes/minigames/math/entry.tscn"},
+	"dojo": {"title": "Entrar no dojo", "position": Vector2(576, 418), "scene": "res://scenes/minigames/math/entry.tscn"},
 	"commerce": {"title": "Área comercial", "place": "Vila das lojas", "position": Vector2(576, 260), "color": Color("dfb181"), "scene": "res://scenes/world/commerce.tscn"},
 	"math": {"title": "Bosque da Sabedoria", "place": "Bosque da Sabedoria", "position": Vector2(98, 460), "color": Color("91bf80"), "scene": "res://scenes/minigames/math/entry.tscn"},
 	"language": {"title": "Porto Glacial", "place": "Porto Glacial", "position": Vector2(576, 610), "color": Color("99d2e4"), "scene": "res://scenes/minigames/language/entry.tscn"},
@@ -48,4 +48,10 @@ func exit_at(point: Vector2, zone: String) -> String:
 	elif zone in ["loja_pets","loja_cosmeticos","provador"]:
 		if point.y>=602 and absf(point.x-576)<90: return "loja_cosmeticos" if zone=="provador" else "commerce"
 		if zone=="loja_cosmeticos" and point.distance_to(Vector2(865,432))<28: return "provador"
+	return ""
+
+func shop_action(zone: String, point: Vector2) -> String:
+	if zone=="loja_pets" and preload("res://scripts/world/world_catalog.gd").near_merchant(point): return "pet"
+	if zone=="loja_cosmeticos" and preload("res://scripts/world/world_catalog.gd").near_merchant(point): return "cosmetics"
+	if zone=="provador" and Rect2(300,545,550,58).has_point(point): return "fitting"
 	return ""

@@ -1,8 +1,25 @@
 extends RefCounted
+const CLOTHING := preload("res://scripts/player/clothing_assets.gd")
+const SHOP := preload("res://scripts/core/shop_catalog.gd")
 const HAT := preload("res://assets/cenario/comercial/produtos_exemplo/cartola.png")
 const BOW := preload("res://assets/cenario/comercial/produtos_exemplo/laco_rosa.png")
 const NAMES := {"none":"Sem acessório","cartola":"Cartola","laco_rosa":"Laço rosa","scarf_red":"Lenço vermelho","scarf_blue":"Lenço azul"}
-static func paint(canvas: CanvasItem, outfit: String, direction: String, origin:=Vector2.ZERO, size:=1.0) -> void:
+static func paint(canvas: CanvasItem, outfit: String, direction: String, origin:=Vector2.ZERO, size:=1.0, clock:=0.0, moving:=false, sitting:=false) -> void:
+	var product: Dictionary=SHOP.item(outfit)
+	if product.has("garment"):
+		var face: String={"front":"S","back":"N","left":"E","right":"E","front_left":"SE","front_right":"SE","back_left":"NE","back_right":"NE"}.get(direction,"S")
+		var kind: String=product.garment
+		var action: String=("sit_" if sitting else ("walk_" if moving else "idle_"))+face
+		if sitting and face not in ["S","N","E"]: action="sit_N" if direction.begins_with("back") else "sit_S"
+		var flip: bool=direction in ["left","front_left","back_left"]
+		canvas.draw_set_transform(origin,0,Vector2(-0.7 if flip else 0.7,0.7)*size)
+		for layer in (["cor","detalhe"] if kind in ["terno","chapeu"] else ["cor"]):
+			var frames: SpriteFrames=CLOTHING.LAYERS[kind+"_"+layer]
+			if not frames.has_animation(action): action="idle_"+face
+			var frame: Texture2D=frames.get_frame_texture(action,int(clock*(8.0 if moving else 2.0))%frames.get_frame_count(action))
+			canvas.draw_texture_rect(frame,Rect2(-48,-96,96,96),false,Color(product.color) if layer=="cor" else Color.WHITE)
+		canvas.draw_set_transform(Vector2.ZERO)
+		return
 	if outfit=="none": return
 	canvas.draw_set_transform(origin,0,Vector2.ONE*size)
 	var left: bool=direction in ["left","front_left","back_left"]

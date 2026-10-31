@@ -26,7 +26,7 @@ func _object(texture: Texture2D, rect: Rect2, ground_y: int) -> void:
 
 func _draw() -> void:
 	draw_texture_rect(GROUND,Rect2(24,204,1104,436),false)
-	_arrow(Vector2(576,400),PI)
+	load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(576,435),PI,0.6)
 	_arrow(Vector2(576,608),0)
 func _arrow(point: Vector2, angle: float) -> void:
 	load("res://scripts/world/ground_arrow.gd").paint(self,point,angle)

@@ -2,6 +2,7 @@ extends Node
 var client:=false
 var elapsed:=0.0
 var received:=false
+var clothing_received:=false
 var lobby: Node
 func _ready() -> void:
 	client="--client" in OS.get_cmdline_user_args()
@@ -9,6 +10,8 @@ func _ready() -> void:
 	add_child(lobby)
 	if client: Network.join_room("ExpansionGuest","ws://127.0.0.1:19094")
 	else:
+		Progress.storage_path="user://expansion_smoke.json"
+		Progress.profiles={}
 		Network.host("ExpansionHost",false,19094)
 		_run.call_deferred()
 func _process(delta: float) -> void:
@@ -19,11 +22,13 @@ func _process(delta: float) -> void:
 	if client:
 		var mine: int=multiplayer.get_unique_id()
 		if Network.players.has(mine) and Network.players[mine].zone=="loja_pets" and Network.players[mine].get("pet","")!="parrot":
-			Network.interact("pet","parrot")
+			Network.interact("buy","parrot")
+		if Network.players.has(mine) and Network.players[mine].zone=="loja_cosmeticos" and Network.players[mine].get("outfit","")!="camisa_vermelha": Network.interact("buy","camisa_vermelha")
 		for p in Network.players.values():
+			if p.nickname=="ExpansionHost" and p.get("outfit","")=="terno_vinho": clothing_received=true
 			if p.nickname=="ExpansionHost" and p.zone=="loja_pets" and p.get("pet","")=="parrot": received=true
-			if received and p.nickname=="ExpansionHost" and p.zone=="lobby" and p.get("sitting",false):
-				print("EXPANSION CLIENT PASS: shared zones, parrot and seated state")
+			if received and clothing_received and p.nickname=="ExpansionHost" and p.zone=="lobby" and p.get("sitting",false):
+				print("EXPANSION CLIENT PASS: shared zones, purchased clothing, parrot and seated state")
 				Network.leave("")
 				get_tree().quit()
 func wait_for(predicate: Callable) -> bool:
@@ -34,6 +39,9 @@ func wait_for(predicate: Callable) -> bool:
 	return true
 func _run() -> void:
 	assert(await wait_for(func(): return Network.players.size()==2))
+	for player_id in Network.players:
+		Progress.profiles[Progress.player_keys[player_id]].coins=500
+		Progress._publish(player_id)
 	# Physical doors are validated on the host, including rejection from afar.
 	Network._change_zone(1,"loja_pets")
 	assert(Network.players[1].zone=="lobby")
@@ -42,7 +50,7 @@ func _run() -> void:
 	Network.request_zone("loja_pets")
 	assert(Network.players[1].zone=="loja_pets")
 	Network.players[1].position=Vector2(576,480)
-	Network.interact("pet","parrot")
+	Network.interact("buy","parrot")
 	assert(Network.players[1].pet=="parrot")
 	var guest: int=Network.players.keys().filter(func(id): return id!=1)[0]
 	Network.players[guest].zone="loja_pets"
@@ -80,6 +88,14 @@ func _run() -> void:
 		Learning.act("answer",Learning.sessions[1].correct)
 		Learning.act("next")
 	assert(Network.players[1].progress.stats.get("science_complete",0)>0)
+	Network.players[1].zone="loja_cosmeticos"
+	Network.players[1].position=Vector2(576,480)
+	Network.interact("buy","terno_vinho")
+	Network.players[guest].zone="loja_cosmeticos"
+	Network.players[guest].position=Vector2(576,480)
+	assert(await wait_for(func(): return Network.players[guest].outfit=="camisa_vermelha"))
+	assert(Network.players[guest].progress.coins==280)
+	await get_tree().create_timer(0.3).timeout
 	Network.travel_to("lobby")
 	Network.players[1].position=Vector2(345,380)
 	Network.interact("sit")

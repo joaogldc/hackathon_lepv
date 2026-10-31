@@ -6,24 +6,26 @@ func _ready() -> void:
 	Progress.storage_path="user://polish_smoke.json"
 	Progress.profiles={}
 	Network.host("PolishTest",false,19097)
+	Progress.profiles[Progress.player_keys[1]].coins=500
+	Progress._publish(1)
 	Network.players[1].zone="loja_pets"
 	Network.players[1].position=Vector2(576,590)
 	Network.players[1].pet="fish"
 	Network.roster_changed.emit()
 	lobby._interact_nearby()
 	assert(not is_instance_valid(lobby.action_dialog),"Talking must require approaching the merchant")
-	Network.interact("pet","parrot")
+	Network.interact("buy","parrot")
 	assert(Network.players[1].pet=="fish","Remote equipment request from afar must be rejected")
 	Network.players[1].position=CATALOG.MERCHANT
 	lobby._interact_nearby()
-	assert(lobby.action_dialog.visible)
-	Network.interact("pet","parrot")
+	assert(lobby.commerce_ui.is_open())
+	Network.interact("buy","parrot")
 	assert(Network.players[1].pet=="parrot")
-	lobby.action_dialog.hide()
+	lobby.commerce_ui.close_window()
 	Network.players[1].zone="loja_cosmeticos"
 	Network.roster_changed.emit()
 	for outfit in ["cartola","laco_rosa"]:
-		Network.interact("outfit",outfit)
+		Network.interact("buy",outfit)
 		assert(Network.players[1].outfit==outfit)
 	Network.players[1].position=Vector2(576,590)
 	Network.interact("outfit","none")

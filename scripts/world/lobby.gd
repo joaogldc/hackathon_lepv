@@ -18,6 +18,7 @@ var interaction_hint: Label
 var bamboo_view: Node2D
 var fountain: Sprite2D
 var world_hud: Control
+var commerce_ui: Control
 var login_panel: PanelContainer
 var commerce_view: Node2D
 var title_label: Label
@@ -40,8 +41,12 @@ var exit_armed := false
 var map_view: Control
 var signs: Array[Node2D] = []
 @onready var recompensa_moedas: CanvasLayer = $RecompensaMoedas
+@onready var recompensa_xp: CanvasLayer = $RecompensaXP
+var xp_pendente := false
+var xp_dados: Dictionary={}
 
 func _ready() -> void:
+	recompensa_moedas.fechada.connect(_show_pending_xp)
 	for zone in ["language","loja_pets","loja_cosmeticos","provador"]:
 		var area:=AREA.new()
 		area.zone=zone
@@ -73,6 +78,12 @@ func _ready() -> void:
 	Duel.result_received.connect(_show_result)
 	game_layer = CanvasLayer.new()
 	game_layer.layer = 10
+	var commerce_layer := CanvasLayer.new()
+	commerce_layer.layer = 8
+	add_child(commerce_layer)
+	commerce_ui = load("res://scripts/ui/commerce_hud.gd").new()
+	commerce_layer.add_child(commerce_ui)
+	commerce_ui.story_requested.connect(_toggle_quests)
 	add_child(game_layer)
 	var args := OS.get_cmdline_user_args()
 	if "--server" in args:
@@ -84,9 +95,10 @@ func _ready() -> void:
 	queue_redraw()
 
 func _process(_delta: float) -> void:
+	var recompensa_aberta := recompensa_moedas.visible or recompensa_xp.visible
 	var movement := Vector2.ZERO
 	var focused := get_viewport().gui_get_focus_owner()
-	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not is_instance_valid(quests) and not (is_instance_valid(action_dialog) and action_dialog.visible) and not recompensa_moedas.visible:
+	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not is_instance_valid(quests) and not (is_instance_valid(action_dialog) and action_dialog.visible) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()):
 		movement = Vector2(
 			float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)),
 			float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN)) - float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP)))
@@ -105,13 +117,19 @@ func _process(_delta: float) -> void:
 		nearby_portal = Minigames.exit_at(Network.players[id].position,current_zone)
 	if nearby_portal.is_empty():
 		exit_armed = true
-	elif exit_armed and not is_instance_valid(map_view) and not is_instance_valid(quests) and not recompensa_moedas.visible:
+	elif exit_armed and not is_instance_valid(map_view) and not is_instance_valid(quests) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()):
 		exit_armed = false
 		Network.request_zone(nearby_portal)
 
 func _input(event: InputEvent) -> void:
-	if recompensa_moedas.visible:
+	if recompensa_moedas.visible or recompensa_xp.visible:
 		return
+	if is_instance_valid(commerce_ui) and Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
+		if not is_instance_valid(quests) and commerce_ui.handle_key(event):
+			_close_map()
+			get_viewport().set_input_as_handled()
+			return
+		if commerce_ui.is_open(): return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
 			if event.physical_keycode==KEY_Q:
@@ -188,6 +206,7 @@ func _set_zone(zone: String) -> void:
 		return
 	var previous_zone := current_zone
 	current_zone = zone
+	if is_instance_valid(commerce_ui): commerce_ui.close_window()
 	if transition_tween:
 		transition_tween.kill()
 	position = Vector2.ZERO
@@ -229,14 +248,16 @@ func _set_zone(zone: String) -> void:
 	game_layer.add_child(game_view)
 
 func _minigame_finished(_result: Dictionary) -> void:
-	# Navigation only. Reward validation will be integrated separately on the server.
+	# Navigation only; rewards are validated by the services on the server.
 	Network.request_zone("math" if current_zone == "dojo" else ("language" if current_zone in ["ship","cave"] else "lobby"))
 
 func _sync_players() -> void:
 	if not Network.active:
 		_close_map()
 		_close_quests()
+		xp_pendente=false
 		recompensa_moedas.fechar()
+		recompensa_xp.reiniciar_sessao()
 	var local_id := multiplayer.get_unique_id()
 	var zone := "lobby"
 	if Network.players.has(local_id):
@@ -281,6 +302,7 @@ func _build_ui() -> void:
 	world_hud.map_requested.connect(_toggle_map)
 	world_hud.travel_requested.connect(_travel_from_map)
 	world_hud.quests_requested.connect(_toggle_quests)
+	world_hud.daily_requested.connect(func(): _close_quests(); _close_map(); commerce_ui.open_page("daily"))
 	world_hud.pet_emotes_requested.connect(_toggle_pet_emotes)
 	interaction_hint=Label.new()
 	interaction_hint.position=Vector2(305,174)
@@ -390,6 +412,8 @@ func _show_result(result: Dictionary) -> void:
 		if is_instance_valid(result_dialog):
 			result_dialog.hide()
 		var amount: int=result.get("coin_rewards",[recompensa_moedas.quantidade_moedas,recompensa_moedas.quantidade_moedas])[mine]
+		xp_dados={"amount":result.get("xp_rewards",[0,0])[mine],"before":result.get("xp_before",[0,0])[mine]}
+		xp_pendente=int(xp_dados.amount)>0
 		recompensa_moedas.mostrar(amount, str(result.names[mine]))
 		return
 	if not is_instance_valid(result_dialog):
@@ -401,6 +425,7 @@ func _show_result(result: Dictionary) -> void:
 
 func _toggle_quests() -> void:
 	if not Network.active: return
+	if is_instance_valid(commerce_ui): commerce_ui.close_window()
 	if is_instance_valid(quests):
 		_close_quests()
 		return
@@ -408,6 +433,7 @@ func _toggle_quests() -> void:
 	quests=DISCOVERY.new()
 	quests.z_index=100
 	quests.close_requested.connect(_close_quests)
+	quests.daily_requested.connect(func(): _close_quests(); commerce_ui.open_page("daily"))
 	quests.travel_requested.connect(func(destination: String): _close_quests(); Network.travel_to(destination))
 	game_layer.add_child(quests)
 
@@ -437,21 +463,12 @@ func _interact_nearby() -> void:
 	var title:=""
 	var text:=""
 	var kind:=""
-	if current_zone=="loja_pets":
-		var player: Dictionary=Network.players.get(multiplayer.get_unique_id(),{})
-		if not CATALOG.near_merchant(player.get("position",Vector2.ZERO)): return
-		title="Comerciante de pets"
-		text="Olá! Qual companheiro vai explorar a ilha com você? Escolha o peixe ou o papagaio."
-		options={"Peixe voador":"fish","Papagaio":"parrot"}
-		kind="pet"
-	elif current_zone in ["loja_cosmeticos","provador"]:
-		var player: Dictionary=Network.players.get(multiplayer.get_unique_id(),{})
-		if current_zone=="loja_cosmeticos" and not CATALOG.near_merchant(player.get("position",Vector2.ZERO)): return
-		title="Experimente no espelho" if current_zone=="provador" else "Comerciante de cosméticos"
-		text="Cartola, laço rosa e lenços estão disponíveis para experimentar. Sua escolha fica salva."
-		options={"Sem acessório":"none","Cartola":"cartola","Laço rosa":"laco_rosa","Lenço vermelho":"scarf_red","Lenço azul":"scarf_blue"}
-		kind="outfit"
-	elif current_zone=="language":
+	var player: Dictionary=Network.players.get(multiplayer.get_unique_id(),{})
+	var shop_action: String=Minigames.shop_action(current_zone,player.get("position",Vector2.ZERO))
+	if not shop_action.is_empty():
+		commerce_ui.open_page(shop_action)
+		return
+	if current_zone=="language":
 		var point: Vector2=Network.players.get(multiplayer.get_unique_id(),{}).get("position",Vector2.ZERO)
 		if point.distance_to(Vector2(275,411))<75:
 			title="Mamute congelado"
@@ -527,3 +544,10 @@ func _toggle_pet_emotes() -> void:
 		grid.add_child(button)
 	add_child(action_dialog)
 	action_dialog.popup_centered(Vector2i(720,300))
+
+func _show_pending_xp() -> void:
+	if not xp_pendente or not Network.active: return
+	xp_pendente=false
+	recompensa_xp.xp_atual=int(xp_dados.before)%100
+	recompensa_xp.nivel_atual=1+int(xp_dados.before)/100
+	recompensa_xp.mostrar(int(xp_dados.amount),{"novo_bonus":false,"dias":Progress.view.get("streak",0),"missoes_concluidas":Progress.view.get("daily_awarded",[]).size(),"total_missoes":3})

@@ -21,6 +21,7 @@ Network="*res://scripts/network/network.gd"
 Progress="*res://scripts/core/progression.gd"
 Learning="*res://scripts/minigames/learning_service.gd"
 Duel="*res://scripts/minigames/math/duel_service.gd"
+DailyJournal="*res://scripts/ui/daily_journal.gd"
 
 [display]
 

@@ -1,4 +1,5 @@
 extends Control
+signal daily_requested
 signal close_requested
 signal travel_requested(destination: String)
 const ART := preload("res://assets/ui/quests/mapa-de-descobertas.png")
@@ -83,7 +84,7 @@ func _refresh() -> void:
 	shade.color=Color(0.03,0.07,0.08,0.93)
 	content.add_child(shade)
 	_button("História",Rect2(48,20,180,45),func(): daily=false; _refresh())
-	_button("Missões diárias",Rect2(240,20,230,45),func(): daily=true; _refresh())
+	_button("Missões diárias",Rect2(240,20,230,45),func(): daily_requested.emit())
 	_button("Fechar [Q / Esc]",Rect2(880,20,224,45),func(): close_requested.emit())
 	if daily:
 		_box(Rect2(80,95,992,560))

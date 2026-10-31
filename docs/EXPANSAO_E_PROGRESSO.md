@@ -7,7 +7,7 @@ para testar a sincronização. Use apelidos diferentes ao simular jogadores no
 mesmo computador.
 
 - **M:** viagem livre entre as regiões.
-- **Q:** mapa de descobertas, história e missões diárias; Esc fecha o mapa.
+- **Q:** diário com a nova HUD; **Mapa da história** abre as 12 missões. Esc fecha.
 - **P:** passaporte com resultados e regiões descobertas salvos.
 - **B / botão Pet:** abrir as oito expressões do companheiro; **1 a 8** ativam
   diretamente no mundo. As expressões do peixe e do papagaio vêm das imagens
@@ -15,8 +15,7 @@ mesmo computador.
 - **Espaço:** sentar/levantar perto de bancos, cadeiras do comércio e pufes.
   Movimentar-se também levanta. Cada assento recebe apenas um jogador.
 - As portas continuam automáticas por aproximação; não exigem E.
-- **E perto do comerciante da loja de pets:** conversar e escolher peixe ou papagaio. Ambos estão disponíveis
-  gratuitamente nesta versão; o equipamento é salvo e sincronizado.
+- **E perto do comerciante da loja de pets:** conversar e escolher peixe ou papagaio. O peixe é inicial; o papagaio custa 140 moedas. Compra e equipamento são salvos e sincronizados.
 - **E perto do comerciante de cosméticos ou no provador:** experimentar cartola,
   laço rosa e lenços vermelho/azul, ou remover o acessório.
   O espelho acompanha posição, direção e aparência do jogador local.
@@ -88,8 +87,8 @@ O servidor mantém `user://progress_v1.json`: história, XP, diárias, sequênci
 resultados, moedas, pet e acessório. Cada vitória em duelo, incluindo abandono,
 concede 25 moedas; o servidor credita apenas uma vez por partida. A animação do
 Kilim usa o valor confirmado no resultado. Pular, fechar ou repetir sua exibição
-não altera o saldo. Os acessórios e pets continuam gratuitos para experimentar
-nesta versão; ainda não há compra com desconto de saldo.
+não altera o saldo. As dez roupas, cartola, laço e papagaio são comprados no balcão com débito
+validado pelo servidor; o provador permite uma prévia sem comprar.
 A instalação do cliente tem um identificador aleatório
 em `user://identity.cfg`; perfil é identificado por ele e pelo apelido. Reentrar
 no mesmo servidor com o mesmo apelido restaura os dados. Não há conta em nuvem
@@ -121,3 +120,5 @@ outros visitantes e seus equipamentos aparecem normalmente na sala.
   `-- --client`.
 
 Testes de rede usam portas 19081 e 19094, sem ocupar a porta normal 9080.
+
+A revisão da HUD, compras e primeiro selo está detalhada em `HUD_PRINCIPAL.md`.

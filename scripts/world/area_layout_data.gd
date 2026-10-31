@@ -526,7 +526,7 @@ const DATA := {
       },
       {
         "name": "Navio",
-        "texture": "res://assets/cenario/glacial_runtime/navio-polar.png",
+        "texture": "res://assets/cenario/glacial_runtime/navio-polar-aberto.png",
         "position": [
           903.75,
           500.722

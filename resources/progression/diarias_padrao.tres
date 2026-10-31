@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="" load_steps=2 format=3]
+[ext_resource type="Script" path="res://scripts/progression/sequencia_diaria.gd" id="1"]
+[resource]
+script = ExtResource("1")
+missoes_obrigatorias = PackedStringArray("jogar", "acertar", "explorar")
+bonus_por_dia = 5
+bonus_maximo = 50

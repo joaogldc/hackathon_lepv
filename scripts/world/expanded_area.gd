@@ -78,6 +78,6 @@ func _draw() -> void:
 	draw_texture_rect(ground,Rect2(24,204,1104,436),false)
 	load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(576,608),0.0)
 	if zone=="language":
-		load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(710,500),-PI/2)
+		load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(710,490),-PI/2-0.35,0.8)
 	elif zone=="loja_cosmeticos":
 		load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(865,432),PI)

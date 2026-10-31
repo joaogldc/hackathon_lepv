@@ -221,8 +221,12 @@ func _reward_result(m: Dictionary, completed: bool) -> void:
 	if m.get("rewarded",false): return
 	m.rewarded=true
 	m.coin_rewards=[0,0]
+	m.xp_rewards=[0,0]
+	m.xp_before=[0,0]
 	for side in range(2):
+		m.xp_before[side]=Network.players.get(m.ids[side],{}).get("progress",{}).get("xp",0)
 		m.coin_rewards[side]=Progress.duel_result(m.ids[side],"draw" if m.winner==-1 else ("win" if m.winner==side else "loss"),completed)
+		m.xp_rewards[side]=maxi(0,Network.players.get(m.ids[side],{}).get("progress",{}).get("xp",0)-m.xp_before[side])
 
 func _publish(m: Dictionary) -> void:
 	m.revision += 1

@@ -50,8 +50,9 @@ func _ready() -> void:
 		add_child(pet)
 		fighter_pets.append(pet)
 		var accessory: Node2D=load("res://scripts/player/cosmetic_display.gd").new()
-		accessory.position=bear.position+Vector2(0,48)
-		accessory.scale=Vector2.ONE*1.45
+		accessory.position=bear.position+Vector2(0,53.76)
+		accessory.scale=Vector2.ONE*1.6
+		accessory.source=bear
 		accessory.direction="right" if side==0 else "left"
 		accessory.z_index=12
 		add_child(accessory)
@@ -235,7 +236,7 @@ func _draw() -> void:
 			if person.seat==seat:
 				draw_texture_rect(PARROT_BACK if person.get("pet","fish")=="parrot" else PET_BACK,Rect2(point+Vector2(24,-78),Vector2(28,28)),false)
 				draw_texture_rect(SITTING,Rect2(point-Vector2(40,80),Vector2(80,80)),false)
-				COSMETICS.paint(self,person.get("outfit","none"),"back",point+Vector2(0,8),1.2)
+				COSMETICS.paint(self,person.get("outfit","none"),"back",point,80.0/67.2,0.0,false,true)
 				var label_y:=-108 if person.get("outfit","")=="cartola" else (-92 if person.get("outfit","")=="laco_rosa" else -84)
 				draw_string_outline(ThemeDB.fallback_font,point+Vector2(-30,label_y),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,4,Color("142535"))
 				draw_string(ThemeDB.fallback_font,point+Vector2(-30,label_y),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("ffe15c"))
