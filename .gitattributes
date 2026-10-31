@@ -1,0 +1,2 @@
+build/kBear.exe filter=lfs diff=lfs merge=lfs -text
+build/kBear-jogo.zip filter=lfs diff=lfs merge=lfs -text
