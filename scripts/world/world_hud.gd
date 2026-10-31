@@ -1,5 +1,6 @@
 extends Control
 const ISLAND_MAP := preload("res://scripts/world/world_map.gd")
+signal education_requested
 signal daily_requested
 signal map_requested
 signal travel_requested(destination: String)
@@ -136,6 +137,7 @@ func _redraw_hud() -> void:
 	_box(Rect2(510,24,260,38))
 	var places := preload("res://scripts/world/world_catalog.gd").TITLES
 	_label(places.get(last_zone,"Mundo dos Ursos"),Rect2(518,27,244,31),16)
+	_link("Trilhas por ano [F2]",Rect2(510,74,260,32),func(): education_requested.emit())
 	_box(Rect2(1025,24,112,40))
 	_icon("coin",Rect2(1034,31,27,27))
 	_label(str(DailyJournal.coins),Rect2(1065,27,67,32),20)

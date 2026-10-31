@@ -2,6 +2,10 @@
 
 # 🐻 Mundo dos Ursos — Hackathon LEPV
 
+**Demo educacional BNCC:** nesta branch, **Trilhas [F2]** abre práticas do 1º
+ao 9º ano: 30 trilhas e 90 questões autorais de Matemática, Português e Ciências.
+[Como abrir e validar no outro PC](docs/DEMO_EDUCACIONAL_BNCC.md).
+
 **Abrir em outro PC:** [guia de importação e execução](docs/ABRIR_EM_OUTRO_PC.md).
 
 > Mundo social online 2D em que aprender gera conquistas, moedas e novas formas de se expressar entre amigos.

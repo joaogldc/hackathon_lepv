@@ -12,6 +12,7 @@ const AREA := preload("res://scripts/world/expanded_area.gd")
 const DISCOVERY := preload("res://scripts/world/discovery_map.gd")
 const PET := preload("res://scripts/player/pet_companion.gd")
 var expanded: Dictionary={}
+var education_view: Control
 var quests: Control
 var action_dialog: AcceptDialog
 var interaction_hint: Label
@@ -98,7 +99,7 @@ func _process(_delta: float) -> void:
 	var recompensa_aberta := recompensa_moedas.visible or recompensa_xp.visible
 	var movement := Vector2.ZERO
 	var focused := get_viewport().gui_get_focus_owner()
-	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not is_instance_valid(quests) and not (is_instance_valid(action_dialog) and action_dialog.visible) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()):
+	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not is_instance_valid(quests) and not (is_instance_valid(action_dialog) and action_dialog.visible) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()) and not is_instance_valid(education_view):
 		movement = Vector2(
 			float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)),
 			float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN)) - float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP)))
@@ -117,11 +118,20 @@ func _process(_delta: float) -> void:
 		nearby_portal = Minigames.exit_at(Network.players[id].position,current_zone)
 	if nearby_portal.is_empty():
 		exit_armed = true
-	elif exit_armed and not is_instance_valid(map_view) and not is_instance_valid(quests) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()):
+	elif exit_armed and not is_instance_valid(map_view) and not is_instance_valid(quests) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()) and not is_instance_valid(education_view):
 		exit_armed = false
 		Network.request_zone(nearby_portal)
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and (event.keycode==KEY_F2 or event.physical_keycode==KEY_F2):
+		_toggle_education()
+		get_viewport().set_input_as_handled()
+		return
+	if is_instance_valid(education_view):
+		if event.is_action_pressed("ui_cancel"):
+			_close_education()
+			get_viewport().set_input_as_handled()
+		return
 	if recompensa_moedas.visible or recompensa_xp.visible:
 		return
 	if is_instance_valid(commerce_ui) and Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
@@ -205,6 +215,7 @@ func _enter_portal() -> void:
 func _set_zone(zone: String) -> void:
 	if zone == current_zone:
 		return
+	_close_education()
 	var previous_zone := current_zone
 	current_zone = zone
 	if is_instance_valid(commerce_ui): commerce_ui.close_window()
@@ -305,6 +316,7 @@ func _build_ui() -> void:
 	world_hud.quests_requested.connect(_toggle_quests)
 	world_hud.daily_requested.connect(func(): _close_quests(); _close_map(); commerce_ui.open_page("daily"))
 	world_hud.pet_emotes_requested.connect(_toggle_pet_emotes)
+	world_hud.education_requested.connect(_toggle_education)
 	interaction_hint=Label.new()
 	interaction_hint.position=Vector2(305,174)
 	interaction_hint.size=Vector2(540,28)
@@ -348,6 +360,7 @@ func _build_ui() -> void:
 		Network.join_room(name_field.text, address_field.text)
 		get_viewport().gui_release_focus())
 	_button(row, "Sair", func(): Network.leave())
+	_button(row, "Trilhas [F2]", _toggle_education)
 	status_label = Label.new()
 	status_label.text = "Crie uma sala ou entre usando o endereço do anfitrião."
 	box.add_child(status_label)
@@ -552,3 +565,25 @@ func _show_pending_xp() -> void:
 	recompensa_xp.xp_atual=int(xp_dados.before)%100
 	recompensa_xp.nivel_atual=1+int(xp_dados.before)/100
 	recompensa_xp.mostrar(int(xp_dados.amount),{"novo_bonus":false,"dias":Progress.view.get("streak",0),"missoes_concluidas":Progress.view.get("daily_awarded",[]).size(),"total_missoes":3})
+
+func _toggle_education() -> void:
+	if is_instance_valid(education_view):
+		_close_education()
+		return
+	if recompensa_moedas.visible or recompensa_xp.visible: return
+	if Network.active and current_zone not in Minigames.WORLD_ZONES: return
+	_close_map()
+	_close_quests()
+	if is_instance_valid(commerce_ui): commerce_ui.close_window()
+	if is_instance_valid(action_dialog): action_dialog.hide()
+	education_view=load("res://scenes/education/demo_educacional.tscn").instantiate()
+	education_view.initial_subject={"math":"math","language":"portuguese","science":"science"}.get(current_zone,"math")
+	education_view.z_index=200
+	education_view.exit_requested.connect(_close_education)
+	game_layer.add_child(education_view)
+
+func _close_education() -> void:
+	if is_instance_valid(education_view):
+		education_view.queue_free()
+		education_view=null
+	get_viewport().gui_release_focus()
