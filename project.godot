@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Mundo dos Ursos"
-run/main_scene="res://scenes/world/lobby.tscn"
+run/main_scene="res://scenes/ui/login.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 
 [autoload]

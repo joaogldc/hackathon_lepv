@@ -15,6 +15,8 @@ var pet_acc := "none"
 var outfit := "none"
 var outfits: Dictionary = {}
 var pet_emote := ""
+## Ordena pela altura no chão. Desligue em telas de UI, onde um Z alto passaria por cima de mapas e janelas.
+var depth_sort := true
 const SIT_FRONT := preload("res://assets/sprites/urso/frames/S_sit.png")
 const SIT_BACK := preload("res://assets/sprites/urso/frames/N_sit.png")
 var textures: Dictionary = {}
@@ -49,7 +51,7 @@ func _process(delta: float) -> void:
 	position = position.lerp(target, 1.0 - exp(-18.0 * delta))
 	pet.configure(direction,moving,pet_kind,pet_emote,pet_acc)
 	pet.position=Vector2(0,-seat_height if sitting else 0)
-	z_index = int(position.y)
+	z_index = int(position.y) if depth_sort else 0
 	queue_redraw()
 
 func _draw() -> void:

@@ -53,7 +53,6 @@ func _ready() -> void:
 		reflection.nickname=""
 		reflection.scale=Vector2(0.9/0.8625,0.9/0.605556)*CATALOG.DRESSING_SCALE
 		mirror_viewport.add_child(reflection)
-		reflection.pet.visible=false
 		var shine:=Sprite2D.new()
 		shine.texture=load("res://assets/cenario/provador/espelho_brilho.png")
 		shine.centered=false
@@ -73,7 +72,9 @@ func _process(_delta: float) -> void:
 	reflection.sitting=player.get("sitting",false)
 	reflection.outfit=player.get("outfit","none")
 	reflection.outfits=player.get("outfits",{})
-	reflection.pet.visible=false
+	reflection.pet_kind=player.get("pet","fish")
+	reflection.pet_acc=player.get("pet_acc","none")
+	reflection.pet_emote=player.get("pet_emote","")
 
 func _draw() -> void:
 	draw_texture_rect(ground,Rect2(24,204,1104,436),false)
