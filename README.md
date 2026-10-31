@@ -2,9 +2,14 @@
 
 > Mundo social online 2D em que aprender gera conquistas, moedas e novas formas de se expressar entre amigos.
 
-**Status:** planejamento do protótipo. Este repositório ainda não contém o jogo implementado.  
-**Tecnologias propostas:** Godot, Inkscape e assistência de GPT/Claude por ferramentas MCP compatíveis.  
+**Status:** início da implementação da pessoa 1: lobby provisório, movimento em quatro direções e rede WebSocket. Os demais sistemas abaixo descrevem o escopo planejado.
+
+**Tecnologias:** Godot **4.7.2** (versão informada), GDScript e arte em produção no Inkscape.
 **Nome do jogo:** provisório.
+
+**Executar:** importar `project.godot` e pressionar F5. Criar uma sala na primeira janela e entrar na segunda com `ws://127.0.0.1:9080`. Veja [desenvolvimento e testes](docs/DESENVOLVIMENTO.md) e o [padrão dos exports do urso](assets/characters/brown/README.md).
+
+**Novo:** duelo matemático 1x1 com fila, cartas, multiplicação, energia e resultado. [Como jogar e integrar a arte do dojo](docs/DUELO_MATEMATICO.md).
 
 ## Índice
 
@@ -178,12 +183,12 @@ Os nomes serão preenchidos pelo grupo.
 
 ### Pessoa 1 — Mundo e integração
 
-- [ ] Fixar a versão do Godot e criar o projeto.
-- [ ] Criar o lobby com arte provisória.
+- [x] Fixar a versão do Godot e criar o projeto (4.7.2).
+- [x] Criar o lobby com arte provisória.
 - [ ] Implementar movimento e quatro direções.
 - [ ] Conectar dois clientes à mesma sala.
 - [ ] Sincronizar posição, direção, aparência e emotes.
-- [ ] Criar portais e retorno dos minijogos.
+- [x] Criar portais e retorno dos minijogos (cenas provisórias; jogos ainda pendentes).
 - [ ] Implementar perfil, saldo, inventário e persistência.
 - [ ] Implementar lojas com o catálogo da pessoa 4.
 - [ ] Implementar toca pessoal, editor em grade, visitas e salvamento da decoração.
@@ -332,7 +337,9 @@ data/
   missions/
 ```
 
-Essa estrutura é uma proposta; as pastas e o código ainda serão criados.
+Essa estrutura é o alvo de organização. A etapa inicial já criou jogador, praça,
+rede e contrato dos exports do urso; as pastas dos demais sistemas serão
+adicionadas conforme a implementação. Veja [os testes executados](docs/TESTES.md).
 
 ### Rede
 
@@ -490,7 +497,8 @@ Não assumir que toda criança interessada converterá em assinatura.
 - [ ] Nome definitivo e identidade do jogo.
 - [ ] Nomes dos responsáveis pelas quatro frentes.
 - [ ] Faixa etária e ano escolar.
-- [ ] Versão do Godot e servidores MCP.
+- [x] Versão do Godot: 4.7.2, informada pelo usuário e usada nos testes locais.
+- [ ] Servidores MCP específicos para Godot e Inkscape (a etapa inicial usa arquivos e CLI).
 - [ ] Tema inicial do duelo.
 - [ ] Regras finais de dano, rodadas e empate.
 - [ ] Conteúdos iniciais de português e ciências.
