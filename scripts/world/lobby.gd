@@ -31,6 +31,7 @@ var transition_tween: Tween
 var exit_armed := false
 var map_view: Control
 var signs: Array[Node2D] = []
+@onready var recompensa_moedas: CanvasLayer = $RecompensaMoedas
 
 func _ready() -> void:
 	var sign_positions := {"commerce": Vector2(715,340), "math": Vector2(117,420), "science": Vector2(1020,420), "language": Vector2(715,620)}
@@ -71,7 +72,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	var movement := Vector2.ZERO
 	var focused := get_viewport().gui_get_focus_owner()
-	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view):
+	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not recompensa_moedas.visible:
 		movement = Vector2(
 			float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)),
 			float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN)) - float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP)))
@@ -89,11 +90,13 @@ func _process(_delta: float) -> void:
 		nearby_portal = Minigames.exit_at(Network.players[id].position,current_zone)
 	if nearby_portal.is_empty():
 		exit_armed = true
-	elif exit_armed and not is_instance_valid(map_view):
+	elif exit_armed and not is_instance_valid(map_view) and not recompensa_moedas.visible:
 		exit_armed = false
 		Network.request_zone(nearby_portal)
 
 func _input(event: InputEvent) -> void:
+	if recompensa_moedas.visible:
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
 			if event.physical_keycode == KEY_P and current_zone in Minigames.WORLD_ZONES:
@@ -184,6 +187,7 @@ func _minigame_finished(_result: Dictionary) -> void:
 func _sync_players() -> void:
 	if not Network.active:
 		_close_map()
+		recompensa_moedas.fechar()
 	var local_id := multiplayer.get_unique_id()
 	var zone := "lobby"
 	if Network.players.has(local_id):
@@ -317,6 +321,13 @@ func _ground_style() -> StyleBoxFlat:
 
 func _show_result(result: Dictionary) -> void:
 	var mine: int = result.ids.find(multiplayer.get_unique_id())
+	if mine >= 0 and result.winner == mine:
+		# O resultado vem de Duel; este efeito não concede saldo por conta própria.
+		_close_map()
+		if is_instance_valid(result_dialog):
+			result_dialog.hide()
+		recompensa_moedas.mostrar(-1, str(result.names[mine]))
+		return
 	if not is_instance_valid(result_dialog):
 		result_dialog = AcceptDialog.new()
 		add_child(result_dialog)
