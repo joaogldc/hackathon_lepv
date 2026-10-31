@@ -1,0 +1,8 @@
+{
+  "tool": "image_gen",
+  "file": "deque-botes.png",
+  "original_output": "exec-9a861a43-115a-4bb4-b6f1-954303f22a32.png",
+  "reference": "exec-9d18a65d-5311-4a00-b537-6541db7e8102.png",
+  "user_direction": "Deque com botes salva-vidas, vista de frente pelo meio, um pouco mais panorâmica.",
+  "prompt_summary": "Edit the original front-centered glacial ship deck. Camera remains exactly in front on the centerline, looking at the central door and clock, symmetric one-point perspective. Pull back about 15 percent for gently wider 16:9 framing. Preserve both lifeboats, davits, oars, life jackets, honey barrel, captain rubber duck, warm wood, navy trim, brass, daylight and icy surroundings. No side, diagonal, three-quarter or top-down view, no fisheye, no HUD or text."
+}

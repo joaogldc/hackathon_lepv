@@ -57,6 +57,20 @@ func _ready() -> void:
 	assert(navio.fala.text.contains("iceberg"))
 	navio._sair()
 	assert(saidas.size() == 1 and saidas[0].game == "language")
+	var deque := preload("res://scenes/world/navio_deque.tscn").instantiate()
+	add_child(deque)
+	var embarques: Array[int] = []
+	deque.bote_selecionado.connect(func(indice: int): embarques.append(indice))
+	deque.jogador.position = deque.get_node("BoteBombordo").position
+	deque.jogador.target = deque.jogador.position
+	deque._process(0)
+	deque._interagir()
+	assert(embarques == [1] and deque.fala.text.contains("Bote 1"))
+	deque.jogador.position = deque.get_node("BoteBoreste").position
+	deque.jogador.target = deque.jogador.position
+	deque._process(0)
+	deque._interagir()
+	assert(embarques == [1,2])
 	var mundo := preload("res://scenes/world/lobby.tscn").instantiate()
 	add_child(mundo)
 	assert(Network.host("Aluno",false,19184) == OK)
@@ -69,5 +83,18 @@ func _ready() -> void:
 	assert(mundo.recompensa_xp.xp_exibido == 20, "Vitória não inventa um bônus diário")
 	Network.leave("")
 	assert(not mundo.recompensa_xp.visible and not mundo.xp_pendente and mundo.recompensa_xp.xp_atual == 0)
+	assert(Network.host("Aluno",false,19184) == OK)
+	DailyJournal.progress = {"win":1,"visit":2,"try":1}
+	DailyJournal.changed.emit()
+	await get_tree().process_frame
+	await get_tree().process_frame
+	assert(mundo.recompensa_xp.visible and mundo._estado_mel.dias_seguidos == 1, "As diárias locais liberam mel")
+	mundo.recompensa_xp._continuar()
+	assert(mundo.recompensa_xp.xp_exibido == 5)
+	mundo.recompensa_xp._continuar()
+	DailyJournal.changed.emit()
+	await get_tree().process_frame
+	assert(not mundo.recompensa_xp.visible, "Alterar o diário de novo não repete o bônus")
+	Network.leave("")
 	print("XP DAILY PASS: daily completion, deduplication, consecutive days, reset, cap, save/load, XP, level-up and ship")
 	get_tree().quit(0)

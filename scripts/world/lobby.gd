@@ -36,9 +36,15 @@ var signs: Array[Node2D] = []
 @onready var recompensa_moedas: CanvasLayer = $RecompensaMoedas
 @onready var recompensa_xp: CanvasLayer = $RecompensaXP
 var xp_pendente := false
+@export var configuracao_mel: Resource = preload("res://resources/progression/diarias_padrao.tres")
+var _estado_mel: Resource
+var _bonus_mel_pendente: Dictionary = {}
+const ARQUIVO_MEL := "user://sequencia_mel_v1.tres"
 
 func _ready() -> void:
 	recompensa_moedas.fechada.connect(_apos_moedas)
+	recompensa_xp.fechada.connect(_apresentar_bonus_mel)
+	_carregar_mel()
 	var sign_positions := {"commerce": Vector2(715,340), "math": Vector2(117,420), "science": Vector2(1020,420), "language": Vector2(715,620)}
 	for destination in sign_positions:
 		var sign_board := SIGN.new()
@@ -215,6 +221,8 @@ func _sync_players() -> void:
 		xp_pendente = false
 		recompensa_moedas.fechar()
 		recompensa_xp.reiniciar_sessao()
+	elif not _bonus_mel_pendente.is_empty() and not recompensa_moedas.visible and not recompensa_xp.visible:
+		_apresentar_bonus_mel.call_deferred()
 	var local_id := multiplayer.get_unique_id()
 	var zone := "lobby"
 	if Network.players.has(local_id):
@@ -368,4 +376,34 @@ func _apos_moedas() -> void:
 	if not xp_pendente: return
 	xp_pendente = false
 	if Network.active:
-		recompensa_xp.mostrar()
+		var dados: Dictionary = _estado_mel.consultar(DailyJournal.day)
+		if not _bonus_mel_pendente.is_empty():
+			dados = _bonus_mel_pendente.duplicate(true)
+			_bonus_mel_pendente.clear()
+		recompensa_xp.mostrar(-1,dados)
+
+func _carregar_mel() -> void:
+	_estado_mel = configuracao_mel.duplicate(true)
+	if DailyJournal.persistence and FileAccess.file_exists(ARQUIVO_MEL):
+		var salvo = ResourceLoader.load(ARQUIVO_MEL,"",ResourceLoader.CACHE_MODE_IGNORE)
+		if salvo and salvo.get_script() == configuracao_mel.get_script(): _estado_mel = salvo
+	_estado_mel.bonus_por_dia = configuracao_mel.bonus_por_dia
+	_estado_mel.bonus_maximo = configuracao_mel.bonus_maximo
+	_estado_mel.missoes_obrigatorias = PackedStringArray(DailyJournal.QUESTS.map(func(missao): return str(missao.id)))
+	DailyJournal.changed.connect(_verificar_mel)
+	_verificar_mel.call_deferred()
+
+func _verificar_mel() -> void:
+	for missao in DailyJournal.QUESTS:
+		if int(DailyJournal.progress.get(missao.id,0)) < int(missao.goal): continue
+		var resultado: Dictionary = _estado_mel.registrar_missao(missao.id,DailyJournal.day)
+		if resultado.get("novo_bonus",false): _bonus_mel_pendente = resultado
+	if DailyJournal.persistence: ResourceSaver.save(_estado_mel,ARQUIVO_MEL)
+	_apresentar_bonus_mel.call_deferred()
+
+func _apresentar_bonus_mel() -> void:
+	if _bonus_mel_pendente.is_empty() or not Network.active: return
+	if recompensa_moedas.visible or recompensa_xp.visible or xp_pendente: return
+	var resultado := _bonus_mel_pendente.duplicate(true)
+	_bonus_mel_pendente.clear()
+	recompensa_xp.mostrar(0,resultado)
