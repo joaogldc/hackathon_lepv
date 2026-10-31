@@ -10,3 +10,15 @@ Cópia em Markdown das conversas do projeto "Hackaton" (Mundo dos Ursos).
 | [04-sessao-godot-loja-navio-pets.md](04-sessao-godot-loja-navio-pets.md) | Sessão no Godot: loja, navio, dojo, pets, placas | Texto das mensagens |
 
 Chamadas de ferramenta e código gerado foram omitidos. Nome de usuário do Windows e e-mail foram retirados.
+
+## Conversas com o Codex
+
+Arquivos enviados pelo usuário, preservados em Markdown conforme os anexos:
+
+| Arquivo | Assunto |
+|---|---|
+| [05-iniciar-desenvolvimento-do-jogo-codex.md](05-iniciar-desenvolvimento-do-jogo-codex.md) | Desenvolvimento e integração do jogo |
+| [06-estimar-tempo-para-compilar-o-jogo-codex.md](06-estimar-tempo-para-compilar-o-jogo-codex.md) | Preparação e estimativa para exportar o jogo |
+
+Os dois anexos sobre compilação tinham conteúdo idêntico; foi mantida uma única cópia.
+As observações de omissão de ferramentas e remoção de dados acima referem-se aos arquivos 01–04.
