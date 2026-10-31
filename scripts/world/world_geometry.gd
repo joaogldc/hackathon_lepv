@@ -1,8 +1,10 @@
 extends RefCounted
+const CATALOG := preload("res://scripts/world/world_catalog.gd")
 ## Server-side feet collision; substeps prevent crossing an obstacle in a long frame.
 const CENTER := Vector2(576, 466)
 const RADII := Vector2(109, 48)
 static func blocked(zone: String, point: Vector2) -> bool:
+	if CATALOG.collision(zone,point): return true
 	if zone == "lobby":
 		if ((point - CENTER) / RADII).length_squared() < 1.0: return true
 		for bush in [Vector2(290,295),Vector2(850,295),Vector2(290,555),Vector2(850,555)]:

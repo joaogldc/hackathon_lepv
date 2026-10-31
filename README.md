@@ -2,7 +2,7 @@
 
 > Mundo social online 2D em que aprender gera conquistas, moedas e novas formas de se expressar entre amigos.
 
-**Status:** protótipo jogável com praça, área comercial, Bosque da Matemática, rede WebSocket, duelo matemático 1x1, espectadores e pet acompanhante. Os sistemas descritos mais abaixo também incluem funcionalidades planejadas.
+**Status:** protótipo jogável com praça, comércio e interiores, Bosque da Sabedoria, Porto Glacial, rede WebSocket, duelo matemático 1x1, espectadores, pets, história e missões diárias. Os sistemas descritos mais abaixo também incluem funcionalidades planejadas.
 
 **Tecnologias:** Godot **4.7.2** (versão informada), GDScript e arte em produção no Inkscape.
 **Nome do jogo:** provisório.
@@ -12,6 +12,8 @@
 **Novo:** duelo matemático 1x1 com fila, cartas, multiplicação, energia e resultado. [Como jogar e integrar a arte do dojo](docs/DUELO_MATEMATICO.md).
 
 **Versão local sincronizada em 31/10/2026:** HUD e cartas integradas, plateia sentada, vitória por abandono, transições pelas bordas, colisões e profundidade dos objetos, placas vetoriais e peixe acompanhante. **M** abre o mapa para viajar; **P** abre o passaporte da sessão. Veja [sala de aula](docs/SALA_DE_AULA.md), [HUD](docs/HUD_INTEGRADA.md) e [pet](docs/PET_PEIXE.md).
+
+**Expansão:** **Q** abre história com 12 missões e diárias com sequência de dias; XP e equipamentos são salvos pelo servidor. Porto Glacial caminhável, lojas com interiores, espelho do provador, assentos em rede e troca entre peixe/papagaio estão integrados. [Controles, regras e salvamento](docs/EXPANSAO_E_PROGRESSO.md).
 
 O projeto inclui cenas, scripts, artes, configurações de importação e testes. O Godot recria a pasta `.godot` ao importar. Não é necessário copiar caches, baixar o motor de teste ou executar os scripts de preparação das imagens para jogar. Esses scripts opcionais ficam em `scripts/tools`; o de recorte do pet usa Python com Pillow.
 

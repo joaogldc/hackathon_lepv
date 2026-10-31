@@ -9,7 +9,7 @@ const PORTALS := {
 }
 const ENTRY_RADIUS := 85.0
 const GAME_IDS := ["math", "language", "science"]
-const WORLD_ZONES := ["lobby", "commerce", "math"]
+const WORLD_ZONES := ["lobby", "commerce", "math", "language", "loja_pets", "loja_cosmeticos", "provador"]
 const BAMBOO_EXIT := {"title": "Voltar ao lobby", "position": Vector2(576, 610)}
 const EXIT := {"title": "Voltar ao lobby", "position": Vector2(576, 575), "color": Color("c7dab2")}
 
@@ -37,7 +37,16 @@ func exit_at(point: Vector2, zone: String) -> String:
 		if point.x >= 1042 and absf(point.y-460) < 48: return "science"
 		if point.y <= 255 and absf(point.x-576) < 90: return "commerce"
 		if point.y >= 602 and absf(point.x-576) < 90: return "language"
-	elif zone in ["math", "commerce"]:
+	elif zone in ["math", "commerce", "language"]:
 		if point.y >= 602 and absf(point.x-576) < 90: return "lobby"
 		if zone == "math" and point.distance_to(PORTALS.dojo.position) < 42: return "dojo"
+		if zone=="commerce":
+			if point.distance_to(Vector2(309,432))<30: return "loja_pets"
+			if point.distance_to(Vector2(843,432))<30: return "loja_cosmeticos"
+		if zone=="language":
+			if point.distance_to(Vector2(760,500))<32: return "ship"
+			if point.distance_to(Vector2(559,362))<28: return "cave"
+	elif zone in ["loja_pets","loja_cosmeticos","provador"]:
+		if point.y>=602 and absf(point.x-576)<90: return "loja_cosmeticos" if zone=="provador" else "commerce"
+		if zone=="loja_cosmeticos" and point.distance_to(Vector2(865,432))<28: return "provador"
 	return ""

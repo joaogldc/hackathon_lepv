@@ -6,6 +6,12 @@ var direction := "front"
 var nickname := "Urso"
 var target := Vector2.ZERO
 var local_player := false
+var sitting := false
+var seat_height := 20.0
+var pet_kind := "fish"
+var outfit := "none"
+const SIT_FRONT := preload("res://assets/sprites/urso/frames/S_sit.png")
+const SIT_BACK := preload("res://assets/sprites/urso/frames/N_sit.png")
 var textures: Dictionary = {}
 var animation_frames: Dictionary = {}
 var animation_time := 0.0
@@ -36,7 +42,8 @@ func _process(delta: float) -> void:
 		animation_time = 0.0
 	animation_time += delta
 	position = position.lerp(target, 1.0 - exp(-18.0 * delta))
-	pet.configure(direction,moving)
+	pet.configure(direction,moving,pet_kind)
+	pet.position=Vector2(0,-seat_height if sitting else 0)
 	z_index = int(position.y)
 	queue_redraw()
 
@@ -46,7 +53,10 @@ func _draw() -> void:
 	draw_set_transform(Vector2.ZERO,0.0,Vector2(0.7,0.7))
 	var face: String = FACES.get(direction, "S")
 	var frames: Array = animation_frames.get(face + ("_walk" if moving else "_idle"), [])
-	if not frames.is_empty():
+	if sitting:
+		draw_set_transform(Vector2(0,-seat_height),0.0,Vector2(0.7,0.7))
+		draw_texture_rect(SIT_BACK if direction.begins_with("back") else SIT_FRONT,Rect2(-48,-96,96,96),false)
+	elif not frames.is_empty():
 		var frame: Texture2D = frames[int(animation_time * (8.0 if moving else 2.0)) % frames.size()]
 		var flip := direction in ["left", "front_left", "back_left"]
 		draw_set_transform(Vector2.ZERO, 0.0, Vector2(-0.7 if flip else 0.7, 0.7))
@@ -71,7 +81,19 @@ func _draw() -> void:
 			if direction != "left":
 				draw_circle(Vector2(11 + offset, -50), 3, Color("342c2a"))
 	draw_set_transform(Vector2.ZERO)
+	if outfit!="none":
+		var color:=Color("cb4e42") if outfit=="scarf_red" else Color("428fce")
+		var y:=-43.0-seat_height if sitting else -43.0
+		draw_style_box(_scarf_style(color),Rect2(-12,y,24,7))
+		draw_colored_polygon(PackedVector2Array([Vector2(7,y+4),Vector2(15,y+6),Vector2(11,y+21),Vector2(5,y+18)]),color)
 	var font := ThemeDB.fallback_font
 	var width := font.get_string_size(nickname, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-	draw_string_outline(font,Vector2(-width/2,-68),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,5,Color("142535"))
-	draw_string(font,Vector2(-width/2,-68),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color("ffe15c"))
+	var nick_y:=-68.0-seat_height if sitting else -68.0
+	draw_string_outline(font,Vector2(-width/2,nick_y),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,5,Color("142535"))
+	draw_string(font,Vector2(-width/2,nick_y),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color("ffe15c"))
+
+func _scarf_style(color: Color) -> StyleBoxFlat:
+	var style:=StyleBoxFlat.new()
+	style.bg_color=color
+	style.set_corner_radius_all(3)
+	return style

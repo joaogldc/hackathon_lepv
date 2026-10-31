@@ -1,6 +1,7 @@
 extends Control
 signal map_requested
 signal travel_requested(destination: String)
+signal quests_requested
 var passport: PanelContainer
 var visited: Dictionary={}
 var wins:=0
@@ -70,21 +71,23 @@ func _button(text: String,rect: Rect2,action: Callable) -> void:
 	button.pressed.connect(action)
 	widgets.add_child(button)
 func _result(result: Dictionary) -> void:
-	var mine: int=result.ids.find(multiplayer.get_unique_id())
-	if result.winner==-1: draws+=1
-	elif result.winner==mine: wins+=1
-	else: losses+=1
 	_update()
 func _update() -> void:
 	var id:=multiplayer.get_unique_id()
 	if not Network.players.has(id): return
 	var player: Dictionary=Network.players[id]
-	var next_signature: String=str([player.nickname,player.zone,wins,losses,draws])
+	var p: Dictionary=player.get("progress",{})
+	wins=p.get("wins",0)
+	losses=p.get("losses",0)
+	draws=p.get("draws",0)
+	var next_signature: String=str([player.nickname,player.zone,p])
 	if signature==next_signature: return
 	signature=next_signature
 	if last_zone!=player.zone and is_instance_valid(passport): passport.hide()
 	nickname=player.nickname
 	visited[player.zone]=true
+	for region in ["math","language","science"]:
+		if p.get("stats",{}).get("visit_"+region,0)>0: visited[region]=true
 	last_zone=player.zone
 	_redraw_hud()
 func _redraw_hud() -> void:
@@ -93,7 +96,7 @@ func _redraw_hud() -> void:
 		child.queue_free()
 	_box(Rect2(24,18,262,90),Color("e5f2ee"))
 	_label(nickname,Rect2(100,28,170,32),23)
-	_label("Explorador da ilha",Rect2(100,63,170,28),16)
+	_label("Nível %d • %d XP" % [Progress.view.get("level",1),Progress.view.get("xp",0)],Rect2(100,63,170,28),16)
 	var portrait:=Sprite2D.new()
 	portrait.texture=load("res://assets/sprites/urso/frames/S_idle_1.png")
 	portrait.position=Vector2(70,63)
@@ -105,16 +108,17 @@ func _redraw_hud() -> void:
 	_button("Abrir passaporte [P]",Rect2(45,150,220,28),toggle_passport)
 	_box(Rect2(945,18,178,100),Color("b9d7a1"))
 	var preview:=TextureRect.new()
-	preview.texture=load({"lobby":"res://assets/cenario/praca/chao.png","math":"res://assets/cenario/bosque/chao_bosque.png","commerce":"res://assets/cenario/comercial/chao_comercial.png"}.get(last_zone,"res://assets/cenario/praca/chao.png"))
+	preview.texture=load({"lobby":"res://assets/cenario/praca/chao.png","math":"res://assets/cenario/bosque/chao_bosque.png","commerce":"res://assets/cenario/comercial/chao_comercial.png","language":"res://assets/cenario/glacial_runtime/chao-glacial.png","loja_pets":"res://assets/cenario/loja_pets/fundo_loja_pets.png","loja_cosmeticos":"res://assets/cenario/loja_cosmeticos/fundo_loja_cosmeticos.png","provador":"res://assets/cenario/provador/fundo_provador.png"}.get(last_zone,"res://assets/cenario/praca/chao.png"))
 	preview.expand_mode=TextureRect.EXPAND_IGNORE_SIZE
 	preview.position=Vector2(970,24)
 	preview.size=Vector2(126,34)
 	preview.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	widgets.add_child(preview)
 	_button("Viajar [M]",Rect2(963,65,142,37),func(): map_requested.emit())
-	_box(Rect2(375,656,402,47),Color("259dcb"))
-	_button("Passaporte [P]",Rect2(389,664,180,30),toggle_passport)
-	_button("Mapa [M]",Rect2(581,664,180,30),func(): map_requested.emit())
+	_box(Rect2(285,656,582,47),Color("259dcb"))
+	_button("Passaporte [P]",Rect2(297,664,180,30),toggle_passport)
+	_button("Mapa [M]",Rect2(489,664,180,30),func(): map_requested.emit())
+	_button("Missões [Q]",Rect2(681,664,174,30),func(): quests_requested.emit())
 	if is_instance_valid(passport) and passport.visible: _fill_passport()
 func toggle_passport() -> void:
 	if not is_instance_valid(passport):
@@ -148,7 +152,7 @@ func _fill_passport() -> void:
 	title.add_theme_color_override("font_color",INK)
 	box.add_child(title)
 	var stats:=Label.new()
-	stats.text="Esta sessão: %d vitórias • %d derrotas • %d empates" % [wins,losses,draws]
+	stats.text="%d vitórias • %d derrotas • %d empates • Sequência: %d dias" % [wins,losses,draws,Progress.view.get("streak",0)]
 	stats.add_theme_color_override("font_color",INK)
 	box.add_child(stats)
 	var row:=HBoxContainer.new()

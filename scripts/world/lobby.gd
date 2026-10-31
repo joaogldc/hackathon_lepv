@@ -7,6 +7,13 @@ const BENCH := preload("res://assets/cenario/praca/banco.png")
 const BEAR := preload("res://scenes/player/bear.tscn")
 const COMMERCE := preload("res://scenes/world/commerce.tscn")
 const MAP := preload("res://scripts/world/world_map.gd")
+const CATALOG := preload("res://scripts/world/world_catalog.gd")
+const AREA := preload("res://scripts/world/expanded_area.gd")
+const DISCOVERY := preload("res://scripts/world/discovery_map.gd")
+var expanded: Dictionary={}
+var quests: Control
+var action_dialog: AcceptDialog
+var interaction_hint: Label
 var bamboo_view: Node2D
 var fountain: Sprite2D
 var world_hud: Control
@@ -33,6 +40,12 @@ var map_view: Control
 var signs: Array[Node2D] = []
 
 func _ready() -> void:
+	for zone in ["language","loja_pets","loja_cosmeticos","provador"]:
+		var area:=AREA.new()
+		area.zone=zone
+		area.visible=false
+		add_child(area)
+		expanded[zone]=area
 	var sign_positions := {"commerce": Vector2(715,340), "math": Vector2(117,420), "science": Vector2(1020,420), "language": Vector2(715,620)}
 	for destination in sign_positions:
 		var sign_board := SIGN.new()
@@ -71,7 +84,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	var movement := Vector2.ZERO
 	var focused := get_viewport().gui_get_focus_owner()
-	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view):
+	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not is_instance_valid(quests) and not (is_instance_valid(action_dialog) and action_dialog.visible):
 		movement = Vector2(
 			float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)),
 			float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN)) - float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP)))
@@ -85,17 +98,34 @@ func _process(_delta: float) -> void:
 	nearby_portal = ""
 	var id := multiplayer.get_unique_id()
 	portal_button.visible = false
+	interaction_hint.text=_hint()
 	if current_zone in Minigames.WORLD_ZONES and Network.players.has(id):
 		nearby_portal = Minigames.exit_at(Network.players[id].position,current_zone)
 	if nearby_portal.is_empty():
 		exit_armed = true
-	elif exit_armed and not is_instance_valid(map_view):
+	elif exit_armed and not is_instance_valid(map_view) and not is_instance_valid(quests):
 		exit_armed = false
 		Network.request_zone(nearby_portal)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
+			if event.physical_keycode==KEY_Q:
+				_toggle_quests()
+				get_viewport().set_input_as_handled()
+				return
+			if is_instance_valid(quests):
+				if event.physical_keycode==KEY_ESCAPE: _close_quests()
+				get_viewport().set_input_as_handled()
+				return
+			if event.physical_keycode==KEY_SPACE and current_zone in Minigames.WORLD_ZONES:
+				Network.interact("sit")
+				get_viewport().set_input_as_handled()
+				return
+			if event.physical_keycode==KEY_E and current_zone in Minigames.WORLD_ZONES:
+				_interact_nearby()
+				get_viewport().set_input_as_handled()
+				return
 			if event.physical_keycode == KEY_P and current_zone in Minigames.WORLD_ZONES:
 				world_hud.toggle_passport()
 				get_viewport().set_input_as_handled()
@@ -127,6 +157,7 @@ func _toggle_map() -> void:
 func _travel_from_map(destination: String) -> void:
 	Network.travel_to(destination)
 	_close_map()
+	_close_quests()
 
 func _close_map() -> void:
 	if is_instance_valid(map_view):
@@ -158,32 +189,40 @@ func _set_zone(zone: String) -> void:
 		transition_tween.tween_property(self,"position",Vector2.ZERO,0.28).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	exit_armed = false
 	_close_map()
+	_close_quests()
 	if is_instance_valid(game_view):
 		game_view.queue_free()
 		game_view = null
 	hud.visible = zone in Minigames.WORLD_ZONES
 	commerce_view.visible = zone == "commerce"
 	bamboo_view.visible = zone == "math"
+	for area_zone in expanded:
+		expanded[area_zone].visible=zone==area_zone
 	fountain.visible = zone == "lobby"
 	for sign_board in signs:
 		sign_board.visible = zone == "lobby"
-	title_label.text = "MUNDO DOS URSOS  /  " + ("Área comercial" if zone == "commerce" else ("Bosque da Sabedoria" if zone == "math" else "Praça dos encontros"))
+	title_label.text = "MUNDO DOS URSOS  /  " + CATALOG.TITLES.get(zone,zone)
 	queue_redraw()
 	if zone in Minigames.WORLD_ZONES:
 		get_viewport().gui_release_focus()
 		return
-	var scene: PackedScene = load(Minigames.PORTALS[zone].scene)
-	game_view = scene.instantiate()
+	if zone in ["ship","cave","science"]:
+		game_view=load("res://scripts/minigames/learning_room.gd").new()
+		game_view.zone=zone
+	else:
+		var scene: PackedScene = load(Minigames.PORTALS[zone].scene)
+		game_view = scene.instantiate()
 	game_view.finished.connect(_minigame_finished)
 	game_layer.add_child(game_view)
 
 func _minigame_finished(_result: Dictionary) -> void:
 	# Navigation only. Reward validation will be integrated separately on the server.
-	Network.request_zone("math" if current_zone == "dojo" else "lobby")
+	Network.request_zone("math" if current_zone == "dojo" else ("language" if current_zone in ["ship","cave"] else "lobby"))
 
 func _sync_players() -> void:
 	if not Network.active:
 		_close_map()
+		_close_quests()
 	var local_id := multiplayer.get_unique_id()
 	var zone := "lobby"
 	if Network.players.has(local_id):
@@ -208,6 +247,9 @@ func _sync_players() -> void:
 		bears[id].direction = state.direction
 		bears[id].nickname = state.nickname
 		bears[id].local_player = id == multiplayer.get_unique_id()
+		bears[id].sitting=state.get("sitting",false)
+		bears[id].pet_kind=state.get("pet","fish")
+		bears[id].outfit=state.get("outfit","none")
 		bears[id].visible = state.zone == current_zone and current_zone in Minigames.WORLD_ZONES
 		if state.zone == current_zone:
 			in_plaza += 1
@@ -222,6 +264,13 @@ func _build_ui() -> void:
 	world_hud.visible = false
 	world_hud.map_requested.connect(_toggle_map)
 	world_hud.travel_requested.connect(_travel_from_map)
+	world_hud.quests_requested.connect(_toggle_quests)
+	interaction_hint=Label.new()
+	interaction_hint.position=Vector2(305,174)
+	interaction_hint.size=Vector2(540,28)
+	interaction_hint.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	interaction_hint.add_theme_font_size_override("font_size",17)
+	layer.add_child(interaction_hint)
 	var panel := PanelContainer.new()
 	login_panel = panel
 	panel.position = Vector2(24, 18)
@@ -323,3 +372,78 @@ func _show_result(result: Dictionary) -> void:
 	result_dialog.title = "Empate" if result.winner == -1 else ("Vitória!" if result.winner == mine else "Derrota")
 	result_dialog.dialog_text = result.feedback
 	result_dialog.popup_centered(Vector2i(440,160))
+
+func _toggle_quests() -> void:
+	if not Network.active: return
+	if is_instance_valid(quests):
+		_close_quests()
+		return
+	_close_map()
+	quests=DISCOVERY.new()
+	quests.z_index=100
+	quests.close_requested.connect(_close_quests)
+	quests.travel_requested.connect(func(destination: String): _close_quests(); Network.travel_to(destination))
+	game_layer.add_child(quests)
+
+func _close_quests() -> void:
+	if is_instance_valid(quests):
+		quests.queue_free()
+		quests=null
+	get_viewport().gui_release_focus()
+
+func _hint() -> String:
+	var p: Dictionary=Network.players.get(multiplayer.get_unique_id(),{})
+	if p.is_empty(): return ""
+	if p.get("sitting",false): return "Espaço ou movimento: levantar  •  Q: história e diárias"
+	if CATALOG.nearest_seat(current_zone,p.position)>=0: return "Espaço: sentar  •  Q: história e diárias"
+	if current_zone=="loja_pets": return "E: escolher seu pet  •  Q: história e diárias"
+	if current_zone=="provador": return "E: experimentar um lenço  •  Q: história e diárias"
+	if current_zone=="language":
+		if p.position.distance_to(Vector2(275,411))<75: return "E: investigar o mamute"
+		if p.position.distance_to(Vector2(885,574))<75: return "E: investigar o fóssil"
+	return "Q: história e missões diárias" if current_zone in Minigames.WORLD_ZONES else ""
+
+func _interact_nearby() -> void:
+	if is_instance_valid(action_dialog): action_dialog.queue_free()
+	var options: Dictionary={}
+	var title:=""
+	var text:=""
+	var kind:=""
+	if current_zone=="loja_pets":
+		title="Escolha seu companheiro"
+		text="Peixe e papagaio estão disponíveis nesta versão. Sua escolha fica salva."
+		options={"Peixe voador":"fish","Papagaio":"parrot"}
+		kind="pet"
+	elif current_zone=="provador":
+		title="Experimente no espelho"
+		text="Escolha um lenço. Os outros jogadores também veem sua aparência."
+		options={"Sem lenço":"none","Lenço vermelho":"scarf_red","Lenço azul":"scarf_blue"}
+		kind="outfit"
+	elif current_zone=="language":
+		var point: Vector2=Network.players.get(multiplayer.get_unique_id(),{}).get("position",Vector2.ZERO)
+		if point.distance_to(Vector2(275,411))<75:
+			title="Mamute congelado"
+			text="Mamutes eram parentes dos elefantes. Algumas espécies tinham pelos espessos, que ajudavam a conservar o calor."
+			Network.interact("discover","mammoth")
+		elif point.distance_to(Vector2(885,574))<75:
+			title="Lago com fóssil"
+			text="Fósseis são restos ou vestígios de seres vivos preservados. Eles ajudam a investigar como era a vida no passado. A figura no lago é uma representação artística."
+			Network.interact("discover","fossil")
+	if title.is_empty(): return
+	action_dialog=AcceptDialog.new()
+	action_dialog.title=title
+	action_dialog.dialog_text=text
+	add_child(action_dialog)
+	if not options.is_empty():
+		var row:=HBoxContainer.new()
+		row.position=Vector2(20,95)
+		row.add_theme_constant_override("separation",12)
+		action_dialog.add_child(row)
+		for caption in options:
+			var value: String=options[caption]
+			var button:=Button.new()
+			button.text=caption
+			button.custom_minimum_size=Vector2(150,46)
+			button.pressed.connect(func(): Network.interact(kind,value); action_dialog.hide(); get_viewport().gui_release_focus())
+			row.add_child(button)
+	action_dialog.popup_centered(Vector2i(600,220))

@@ -148,6 +148,7 @@ func _resolve(m: Dictionary, correct: bool) -> void:
 	m.attempts[defender] += 1
 	if correct:
 		m.correct[defender] += 1
+		Progress.record(m.ids[defender],"math_correct")
 	else:
 		m.energy[defender] -= 1
 	m.feedback = ("Defesa perfeita! " if correct else "Ataque acertou: −1 energia. ") + m.explanation
@@ -162,6 +163,7 @@ func _next(m: Dictionary) -> void:
 		m.winner = -1 if m.energy[0] == m.energy[1] else (0 if m.energy[0] > m.energy[1] else 1)
 		m.feedback = "Empate!" if m.winner == -1 else "%s venceu!" % m.names[m.winner]
 		m.seconds = 0.0
+		_reward_result(m,true)
 	else:
 		m.turn += 1
 		m.attacker = 1 - m.attacker
@@ -208,21 +210,30 @@ func _depart(id: int) -> void:
 			m.winner = 1 - m.ids.find(id)
 			m.feedback = "%s venceu: o adversário saiu do dojo." % m.names[m.winner]
 			m.seconds = 0.0
+			_reward_result(m,false)
 			_publish(m)
 		membership.erase(id)
 		if not membership.values().has(key) and not watchers.values().any(func(w): return w.match_id == key):
 			matches.erase(key)
 	_send(id, {})
 
+func _reward_result(m: Dictionary, completed: bool) -> void:
+	if m.get("rewarded",false): return
+	m.rewarded=true
+	for side in range(2):
+		Progress.duel_result(m.ids[side],"draw" if m.winner==-1 else ("win" if m.winner==side else "loss"),completed)
+
 func _publish(m: Dictionary) -> void:
 	m.revision += 1
 	var public := m.duplicate(true)
 	public.erase("answer")
 	public.erase("explanation")
+	public.erase("rewarded")
+	public.pets=m.ids.map(func(id): return Network.players.get(id,{}).get("pet","fish"))
 	public.spectators = []
 	for id in watchers:
 		if watchers[id].match_id == m.match_id and Network.players.has(id):
-			public.spectators.append({"id": id, "name": Network.players[id].nickname, "seat": watchers[id].seat})
+			public.spectators.append({"id": id, "name": Network.players[id].nickname, "seat": watchers[id].seat,"pet":Network.players[id].get("pet","fish")})
 	for id in m.ids:
 		if membership.has(id) and membership[id] == m.match_id:
 			public.spectator = false
@@ -251,7 +262,7 @@ func _publish_waiting() -> void:
 	var audience: Array = []
 	for id in watchers:
 		if watchers[id].match_id == 0 and Network.players.has(id):
-			audience.append({"id": id, "name": Network.players[id].nickname, "seat": watchers[id].seat})
+			audience.append({"id": id, "name": Network.players[id].nickname, "seat": watchers[id].seat,"pet":Network.players[id].get("pet","fish")})
 	for id in watchers:
 		if watchers[id].match_id == 0:
 			_send(id,{"phase":"watch_wait","spectator":true,"seat":watchers[id].seat,"spectators":audience})

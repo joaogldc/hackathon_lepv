@@ -11,6 +11,7 @@ var selected_answer := -1
 var selection_revision := -1
 const PET := preload("res://scripts/player/pet_companion.gd")
 const PET_BACK := preload("res://assets/pets/flying_fish/back_1.png")
+const PARROT_BACK := preload("res://assets/pets/parrot/back_1.png")
 var fighter_pets: Array[Node2D]=[]
 const CARD := preload("res://scripts/minigames/math/card_button.gd")
 const ROOM := preload("res://assets/cenario/dojo_sala/fundo_dojo_sala.png")
@@ -155,6 +156,7 @@ func _refresh() -> void:
 		_label("%d/5" % energy if occupied else "—",Rect2(x+198,62,50,28),16)
 		fighters[side].visible=occupied
 		fighter_pets[side].visible=occupied
+		fighter_pets[side].configure("right" if side==0 else "left",false,v.get("pets",["fish","fish"])[side])
 	_hud_panel(Rect2(430,24,292,74),TURN_PANEL)
 	var heading: String={"idle":"Dojo do Bambu","waiting":"Procurando rival","watch_wait":"Plateia","resolve":"Resultado","finished":"Fim do duelo"}.get(phase,"Sua defesa" if mine!=v.get("attacker",-1) else "Seu ataque")
 	if spectator and v.has("ids"): heading="Assistindo ao duelo"
@@ -219,7 +221,7 @@ func _draw() -> void:
 		var point: Vector2=SEATS[seat]
 		for person in audience:
 			if person.seat==seat:
-				draw_texture_rect(PET_BACK,Rect2(point+Vector2(24,-78),Vector2(28,28)),false)
+				draw_texture_rect(PARROT_BACK if person.get("pet","fish")=="parrot" else PET_BACK,Rect2(point+Vector2(24,-78),Vector2(28,28)),false)
 				draw_texture_rect(SITTING,Rect2(point-Vector2(40,80),Vector2(80,80)),false)
 				draw_string_outline(ThemeDB.fallback_font,point+Vector2(-30,-84),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,4,Color("142535"))
 				draw_string(ThemeDB.fallback_font,point+Vector2(-30,-84),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("ffe15c"))

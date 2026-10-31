@@ -5,6 +5,7 @@ signal roster_changed
 signal leaving_zone(id: int, destination: String)
 
 const GEOMETRY := preload("res://scripts/world/world_geometry.gd")
+const CATALOG := preload("res://scripts/world/world_catalog.gd")
 const PORT := 9080
 const SPEED := 190.0
 const BOUNDS := Rect2(72, 230, 1008, 400)
@@ -39,7 +40,7 @@ func host(player_name: String, headless := false, server_port := PORT) -> Error:
 	active = true
 	dedicated = headless
 	if not dedicated:
-		_add_player(1, player_name)
+		_add_player(1, player_name, Progress.identity)
 	status_changed.emit("Sala aberta • porta %d" % server_port)
 	return OK
 
@@ -62,6 +63,7 @@ func leave(message := "Você saiu da sala.") -> void:
 		multiplayer.multiplayer_peer.close()
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	players.clear()
+	if get_node_or_null("/root/Progress"): Progress.player_keys.clear()
 	intents.clear()
 	local_intent = Vector2.ZERO
 	connect_elapsed = 0.0
@@ -71,11 +73,11 @@ func leave(message := "Você saiu da sala.") -> void:
 		status_changed.emit(message)
 
 func _connected() -> void:
-	_register.rpc_id(1, nickname)
+	_register.rpc_id(1, nickname, Progress.identity)
 	status_changed.emit("Conectado à praça")
 
 @rpc("any_peer", "call_remote", "reliable")
-func _register(player_name: String) -> void:
+func _register(player_name: String, token: String="") -> void:
 	if not multiplayer.is_server():
 		return
 	var id := multiplayer.get_remote_sender_id()
@@ -84,9 +86,9 @@ func _register(player_name: String) -> void:
 	if players.size() >= MAX_PLAYERS:
 		multiplayer.multiplayer_peer.disconnect_peer(id)
 		return
-	_add_player(id, player_name)
+	_add_player(id, player_name, token)
 
-func _add_player(id: int, player_name: String) -> void:
+func _add_player(id: int, player_name: String, token: String="") -> void:
 	var clean := player_name.strip_edges().replace("\n", " ").replace("\r", " ").left(18)
 	if clean.is_empty():
 		clean = "Urso"
@@ -97,6 +99,9 @@ func _add_player(id: int, player_name: String) -> void:
 	players[id] = {"spawn_slot": slot, "nickname": clean, "position": SPAWNS[slot], "direction": "front", "zone": "lobby", "destination": null}
 	players[id].position = GEOMETRY.safe_position("lobby",players[id].position)
 	intents[id] = {"vector": Vector2.ZERO, "age": 0.0}
+	players[id].sitting=false
+	players[id].seat=-1
+	Progress.attach(id,token)
 	roster_changed.emit()
 
 func _disconnected(id: int) -> void:
@@ -125,6 +130,7 @@ func _request_walk(point: Vector2) -> void:
 func _set_destination(id: int, point: Vector2) -> void:
 	if not point.is_finite() or not players.has(id) or players[id].zone not in Minigames.WORLD_ZONES:
 		return
+	if players[id].get("sitting",false): _stand(id)
 	players[id].destination = point.clamp(BOUNDS.position, BOUNDS.end)
 	intents[id] = {"vector": Vector2.ZERO, "age": 0.0}
 
@@ -168,7 +174,9 @@ func _change_zone(id: int, destination: String, from_map := false) -> void:
 	else:
 		if previous == "dojo" and destination == "math":
 			pass
-		elif previous in ["language", "science"] and destination == "lobby":
+		elif previous=="science" and destination=="lobby":
+			pass
+		elif previous in ["ship","cave"] and destination=="language":
 			pass
 		else:
 			if Minigames.exit_at(players[id].position, previous) != destination:
@@ -181,10 +189,18 @@ func _change_zone(id: int, destination: String, from_map := false) -> void:
 			players[id].position = Vector2(175,Minigames.PORTALS.math.position.y)
 		elif not from_map and previous == "commerce":
 			players[id].position = Vector2(players[id].position.x,325)
+		elif not from_map and previous=="language":
+			players[id].position=Vector2(576,575)
 		else:
 			players[id].position = players[id].get("lobby_position", Vector2(350,450))
 	elif destination == "commerce":
-		players[id].position = Vector2(players[id].position.x,585) if not from_map else Vector2(576,530)
+		if previous in ["loja_pets","loja_cosmeticos"]:
+			players[id].position=Vector2(309 if previous=="loja_pets" else 843,480)
+		else: players[id].position = Vector2(players[id].position.x,585) if not from_map else Vector2(576,530)
+	elif destination in ["loja_pets","loja_cosmeticos","provador"]:
+		players[id].position=Vector2(865,475) if previous=="provador" else Vector2(576,580)
+	elif destination=="language":
+		players[id].position=Vector2(710,510) if previous=="ship" else (Vector2(559,405) if previous=="cave" else Vector2(576,580))
 	elif destination == "math":
 		if previous == "dojo":
 			players[id].position = Vector2(560,500)
@@ -205,12 +221,62 @@ func _change_zone(id: int, destination: String, from_map := false) -> void:
 			entry_motion = Vector2.DOWN
 		elif previous == "dojo" and destination == "math":
 			entry_motion = Vector2.ZERO
+		elif destination in ["loja_pets","loja_cosmeticos","provador"]:
+			entry_motion=Vector2.DOWN if previous=="provador" else Vector2.UP
+		elif previous in ["loja_pets","loja_cosmeticos"] and destination=="commerce":
+			entry_motion=Vector2.DOWN
+		elif previous=="lobby" and destination=="language":
+			entry_motion=Vector2.UP
+		elif previous=="language" and destination=="lobby":
+			entry_motion=Vector2.UP
 		players[id].entry_motion = entry_motion
 		players[id].entry_until = Time.get_ticks_msec() + 260
 	players[id].zone = destination
+	players[id].sitting=false
+	players[id].seat=-1
 	players[id].destination = null
 	intents[id] = {"vector": Vector2.ZERO, "age": 0.0}
+	Progress.record(id,"visit_"+destination)
 	roster_changed.emit()
+
+func interact(action: String, value: String="") -> void:
+	if not active: return
+	if multiplayer.is_server(): _interact(1,action,value)
+	else: _interaction.rpc_id(1,action,value)
+
+@rpc("any_peer","call_remote","reliable")
+func _interaction(action: String,value: String) -> void:
+	if multiplayer.is_server(): _interact(multiplayer.get_remote_sender_id(),action,value)
+
+func _interact(id: int,action: String,value: String) -> void:
+	if not players.has(id): return
+	var p: Dictionary=players[id]
+	if action=="sit":
+		if p.get("sitting",false):
+			_stand(id)
+		else:
+			var seat:=CATALOG.nearest_seat(p.zone,p.position)
+			if seat<0: return
+			for other in players.values():
+				if other.zone==p.zone and other.get("sitting",false) and other.get("seat",-1)==seat: return
+			p.sitting=true
+			p.seat=seat
+			p.position=CATALOG.seats(p.zone)[seat]
+			p.direction="front"
+			p.destination=null
+			intents[id]={"vector":Vector2.ZERO,"age":0.0}
+	elif action in ["pet","outfit"]:
+		Progress.equip(id,action,value)
+	elif action=="discover" and p.zone=="language":
+		var locations:={"mammoth":Vector2(275,411),"fossil":Vector2(885,574)}
+		if locations.has(value) and p.position.distance_to(locations[value])<75:
+			Progress.record(id,"discover_"+value)
+	roster_changed.emit()
+
+func _stand(id: int) -> void:
+	players[id].sitting=false
+	players[id].seat=-1
+	players[id].position=GEOMETRY.safe_position(players[id].zone,players[id].position+Vector2(0,35))
 
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func _move(value: Vector2) -> void:
@@ -243,7 +309,9 @@ func _physics_process(delta: float) -> void:
 			if Time.get_ticks_msec() < players[id].get("entry_until", 0):
 				motion = players[id].get("entry_motion", Vector2.ZERO)
 			if motion != Vector2.ZERO:
+				if players[id].get("sitting",false): _stand(id)
 				players[id].destination = null
+			if players[id].get("sitting",false): continue
 			if players[id].zone not in Minigames.WORLD_ZONES:
 				motion = Vector2.ZERO
 			var pos: Vector2 = players[id].position

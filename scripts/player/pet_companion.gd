@@ -3,13 +3,18 @@ extends Node2D
 const FRONT := preload("res://assets/pets/flying_fish/front.png")
 const SIDE := [preload("res://assets/pets/flying_fish/side_1.png"),preload("res://assets/pets/flying_fish/side_2.png"),preload("res://assets/pets/flying_fish/side_3.png"),preload("res://assets/pets/flying_fish/side_4.png")]
 const BACK := [preload("res://assets/pets/flying_fish/back_1.png"),preload("res://assets/pets/flying_fish/back_2.png")]
+const PARROT_FRONT := preload("res://assets/pets/parrot/front.png")
+const PARROT_SIDE := [preload("res://assets/pets/parrot/side_1.png"),preload("res://assets/pets/parrot/side_2.png"),preload("res://assets/pets/parrot/side_3.png"),preload("res://assets/pets/parrot/side_4.png")]
+const PARROT_BACK := [preload("res://assets/pets/parrot/back_1.png"),preload("res://assets/pets/parrot/back_2.png")]
+var kind := "fish"
 var facing := "front"
 var walking := false
 var clock := 0.0
 var offset := Vector2(30,8)
 var attached_to_bear := true
 var behind := false
-func configure(direction: String, is_moving: bool) -> void:
+func configure(direction: String, is_moving: bool, species: String="fish") -> void:
+	kind=species
 	facing=direction
 	walking=is_moving
 	behind=direction in ["left","front_left","back_left","back","back_right"]
@@ -23,11 +28,13 @@ func _process(delta: float) -> void:
 	offset=offset.lerp(goal,1.0-exp(-14.0*delta))
 	queue_redraw()
 func _draw() -> void:
-	var texture: Texture2D=FRONT
+	var texture: Texture2D=PARROT_FRONT if kind=="parrot" else FRONT
+	var side: Array=PARROT_SIDE if kind=="parrot" else SIDE
+	var back: Array=PARROT_BACK if kind=="parrot" else BACK
 	if facing in ["left","right","front_left","front_right"]:
-		texture=SIDE[int(clock*(7.0 if walking else 4.0))%SIDE.size()]
+		texture=side[int(clock*(7.0 if walking else 4.0))%side.size()]
 	elif facing in ["back","back_left","back_right"]:
-		texture=BACK[int(clock*4.0)%BACK.size()]
+		texture=back[int(clock*4.0)%back.size()]
 	# Keep the flight at shoulder height while the shadow stays on the floor.
 	var center:=Vector2(offset.x,-44.0+sin(clock*4.0)*1.5)
 	draw_set_transform(offset,0.0,Vector2(1,0.25))

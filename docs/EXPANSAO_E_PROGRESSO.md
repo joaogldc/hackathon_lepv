@@ -1,0 +1,99 @@
+# Áreas, companheiros e progressão — 31/10/2026
+
+## Jogar
+
+Importe `project.godot` no Godot 4.7.2. Crie uma sala e conecte outra instância
+para testar a sincronização. Use apelidos diferentes ao simular jogadores no
+mesmo computador.
+
+- **M:** viagem livre entre as regiões.
+- **Q:** mapa de descobertas, história e missões diárias; Esc fecha o mapa.
+- **P:** passaporte com resultados e regiões descobertas salvos.
+- **Espaço:** sentar/levantar perto de bancos, cadeiras do comércio e pufes.
+  Movimentar-se também levanta. Cada assento recebe apenas um jogador.
+- As portas continuam automáticas por aproximação; não exigem E.
+- **E na loja de pets:** escolher peixe ou papagaio. Ambos estão disponíveis
+  gratuitamente nesta versão; o equipamento é salvo e sincronizado.
+- **E no provador:** experimentar lenços vermelho/azul ou remover o acessório.
+  O espelho acompanha posição, direção e aparência do jogador local.
+- **E perto do mamute ou do lago com fóssil:** investigar e registrar a descoberta.
+
+## Áreas integradas
+
+A nova composição comercial contém food truck, mesas com guarda-sol e colisões
+nas bases. Aproxime-se da porta da loja de pets ou de cosméticos para entrar.
+Na loja de cosméticos, a seta ao fundo à direita leva ao provador. A saída de
+baixo retorna à loja e depois ao comércio.
+
+Porto Glacial é uma área compartilhada caminhável, com objetos separados,
+profundidade, colisões e saída para a praça. O navio e a gruta abrem expedições
+de leitura/interpretação. O Observatório abre um desafio de ciências. Cada
+expedição contém três perguntas; dois acertos concluem o desafio. Essas são
+atividades curtas já jogáveis, não a mecânica planejada de pilotar barco/foguete.
+
+As artes originais permanecem em `artwork/` e `assets/cenario/glacial_ia/`.
+O jogo usa versões menores em `glacial_runtime`, preparadas sem gerar imagens
+novas. Layouts, pivôs e posições vieram das cenas entregues. O papagaio foi
+recortado da imagem enviada; o tabuleiro quadriculado foi removido dos recortes.
+
+## História: 12 missões
+
+1. Visitar o Bosque da Sabedoria.
+2. Entrar no dojo.
+3. Acertar três defesas de matemática.
+4. Vencer um duelo completo.
+5. Visitar o Porto Glacial.
+6. Investigar o mamute.
+7. Investigar o lago com fóssil.
+8. Concluir a expedição de leitura do navio/gruta.
+9. Visitar o Observatório.
+10. Acertar uma pergunta de ciências.
+11. Acertar três perguntas de ciências.
+12. Concluir o desafio do Observatório.
+
+As missões desbloqueiam em sequência e dão XP automaticamente uma única vez.
+Ações já realizadas são aproveitadas ao desbloquear a próxima missão. As regiões
+continuam livres para explorar; os bloqueios valem para os nós da história.
+A cada 100 XP o jogador sobe um nível, começando no nível 1.
+
+O mapa fornecido contém progresso ilustrativo embutido. A interface substitui
+o trajeto, nós, missão selecionada, nível e XP por componentes com dados reais.
+
+## Diárias e sequência
+
+Três objetivos: visitar três regiões (20 XP), acertar cinco perguntas (30 XP) e
+concluir um duelo (30 XP). Concluir as três concede mais 50 XP e conta um dia
+na sequência. Repetir o objetivo no mesmo dia não repete o prêmio.
+
+O dia é definido pelo relógio **UTC do servidor**. Completar também no dia
+seguinte estende a sequência. Passar um dia sem completar as três reinicia a
+sequência atual; o recorde fica salvo. A virada é verificada mesmo com a sala
+aberta. Abandono concede o resultado do duelo, mas não dá XP de conclusão/vitória
+para a história nem conta como duelo concluído nas diárias.
+
+## Salvamento e rede
+
+O servidor mantém `user://progress_v1.json`: história, XP, diárias, sequência,
+resultados, pet e lenço. A instalação do cliente tem um identificador aleatório
+em `user://identity.cfg`; perfil é identificado por ele e pelo apelido. Reentrar
+no mesmo servidor com o mesmo apelido restaura os dados. Não há conta em nuvem
+ou compartilhamento de progresso entre servidores independentes.
+
+O servidor valida portas, assentos, equipamentos, respostas e recompensas.
+Clientes não enviam XP ou progresso arbitrário. Respostas corretas não entram
+nos snapshots das perguntas. O provador reflete apenas o jogador local; os
+outros visitantes e seus equipamentos aparecem normalmente na sala.
+
+## Verificação
+
+- `tests/progression_smoke.gd`: 12 missões, XP único, diárias, dias consecutivos,
+  falta de um dia e dados serializados para salvamento.
+- `tests/expansion_smoke.tscn`: dois processos WebSocket, portas, interiores,
+  troca de pet enviada pelo cliente, estado sentado, reserva exclusiva, roupa,
+  descobertas, perguntas privadas e conclusão das atividades.
+- Regressões `duel_smoke` (dois processos) e `classroom_smoke` (três processos):
+  duelo completo, revanche, quatro formas de abandono e permissões da plateia.
+- Importação/inicialização no Godot 4.7.2 e inspeção das áreas, espelho, história,
+  diárias e desafio de ciências renderizados.
+
+Testes de rede usam portas 19081 e 19094, sem ocupar a porta normal 9080.
