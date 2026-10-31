@@ -10,6 +10,7 @@ const MAP := preload("res://scripts/world/world_map.gd")
 const CATALOG := preload("res://scripts/world/world_catalog.gd")
 const AREA := preload("res://scripts/world/expanded_area.gd")
 const DISCOVERY := preload("res://scripts/world/discovery_map.gd")
+const PET := preload("res://scripts/player/pet_companion.gd")
 var expanded: Dictionary={}
 var quests: Control
 var action_dialog: AcceptDialog
@@ -121,6 +122,15 @@ func _input(event: InputEvent) -> void:
 				if event.physical_keycode==KEY_ESCAPE: _close_quests()
 				get_viewport().set_input_as_handled()
 				return
+			if current_zone in Minigames.WORLD_ZONES:
+				if event.physical_keycode==KEY_B:
+					_toggle_pet_emotes()
+					get_viewport().set_input_as_handled()
+					return
+				if event.physical_keycode>=KEY_1 and event.physical_keycode<=KEY_8:
+					Network.interact("pet_emote",PET.EMOTE_IDS[event.physical_keycode-KEY_1])
+					get_viewport().set_input_as_handled()
+					return
 			if event.physical_keycode==KEY_SPACE and current_zone in Minigames.WORLD_ZONES:
 				Network.interact("sit")
 				get_viewport().set_input_as_handled()
@@ -254,6 +264,8 @@ func _sync_players() -> void:
 		bears[id].sitting=state.get("sitting",false)
 		bears[id].pet_kind=state.get("pet","fish")
 		bears[id].outfit=state.get("outfit","none")
+		bears[id].scale=Vector2.ONE*CATALOG.character_scale(state.zone)
+		bears[id].pet_emote=state.get("pet_emote","")
 		bears[id].visible = state.zone == current_zone and current_zone in Minigames.WORLD_ZONES
 		if state.zone == current_zone:
 			in_plaza += 1
@@ -269,6 +281,7 @@ func _build_ui() -> void:
 	world_hud.map_requested.connect(_toggle_map)
 	world_hud.travel_requested.connect(_travel_from_map)
 	world_hud.quests_requested.connect(_toggle_quests)
+	world_hud.pet_emotes_requested.connect(_toggle_pet_emotes)
 	interaction_hint=Label.new()
 	interaction_hint.position=Vector2(305,174)
 	interaction_hint.size=Vector2(540,28)
@@ -484,3 +497,33 @@ func _interact_nearby() -> void:
 			button.pressed.connect(func(): Network.interact(kind,value); action_dialog.hide(); get_viewport().gui_release_focus())
 			row.add_child(button)
 	action_dialog.popup_centered(Vector2i(640,260))
+
+func _toggle_pet_emotes() -> void:
+	if not Network.players.has(multiplayer.get_unique_id()): return
+	if is_instance_valid(action_dialog):
+		if action_dialog.visible and action_dialog.get_meta("pet_emotes",false):
+			action_dialog.hide()
+			return
+		action_dialog.queue_free()
+	action_dialog=AcceptDialog.new()
+	action_dialog.title="Expressões do pet • atalhos 1 a 8"
+	action_dialog.set_meta("pet_emotes",true)
+	action_dialog.get_label().hide()
+	var grid:=GridContainer.new()
+	grid.columns=4
+	grid.add_theme_constant_override("h_separation",12)
+	grid.add_theme_constant_override("v_separation",12)
+	action_dialog.add_child(grid)
+	var species: String=Network.players[multiplayer.get_unique_id()].get("pet","fish")
+	for index in range(8):
+		var key: String=PET.EMOTE_IDS[index]
+		var button:=Button.new()
+		button.text=PET.EMOTE_NAMES[index]+" ["+str(index+1)+"]"
+		button.icon=PET.expression(species,key)
+		button.expand_icon=true
+		button.add_theme_constant_override("icon_max_width",56)
+		button.custom_minimum_size=Vector2(150,92)
+		button.pressed.connect(func(): Network.interact("pet_emote",key); action_dialog.hide(); get_viewport().gui_release_focus())
+		grid.add_child(button)
+	add_child(action_dialog)
+	action_dialog.popup_centered(Vector2i(720,300))

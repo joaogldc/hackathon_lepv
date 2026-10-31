@@ -9,6 +9,9 @@ mesmo computador.
 - **M:** viagem livre entre as regiões.
 - **Q:** mapa de descobertas, história e missões diárias; Esc fecha o mapa.
 - **P:** passaporte com resultados e regiões descobertas salvos.
+- **B / botão Pet:** abrir as oito expressões do companheiro; **1 a 8** ativam
+  diretamente no mundo. As expressões do peixe e do papagaio vêm das imagens
+  originais e aparecem para todos durante 3,5 segundos.
 - **Espaço:** sentar/levantar perto de bancos, cadeiras do comércio e pufes.
   Movimentar-se também levanta. Cada assento recebe apenas um jogador.
 - As portas continuam automáticas por aproximação; não exigem E.
@@ -26,6 +29,9 @@ nas bases. Aproxime-se da porta da loja de pets ou de cosméticos para entrar.
 Na loja de cosméticos, a seta ao fundo à direita leva ao provador. O puff central
 foi removido; o puff lateral do provador permanece. O espelho e as cortinas
 têm colisão; as cortinas também têm uma camada visual na frente do jogador.
+O urso aparece em escala 2,4 no provador e anda a 456 unidades/s, mantendo a
+proporção com as 190 unidades/s das outras áreas. O reflexo é renderizado em
+um SubViewport independente e recortado pelos limites do vidro.
 A saída de
 baixo retorna à loja e depois ao comércio.
 
@@ -109,5 +115,9 @@ outros visitantes e seus equipamentos aparecem normalmente na sala.
   remoção do puff, colisão do espelho/cortinas, gruta inativa, estados circulares
   de missões e moedas creditadas/salvas uma vez por partida.
 - `reward_smoke`: quantidade, zero, substituição do valor, pular, reabrir e Esc.
+- `pet_emotes_smoke.tscn`: dois processos na porta 19105; reações nos dois
+  sentidos, expiração, rejeição de valores inválidos, intervalo entre reações
+  e velocidade proporcional exclusiva do provador. O segundo processo usa
+  `-- --client`.
 
 Testes de rede usam portas 19081 e 19094, sem ocupar a porta normal 9080.

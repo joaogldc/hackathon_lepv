@@ -3,6 +3,7 @@ const CATALOG := preload("res://scripts/world/world_catalog.gd")
 var zone := "language"
 var reflection: Node2D
 var ground: Texture2D
+var mirror_viewport: SubViewport
 func _ready() -> void:
 	var layout: Dictionary=CATALOG.layouts[zone]
 	ground=load(layout.ground)
@@ -33,18 +34,25 @@ func _ready() -> void:
 			curtain.scale=Vector2(0.8625,0.605556)
 			curtain.z_index=552
 			add_child(curtain)
+		# Render into a separate texture: changing a child's Z cannot escape its edges.
+		mirror_viewport=SubViewport.new()
+		mirror_viewport.size=Vector2i(420,470)
+		mirror_viewport.transparent_bg=true
+		mirror_viewport.disable_3d=true
+		mirror_viewport.world_2d=World2D.new()
+		mirror_viewport.gui_disable_input=true
+		add_child(mirror_viewport)
 		var glass:=Sprite2D.new()
-		glass.texture=load("res://assets/cenario/provador/espelho_vidro.png")
+		glass.texture=mirror_viewport.get_texture()
 		glass.centered=false
 		glass.position=Vector2(395,246)
 		glass.scale=Vector2(0.8625,0.605556)
-		glass.clip_children=CanvasItem.CLIP_CHILDREN_ONLY
 		glass.z_index=10
 		add_child(glass)
 		reflection=load("res://scenes/player/bear.tscn").instantiate()
 		reflection.nickname=""
-		reflection.scale=Vector2(0.9/0.8625,0.9/0.605556)
-		glass.add_child(reflection)
+		reflection.scale=Vector2(0.9/0.8625,0.9/0.605556)*CATALOG.DRESSING_SCALE
+		mirror_viewport.add_child(reflection)
 		reflection.pet.visible=false
 		var shine:=Sprite2D.new()
 		shine.texture=load("res://assets/cenario/provador/espelho_brilho.png")
@@ -54,10 +62,11 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if not is_instance_valid(reflection): return
+	mirror_viewport.render_target_update_mode=SubViewport.UPDATE_ALWAYS if is_visible_in_tree() else SubViewport.UPDATE_DISABLED
 	var id:=multiplayer.get_unique_id()
 	if not Network.players.has(id): return
 	var player: Dictionary=Network.players[id]
-	var reflected := Vector2((player.position.x-395)/0.8625,420-(player.position.y-540)*0.4)
+	var reflected := Vector2((player.position.x-395)/0.8625,440-(player.position.y-545)*0.5)
 	reflection.target=reflected
 	reflection.position=reflected
 	reflection.direction={"back":"front","front":"back","back_left":"front_left","back_right":"front_right","front_left":"back_left","front_right":"back_right"}.get(player.direction,player.direction)

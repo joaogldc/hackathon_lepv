@@ -6,6 +6,7 @@ signal leaving_zone(id: int, destination: String)
 
 const GEOMETRY := preload("res://scripts/world/world_geometry.gd")
 const CATALOG := preload("res://scripts/world/world_catalog.gd")
+const PET_EMOTES := preload("res://scripts/player/pet_emotes.gd")
 const PORT := 9080
 const SPEED := 190.0
 const BOUNDS := Rect2(72, 230, 1008, 400)
@@ -267,6 +268,12 @@ func _interact(id: int,action: String,value: String) -> void:
 			intents[id]={"vector":Vector2.ZERO,"age":0.0}
 	elif action in ["pet","outfit"]:
 		Progress.equip(id,action,value)
+	elif action=="pet_emote" and p.zone in Minigames.WORLD_ZONES and PET_EMOTES.IDS.has(value):
+		var now:=Time.get_ticks_msec()
+		if now<int(p.get("pet_emote_cooldown",0)): return
+		p.pet_emote=value
+		p.pet_emote_until=now+3500
+		p.pet_emote_cooldown=now+800
 	elif action=="discover" and p.zone=="language":
 		var locations:={"mammoth":Vector2(275,411),"fossil":Vector2(885,574)}
 		if locations.has(value) and p.position.distance_to(locations[value])<75:
@@ -303,6 +310,7 @@ func _physics_process(delta: float) -> void:
 		if players.has(1):
 			intents[1] = {"vector": local_intent, "age": 0.0}
 		for id in players:
+			if Time.get_ticks_msec()>=players[id].get("pet_emote_until",0): players[id].pet_emote=""
 			var intent: Dictionary = intents[id]
 			intent.age += delta
 			var motion: Vector2 = intent.vector if intent.age < 0.5 else Vector2.ZERO
@@ -315,14 +323,15 @@ func _physics_process(delta: float) -> void:
 			if players[id].zone not in Minigames.WORLD_ZONES:
 				motion = Vector2.ZERO
 			var pos: Vector2 = players[id].position
+			var speed:=CATALOG.walk_speed(players[id].zone)
 			if players[id].destination is Vector2 and players[id].zone in Minigames.WORLD_ZONES:
 				var goal: Vector2 = players[id].destination
 				motion = pos.direction_to(goal)
-				pos = pos.move_toward(goal, SPEED * delta)
+				pos = pos.move_toward(goal, speed * delta)
 				if pos.is_equal_approx(goal):
 					players[id].destination = null
 			else:
-				pos += motion * SPEED * delta
+				pos += motion * speed * delta
 			players[id].position = GEOMETRY.move(players[id].zone, players[id].position, pos.clamp(BOUNDS.position, BOUNDS.end))
 			if motion != Vector2.ZERO:
 				if absf(motion.x) > 0.2 and absf(motion.y) > 0.2:

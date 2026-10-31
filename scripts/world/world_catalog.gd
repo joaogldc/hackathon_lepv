@@ -11,6 +11,11 @@ const MERCHANT := Vector2(576,480)
 const MERCHANT_RADIUS := 75.0
 static func near_merchant(point: Vector2) -> bool:
 	return point.distance_to(MERCHANT)<=MERCHANT_RADIUS
+const DRESSING_SCALE := 2.4
+static func character_scale(zone: String) -> float:
+	return DRESSING_SCALE if zone=="provador" else 1.0
+static func walk_speed(zone: String) -> float:
+	return 190.0*character_scale(zone)
 static func seats(zone: String) -> Array:
 	return SEATS.get(zone,[])
 static func nearest_seat(zone: String, point: Vector2) -> int:

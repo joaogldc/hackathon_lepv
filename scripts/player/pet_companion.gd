@@ -6,6 +6,14 @@ const BACK := [preload("res://assets/pets/flying_fish/back_1.png"),preload("res:
 const PARROT_FRONT := preload("res://assets/pets/parrot/front.png")
 const PARROT_SIDE := [preload("res://assets/pets/parrot/side_1.png"),preload("res://assets/pets/parrot/side_2.png"),preload("res://assets/pets/parrot/side_3.png"),preload("res://assets/pets/parrot/side_4.png")]
 const PARROT_BACK := [preload("res://assets/pets/parrot/back_1.png"),preload("res://assets/pets/parrot/back_2.png")]
+const EMOTE_IDS := preload("res://scripts/player/pet_emotes.gd").IDS
+const EMOTE_NAMES := preload("res://scripts/player/pet_emotes.gd").NAMES
+const FISH_EMOTES := [preload("res://assets/pets/flying_fish/emotes/happy.png"),preload("res://assets/pets/flying_fish/emotes/love.png"),preload("res://assets/pets/flying_fish/emotes/star.png"),preload("res://assets/pets/flying_fish/emotes/surprise.png"),preload("res://assets/pets/flying_fish/emotes/confused.png"),preload("res://assets/pets/flying_fish/emotes/sad.png"),preload("res://assets/pets/flying_fish/emotes/angry.png"),preload("res://assets/pets/flying_fish/emotes/sleep.png")]
+const PARROT_EMOTES := [preload("res://assets/pets/parrot/emotes/happy.png"),preload("res://assets/pets/parrot/emotes/love.png"),preload("res://assets/pets/parrot/emotes/star.png"),preload("res://assets/pets/parrot/emotes/surprise.png"),preload("res://assets/pets/parrot/emotes/confused.png"),preload("res://assets/pets/parrot/emotes/sad.png"),preload("res://assets/pets/parrot/emotes/angry.png"),preload("res://assets/pets/parrot/emotes/sleep.png")]
+static func expression(species: String, emotion: String) -> Texture2D:
+	var index:=EMOTE_IDS.find(emotion)
+	return null if index<0 else (PARROT_EMOTES if species=="parrot" else FISH_EMOTES)[index]
+var emotion:=""
 var kind := "fish"
 var facing := "front"
 var walking := false
@@ -13,7 +21,8 @@ var clock := 0.0
 var offset := Vector2(30,8)
 var attached_to_bear := true
 var behind := false
-func configure(direction: String, is_moving: bool, species: String="fish") -> void:
+func configure(direction: String, is_moving: bool, species: String="fish", reaction: String="") -> void:
+	emotion=reaction
 	kind=species
 	facing=direction
 	walking=is_moving
@@ -35,10 +44,12 @@ func _draw() -> void:
 		texture=side[int(clock*(7.0 if walking else 4.0))%side.size()]
 	elif facing in ["back","back_left","back_right"]:
 		texture=back[int(clock*4.0)%back.size()]
+	var emote: Texture2D=expression(kind,emotion)
+	if emote: texture=emote
 	# Keep the flight at shoulder height while the shadow stays on the floor.
 	var center:=Vector2(offset.x,-44.0+sin(clock*4.0)*1.5)
 	draw_set_transform(offset,0.0,Vector2(1,0.25))
 	draw_circle(Vector2.ZERO,10,Color(0.04,0.12,0.16,0.15))
 	var flip:=facing in ["left","front_left","back_left"]
 	draw_set_transform(center,0.0,Vector2(-1 if flip else 1,1))
-	draw_texture_rect(texture,Rect2(-16,-16,32,32),false)
+	draw_texture_rect(texture,Rect2(-20,-24,40,40) if emote else Rect2(-16,-16,32,32),false)

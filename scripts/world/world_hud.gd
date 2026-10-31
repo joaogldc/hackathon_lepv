@@ -2,6 +2,7 @@ extends Control
 signal map_requested
 signal travel_requested(destination: String)
 signal quests_requested
+signal pet_emotes_requested
 var passport: PanelContainer
 var visited: Dictionary={}
 var wins:=0
@@ -115,10 +116,11 @@ func _redraw_hud() -> void:
 	preview.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	widgets.add_child(preview)
 	_button("Viajar [M]",Rect2(963,65,142,37),func(): map_requested.emit())
-	_box(Rect2(285,656,582,47),Color("259dcb"))
-	_button("Passaporte [P]",Rect2(297,664,180,30),toggle_passport)
-	_button("Mapa [M]",Rect2(489,664,180,30),func(): map_requested.emit())
-	_button("Missões [Q]",Rect2(681,664,174,30),func(): quests_requested.emit())
+	_box(Rect2(198,656,756,47),Color("259dcb"))
+	_button("Passaporte [P]",Rect2(210,664,174,30),toggle_passport)
+	_button("Mapa [M]",Rect2(394,664,174,30),func(): map_requested.emit())
+	_button("Missões [Q]",Rect2(578,664,174,30),func(): quests_requested.emit())
+	_button("Pet [B]",Rect2(762,664,174,30),func(): pet_emotes_requested.emit())
 	if is_instance_valid(passport) and passport.visible: _fill_passport()
 func toggle_passport() -> void:
 	if not is_instance_valid(passport):

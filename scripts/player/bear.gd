@@ -11,6 +11,7 @@ var sitting := false
 var seat_height := 20.0
 var pet_kind := "fish"
 var outfit := "none"
+var pet_emote := ""
 const SIT_FRONT := preload("res://assets/sprites/urso/frames/S_sit.png")
 const SIT_BACK := preload("res://assets/sprites/urso/frames/N_sit.png")
 var textures: Dictionary = {}
@@ -43,7 +44,7 @@ func _process(delta: float) -> void:
 		animation_time = 0.0
 	animation_time += delta
 	position = position.lerp(target, 1.0 - exp(-18.0 * delta))
-	pet.configure(direction,moving,pet_kind)
+	pet.configure(direction,moving,pet_kind,pet_emote)
 	pet.position=Vector2(0,-seat_height if sitting else 0)
 	z_index = int(position.y)
 	queue_redraw()
@@ -87,5 +88,8 @@ func _draw() -> void:
 	var width := font.get_string_size(nickname, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
 	var nick_y:=-68.0-seat_height if sitting else -68.0
 	nick_y-=24 if outfit=="cartola" else (8 if outfit=="laco_rosa" else 0)
+	# Keep labels readable when the dressing-room character is enlarged.
+	draw_set_transform(Vector2.ZERO,0,Vector2(1.0/scale.x,1.0/scale.y))
+	nick_y*=scale.y
 	draw_string_outline(font,Vector2(-width/2,nick_y),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,5,Color("142535"))
 	draw_string(font,Vector2(-width/2,nick_y),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color("ffe15c"))
