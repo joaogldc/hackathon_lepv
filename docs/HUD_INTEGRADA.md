@@ -7,6 +7,11 @@ resolvido mantendo as colisões locais do bosque/arbustos e as novas do comérci
 
 ## Duelo
 
+- Painéis superiores extraídos do vetor original `hud-cartas.svg`, sem os textos
+  ilustrativos. Nomes, energia, fase e tempo são preenchidos pelo jogo.
+- O palco mostra somente os IDs de duelistas recebidos do servidor; não há urso
+  de demonstração enquanto se aguarda uma partida. Espectadores aparecem só na
+  mesa, inclusive quando há um resultado anterior na cena.
 - Três painéis compactos de energia, fase/turno e tempo, nas cores da referência.
 - Painel central removido durante a escolha de carta. O fundo da sala de aula e
   os espectadores continuam visíveis; o livro/púlpito não invade mais a interface.

@@ -115,24 +115,33 @@ func _start(a: int, b: int) -> void:
 
 func _choose(m: Dictionary, level: int) -> void:
 	m.cards[m.attacker][level] -= 1
-	var low: int = [2,4,7][level]
-	var high: int = [5,9,12][level]
-	var a := randi_range(low, high)
-	var b := randi_range(2, high)
-	m.answer = a * b
-	m.question = "%d × %d = ?" % [a,b]
-	m.explanation = "%d × %d = %d. São %d grupos de %d." % [a,b,a*b,a,b]
-	var options: Array = [a*b]
-	while options.size() < 4:
-		var candidate := maxi(1, a*b + randi_range(-12,12))
-		if not options.has(candidate):
-			options.append(candidate)
-	options.shuffle()
-	m.options = options
+	var question := generate_question(level)
+	m.answer = question.answer
+	m.question = question.question
+	m.explanation = question.explanation
+	m.options = question.options
 	m.phase = "answer"
-	m.seconds = 30.0
+	m.seconds = [30.0,40.0,50.0][level]
 	m.feedback = ""
 	_publish(m)
+
+func generate_question(level: int) -> Dictionary:
+	var a := randi_range([12,26,51][level], [25,60,99][level])
+	var b := randi_range([6,12,31][level], [15,30,79][level])
+	var answer := a*b
+	# Close alternatives model errors with carries and place values.
+	var offsets: Array = [-a,a,-b,b,-10,10,-20,20,-100,100]
+	offsets.shuffle()
+	var options: Array = [answer]
+	for offset in offsets:
+		var candidate: int = answer+offset
+		if candidate>0 and not options.has(candidate): options.append(candidate)
+		if options.size()==4: break
+	options.shuffle()
+	var tens := (b/10)*10
+	var units := b%10
+	var explanation := "%d × %d = %d. Separe %d em %d + %d: %d + %d = %d." % [a,b,answer,b,tens,units,a*tens,a*units,answer]
+	return {"question":"%d × %d = ?" % [a,b],"answer":answer,"options":options,"explanation":explanation}
 
 func _resolve(m: Dictionary, correct: bool) -> void:
 	var defender: int = 1 - m.attacker

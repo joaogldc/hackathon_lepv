@@ -3,9 +3,9 @@ extends Node
 const PORTALS := {
 	"dojo": {"title": "Entrar no dojo", "position": Vector2(576, 400), "scene": "res://scenes/minigames/math/entry.tscn"},
 	"commerce": {"title": "Área comercial", "place": "Vila das lojas", "position": Vector2(576, 260), "color": Color("dfb181"), "scene": "res://scenes/world/commerce.tscn"},
-	"math": {"title": "Bosque da Matemática", "place": "Bosque da Matemática", "position": Vector2(98, 460), "color": Color("91bf80"), "scene": "res://scenes/minigames/math/entry.tscn"},
-	"language": {"title": "Geleira do Português", "place": "Geleira do Português", "position": Vector2(576, 610), "color": Color("99d2e4"), "scene": "res://scenes/minigames/language/entry.tscn"},
-	"science": {"title": "Floresta de Ciências", "place": "Floresta de Ciências", "position": Vector2(1054, 460), "color": Color("ebbb86"), "scene": "res://scenes/minigames/science/entry.tscn"}
+	"math": {"title": "Bosque da Sabedoria", "place": "Bosque da Sabedoria", "position": Vector2(98, 460), "color": Color("91bf80"), "scene": "res://scenes/minigames/math/entry.tscn"},
+	"language": {"title": "Porto Glacial", "place": "Porto Glacial", "position": Vector2(576, 610), "color": Color("99d2e4"), "scene": "res://scenes/minigames/language/entry.tscn"},
+	"science": {"title": "Observatório", "place": "Observatório", "position": Vector2(1054, 460), "color": Color("ebbb86"), "scene": "res://scenes/minigames/science/entry.tscn"}
 }
 const ENTRY_RADIUS := 85.0
 const GAME_IDS := ["math", "language", "science"]

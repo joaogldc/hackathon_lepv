@@ -19,6 +19,8 @@ const SITTING := preload("res://assets/sprites/urso/frames/N_sit.png")
 const SEATS := [Vector2(252,476),Vector2(900,476),Vector2(211,580),Vector2(940,580),Vector2(169,684),Vector2(983,684),Vector2(450,476),Vector2(702,476)]
 const INK := Color("513d2b")
 const CREAM := Color("fff5dc")
+const PLAYER_PANEL := preload("res://assets/ui/cartas/painel-jogador.svg")
+const TURN_PANEL := preload("res://assets/ui/cartas/painel-turno.svg")
 
 func _ready() -> void:
 	get_viewport().size_changed.connect(_fit)
@@ -71,6 +73,18 @@ func _panel(rect: Rect2) -> void:
 	panel.add_theme_stylebox_override("panel",_style(CREAM))
 	overlay.add_child(panel)
 
+func _hud_panel(rect: Rect2, texture: Texture2D) -> void:
+	var panel := NinePatchRect.new()
+	panel.texture = texture
+	panel.position = rect.position
+	panel.size = rect.size
+	panel.patch_margin_left = 20
+	panel.patch_margin_right = 20
+	panel.patch_margin_top = 20
+	panel.patch_margin_bottom = 20
+	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.add_child(panel)
+
 func _label(text: String, rect: Rect2, font_size := 22, color := INK) -> Label:
 	var label:=Label.new()
 	label.text=text
@@ -110,6 +124,9 @@ func _refresh() -> void:
 	var spectator: bool=v.get("spectator",false)
 	var mine: int=v.get("ids",[]).find(multiplayer.get_unique_id())
 	var revision: int=v.get("revision",-1)
+	var audience_ids: Array = []
+	for person in v.get("spectators",[]):
+		audience_ids.append(person.id)
 	if revision!=selection_revision:
 		selected_card=-1
 		selected_slot=-1
@@ -117,10 +134,12 @@ func _refresh() -> void:
 		selection_revision=revision
 	for side in range(2):
 		var x:=26 if side==0 else 866
-		_panel(Rect2(x,24,260,74))
-		var name_text: String=v.names[side] if v.has("names") else ("Você" if side==0 else "Aguardando rival")
-		_label(name_text+(" • você" if side==mine else ""),Rect2(x+10,30,240,30),19)
-		var energy: int=v.energy[side] if v.has("energy") else 5
+		_hud_panel(Rect2(x,24,260,74),PLAYER_PANEL)
+		var fighter_ids: Array = v.get("ids",[])
+		var occupied: bool = fighter_ids.size()>side and not audience_ids.has(fighter_ids[side])
+		var name_text: String=v.names[side] if occupied else "Aguardando jogador"
+		_label(name_text+(" • você" if occupied and side==mine else ""),Rect2(x+10,30,240,30),19)
+		var energy: int=v.energy[side] if occupied and v.has("energy") else 0
 		var bar:=ColorRect.new()
 		bar.position=Vector2(x+16,74)
 		bar.size=Vector2(180,9)
@@ -133,10 +152,10 @@ func _refresh() -> void:
 		fill.color=Color("6cae4b")
 		fill.mouse_filter=Control.MOUSE_FILTER_IGNORE
 		overlay.add_child(fill)
-		_label("%d/5" % energy,Rect2(x+198,62,50,28),16)
-		fighters[side].modulate=Color.WHITE if v.has("ids") or side==0 else Color(1,1,1,0.25)
-		fighter_pets[side].visible=v.has("ids") or side==0
-	_panel(Rect2(430,24,292,74))
+		_label("%d/5" % energy if occupied else "—",Rect2(x+198,62,50,28),16)
+		fighters[side].visible=occupied
+		fighter_pets[side].visible=occupied
+	_hud_panel(Rect2(430,24,292,74),TURN_PANEL)
 	var heading: String={"idle":"Dojo do Bambu","waiting":"Procurando rival","watch_wait":"Plateia","resolve":"Resultado","finished":"Fim do duelo"}.get(phase,"Sua defesa" if mine!=v.get("attacker",-1) else "Seu ataque")
 	if spectator and v.has("ids"): heading="Assistindo ao duelo"
 	_label(heading,Rect2(440,30,272,30),21)
@@ -147,9 +166,12 @@ func _refresh() -> void:
 	if phase in ["idle","waiting","watch_wait"]:
 		_panel(Rect2(396,200,360,236))
 		_label("Duelo de multiplicação" if phase=="idle" else ("Você está na plateia" if phase=="watch_wait" else "Aguardando outro urso…"),Rect2(410,210,332,54),23)
-		_label("Ataque com uma carta.\nAcerte a resposta para se defender.",Rect2(416,270,320,60),18)
-		_button("Procurar adversário" if phase=="idle" else "Cancelar",Rect2(436,339,280,36),func(): Duel.act("join" if phase=="idle" else "leave"))
-		_button("Assistir sentado" if phase!="watch_wait" else "Levantar",Rect2(436,385,280,36),func(): Duel.act("watch" if phase!="watch_wait" else "leave"))
+		_label("Aguardando dois jogadores\npara começar o duelo." if phase=="watch_wait" else "Ataque com uma carta.\nAcerte a resposta para se defender.",Rect2(416,270,320,60),18)
+		if phase=="watch_wait":
+			_button("Levantar",Rect2(436,369,280,36),func(): Duel.act("leave"))
+		else:
+			_button("Procurar adversário" if phase=="idle" else "Cancelar",Rect2(436,339,280,36),func(): Duel.act("join" if phase=="idle" else "leave"))
+			_button("Assistir sentado",Rect2(436,385,280,36),func(): Duel.act("watch"))
 	elif phase=="answer":
 		_panel(Rect2(376,203,400,300))
 		_label("Defenda seu urso" if mine!=v.attacker and not spectator else "O defensor está respondendo",Rect2(391,215,370,34),19,Color("1478a2"))

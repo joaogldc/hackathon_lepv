@@ -6,7 +6,7 @@ const TEXTURES := {
 	"science": preload("res://assets/cenario/placas/placa_science.svg"),
 	"language": preload("res://assets/cenario/placas/placa_language.svg")
 }
-const CAPTIONS := {"commerce": ["Área", "comercial"], "math": ["Bosque da", "Matemática"], "science": ["Floresta de", "Ciências"], "language": ["Geleira do", "Português"]}
+const CAPTIONS := {"commerce": ["Área", "comercial"], "math": ["Bosque da", "Sabedoria"], "science": ["Observatório", ""], "language": ["Porto", "Glacial"]}
 var destination := "math"
 func _ready() -> void:
 	z_index = int(position.y)
@@ -17,4 +17,4 @@ func _draw() -> void:
 	for line in range(2):
 		var caption: String = CAPTIONS[destination][line]
 		var width := font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,13).x
-		draw_string(font,Vector2(-width/2,-96+line*16),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("3b2513"))
+		draw_string(font,Vector2(-width/2,(-88 if CAPTIONS[destination][1].is_empty() else -96+line*16)),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("3b2513"))

@@ -3,7 +3,7 @@
 ## Jogar
 
 Reabrir o projeto para carregar o novo autoload `Duel`. Executar duas instâncias,
-criar a sala na primeira e conectar a segunda. Em ambas: M → Bosque de bambu →
+criar a sala na primeira e conectar a segunda. Em ambas: M → Bosque da Sabedoria →
 caminhar até a seta da entrada do dojo → Procurar adversário. A fila combina dois jogadores disponíveis.
 Entrar no bosque ou no dojo, sozinho, não inicia uma partida.
 
@@ -16,11 +16,15 @@ até o dojo → fila → duelo.
 - Conteúdo inicial escolhido para o protótipo: multiplicação. Adequação ao público
   e balanceamento ainda precisam de revisão da equipe.
 - Cada jogador inicia com 5 de energia e 5 cartas: 2 fáceis, 2 médias e 1 difícil.
-- Fáceis usam fatores até 5; médias até 9; difíceis até 12. Todas causam 1 de dano.
+- Fáceis: 12–25 × 6–15; médias: 26–60 × 12–30; difíceis: 51–99 × 31–79.
+  Todas causam 1 de dano. As alternativas incluem erros próximos de transporte
+  e valor posicional, sem respostas repetidas. A explicação decompõe um fator
+  em dezenas e unidades para mostrar como calcular mentalmente.
 - O atacante escolhe a dificuldade. O defensor responde uma questão com quatro opções.
 - Acerto bloqueia; erro ou tempo esgotado retira 1 energia. A resolução mostra explicação.
 - Escolha da carta: 25 segundos; ao expirar, o servidor usa uma carta disponível.
-- Resposta: 30 segundos. Resolução visível por 3,5 segundos. Os papéis alternam.
+- Resposta: 30/40/50 segundos nas cartas fácil/média/difícil. Resolução visível
+  por 3,5 segundos. Os papéis alternam.
 - Fim por energia zerada ou 10 turnos. Ganha quem tiver mais energia; igualdade é empate.
 - O primeiro da fila começa atacando. Cada participante ataca até cinco vezes.
 - Sair do dojo, mudar de área ou desconectar durante o duelo concede vitória ao adversário.

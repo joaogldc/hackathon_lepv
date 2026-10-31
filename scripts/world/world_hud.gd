@@ -171,7 +171,7 @@ func _fill_passport() -> void:
 		card.add_theme_constant_override("separation",20)
 		card_panel.add_child(card)
 		var label:=Label.new()
-		label.text={"math":"×  Matemática\n\nDojo do Bambu","language":"Aa  Português\n\nGeleira do Português","science":"Ciências\n\nFloresta de Ciências"}[destination]
+		label.text={"math":"×  Matemática\n\nDojo do Bambu","language":"Aa  Português\n\nPorto Glacial","science":"Ciências\n\nObservatório"}[destination]
 		label.add_theme_color_override("font_color",INK)
 		label.add_theme_font_size_override("font_size",22)
 		card.add_child(label)

@@ -167,7 +167,7 @@ func _set_zone(zone: String) -> void:
 	fountain.visible = zone == "lobby"
 	for sign_board in signs:
 		sign_board.visible = zone == "lobby"
-	title_label.text = "MUNDO DOS URSOS  /  " + ("Área comercial" if zone == "commerce" else ("Bosque da Matemática" if zone == "math" else "Praça dos encontros"))
+	title_label.text = "MUNDO DOS URSOS  /  " + ("Área comercial" if zone == "commerce" else ("Bosque da Sabedoria" if zone == "math" else "Praça dos encontros"))
 	queue_redraw()
 	if zone in Minigames.WORLD_ZONES:
 		get_viewport().gui_release_focus()
