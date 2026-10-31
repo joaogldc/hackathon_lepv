@@ -1,0 +1,13 @@
+Gerado pela ferramenta integrada image_gen.
+Referências de estilo/identidade:
+C:/Users/user/OneDrive/Documents/ChatGPT/Hackaton LEPV/hackathon_lepv/assets/cenario/glacial_runtime/navio-polar-aberto.png
+
+Prompt integral:
+Use the attached existing Glacial Port ship ONLY as a supporting style and palette reference. Produce new GAME SPRITES for this same 2D cartoon game; do NOT include the ship or any animals. This is an asset creation/style-transfer from the reference, not a scene illustration.
+ONE square sprite atlas with EXACTLY 4 columns and 4 rows, 16 distinct sprites, invisible equal cells, wide transparent gutters, every object entirely inside its cell. Crisp dark outlines, cyan/turquoise translucent ice, cool highlights, rustic honey-brown wooden log, restrained shading matching the supplied game environment. Isometric top-down 3/4 view for obstacles, consistent light from upper left. NO ground shadows. Real transparent PNG alpha, no checkerboard painted into pixels. No letters, numbers, captions, borders or grid.
+Reading order:
+Row1: sharp triangular floating iceberg; a second rounder floating ice chunk; long frozen log floating diagonally; another same-size frozen log variant with a little snow on top. These four are independent obstacles with no surrounding water.
+Row2: the SAME gold coin rotating around vertical axis in four distinct consecutive poses: broad front face with simple embossed star, three-quarter face, thin edge, three-quarter reverse face. Same size, center and baseline.
+Row3: four successive frames of a small isolated turquoise/white water splash: rising droplets, expanding crown, falling droplets, fading ripples. Same center, no backing water rectangle; preserve transparency between droplets.
+Row4: four flat TOP-DOWN square turquoise river water tiles representing successive stages of gentle flowing current, same palette and edge colors, subtle light-cyan curves, no objects. These four tiles alone have opaque filled square interiors and should align in a horizontal scrolling river. Use a smaller square within each cell so the atlas still has transparent gutters around the tile.
+No characters of any kind, no penguin, seal, bear or other animal. Exactly sixteen clean individual assets on transparent background. This sheet complements an already-existing bear rowing boat animation.
