@@ -24,13 +24,16 @@ var dica: Label
 var fala: Label
 var proximo := -1
 var tempo_fala := 0.0
+var saida_armada := false
 
 func _ready() -> void:
 	get_viewport().size_changed.connect(_ajustar)
 	_ajustar()
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	jogador = URSO.instantiate()
-	jogador.position = Vector2(576,565)
+	# Esta cena é uma tela de UI: sem Z por altura, o urso fica abaixo de mapa, missões e painéis.
+	jogador.depth_sort = false
+	jogador.position = _ponto_inicial()
 	jogador.target = jogador.position
 	jogador.nickname = "Explorador"
 	var rede := get_node_or_null("/root/Network")
@@ -75,6 +78,14 @@ func _ready() -> void:
 	sair.text = "Voltar ao porto [Esc]"
 	sair.position = Vector2(887,9)
 	sair.size = Vector2(210,40)
+	sair.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	sair.focus_mode = Control.FOCUS_NONE
+	sair.add_theme_color_override("font_color",Color.WHITE)
+	sair.add_theme_color_override("font_hover_color",Color.WHITE)
+	sair.add_theme_color_override("font_pressed_color",Color.WHITE)
+	sair.add_theme_stylebox_override("normal",_estilo_botao(Color(0.145,0.616,0.796)))
+	sair.add_theme_stylebox_override("hover",_estilo_botao(Color(0.20,0.70,0.88)))
+	sair.add_theme_stylebox_override("pressed",_estilo_botao(Color(0.20,0.70,0.88)))
 	sair.pressed.connect(_sair)
 	barra.add_child(sair)
 	dica = Label.new()
@@ -92,6 +103,25 @@ func _ready() -> void:
 	add_child(fala)
 	queue_redraw()
 
+func _estilo_botao(cor: Color) -> StyleBoxFlat:
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = cor
+	estilo.border_color = Color(0.11,0.38,0.49)
+	estilo.set_border_width_all(2)
+	estilo.border_width_bottom = 4
+	estilo.set_corner_radius_all(12)
+	return estilo
+
+## Saída andando: a seta no centro da borda de baixo, igual às outras áreas do mundo.
+func _ponto_saida() -> Vector2:
+	return Vector2(576,area_caminhavel.end.y-10)
+
+func _ponto_inicial() -> Vector2:
+	return Vector2(576,area_caminhavel.end.y-70)
+
+func _na_saida() -> bool:
+	return jogador.position.y >= area_caminhavel.end.y-14 and absf(jogador.position.x-576) < 80
+
 func _configurar_texto(rotulo: Label, tamanho: int) -> void:
 	rotulo.add_theme_font_size_override("font_size",tamanho)
 	rotulo.add_theme_color_override("font_color",Color("fff5dc"))
@@ -107,6 +137,12 @@ func _process(delta: float) -> void:
 	jogador.target = (jogador.target + movimento * velocidade * delta).clamp(area_caminhavel.position,area_caminhavel.end)
 	if movimento.length_squared() > 0:
 		jogador.direction = ("right" if movimento.x > 0 else "left") if absf(movimento.x) > absf(movimento.y) else ("front" if movimento.y > 0 else "back")
+	if permitir_movimento and not is_instance_valid(desafio):
+		if not _na_saida(): saida_armada = true
+		elif saida_armada and movimento.y > 0:
+			saida_armada = false
+			_sair()
+			return
 	if modo_botes and permitir_movimento and not is_instance_valid(desafio):
 		for ponto_bote in _pontos():
 			if ponto_bote.has("bote") and jogador.position.distance_to(ponto_bote.ponto)<34:
@@ -117,7 +153,9 @@ func _process(delta: float) -> void:
 	for indice in range(pontos.size()):
 		if jogador.position.distance_to(pontos[indice].ponto) < 86:
 			proximo = indice
-	dica.text = "[E] " + pontos[proximo].nome if proximo >= 0 else ("Aproxime-se dos botes para interagir." if modo_botes else "Explore o salão e aproxime-se dos objetos.")
+	if proximo >= 0: dica.text = "[E] " + pontos[proximo].nome
+	elif _na_saida(): dica.text = "Continue descendo para voltar ao porto"
+	else: dica.text = "Aproxime-se dos botes ou siga a seta para voltar ao porto." if modo_botes else "Explore o salão ou siga a seta para voltar ao porto."
 	tempo_fala = maxf(0,tempo_fala - delta)
 	if tempo_fala <= 0: fala.text = ""
 
@@ -161,13 +199,13 @@ func _ajustar() -> void:
 
 func _draw() -> void:
 	draw_texture_rect(textura_fundo,Rect2(0,36,1152,648),false)
+	load("res://scripts/world/ground_arrow.gd").paint(self,_ponto_saida(),0.0)
 
 func _iniciar_bote(indice: int) -> void:
 	if is_instance_valid(desafio): return
 	bote_selecionado.emit(indice)
 	desafio=load("res://scripts/minigames/learning_room.gd").new()
 	desafio.zone="ship"
-	desafio.z_index=1500
 	desafio.texto_retorno="Voltar ao deque"
 	jogador.hide()
 	desafio.finished.connect(_voltar_deque)
@@ -179,5 +217,5 @@ func _voltar_deque(_result: Dictionary) -> void:
 	if is_instance_valid(desafio): desafio.queue_free()
 	desafio=null
 	jogador.show()
-	jogador.position=Vector2(576,565)
+	jogador.position=_ponto_inicial()
 	jogador.target=jogador.position
