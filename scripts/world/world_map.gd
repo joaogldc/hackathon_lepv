@@ -4,6 +4,10 @@ signal destination_selected(destination: String)
 signal close_requested
 @export var imagem_mapa: Texture2D = preload("res://assets/ui/mapa/ilha-ursos-3d.png")
 @export var zone: String = "lobby"
+@export_category("Mapa vivo")
+@export var animar_mapa: bool = true
+@export_range(0.0,2.0,0.05) var velocidade_animacao: float = 1.0
+@export_range(0.0,1.0,0.05) var intensidade_animacao: float = 0.65
 const DESTINATIONS := {
 	"commerce": {"label":"Vila das lojas", "detail":"Cosméticos e pets", "rect":Rect2(0.35,0.025,0.35,0.27)},
 	"math": {"label":"Bosque da Sabedoria", "detail":"Dojo do Bambu", "rect":Rect2(0.055,0.17,0.285,0.31)},
@@ -12,6 +16,8 @@ const DESTINATIONS := {
 	"lobby": {"label":"Praça dos encontros", "detail":"Encontre os outros ursos", "rect":Rect2(0.39,0.315,0.265,0.27)}
 }
 var mapa_rect := Rect2()
+var arte: TextureRect
+var efeito: ShaderMaterial
 var cabecalho: Panel
 var titulo: Label
 var fechar: Button
@@ -34,6 +40,14 @@ func _ready() -> void:
 	if Network.players.has(id): zone = Network.players[id].zone
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	arte = TextureRect.new()
+	arte.texture = imagem_mapa
+	arte.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	arte.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	efeito = ShaderMaterial.new()
+	efeito.shader = preload("res://assets/ui/mapa/mapa_vivo.gdshader")
+	arte.material = efeito
+	add_child(arte)
 	cabecalho = Panel.new()
 	cabecalho.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	cabecalho.add_theme_stylebox_override("panel",_estilo(Color("fff5dc"),Color("513d2b"),16))
@@ -105,6 +119,8 @@ func _organizar() -> void:
 	var fator := minf(disponivel.x/imagem_mapa.get_width(),disponivel.y/imagem_mapa.get_height())
 	var tamanho := imagem_mapa.get_size() * fator
 	mapa_rect = Rect2(Vector2((size.x-tamanho.x)/2,70+(disponivel.y-tamanho.y)/2),tamanho)
+	arte.position = mapa_rect.position
+	arte.size = mapa_rect.size
 	var escala_ui := clampf(size.x/1152.0,0.65,1.2)
 	cabecalho.position = Vector2(margem,10)
 	cabecalho.size = Vector2(size.x-32,50)
@@ -151,4 +167,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func _draw() -> void:
 	draw_rect(Rect2(Vector2.ZERO,size),Color(0.025,0.09,0.13,0.97))
-	if imagem_mapa and mapa_rect.has_area(): draw_texture_rect(imagem_mapa,mapa_rect,false)
+
+func _process(_delta: float) -> void:
+	efeito.set_shader_parameter("animar",animar_mapa)
+	efeito.set_shader_parameter("velocidade",velocidade_animacao)
+	efeito.set_shader_parameter("intensidade",intensidade_animacao)
