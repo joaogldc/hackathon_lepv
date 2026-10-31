@@ -80,3 +80,9 @@ Verificado no Godot 4.7.2: importação, renderização de ataque e defesa, sele
 por sinal do botão da carta, partida completa de dez turnos, revanche e desconexão
 em dois processos (ambos código 0). Inspeção visual confirmou o leque dentro da tela.
 O cenário interno é provisório e pode receber a arte do colega.
+
+## Atualização da sala de aula
+
+O interior usa a arte nova e possui espectadores sentados às mesas. As saídas
+agora geram aviso persistente de vitória/derrota. Veja [SALA_DE_AULA.md](SALA_DE_AULA.md)
+para instruções, transições contínuas e testes.

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://do8nv072yq33l"
-path="res://.godot/imported/praca.svg-e588337601b46678f34d4f15971a5945.ctex"
+uid="uid://dpx5u70l0ihm4"
+path="res://.godot/imported/back_2.png-f8ca947a9101ebe636302af92c31d7d3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/cenario/praca/fonte/praca.svg"
-dest_files=["res://.godot/imported/praca.svg-e588337601b46678f34d4f15971a5945.ctex"]
+source_file="res://assets/pets/flying_fish/back_2.png"
+dest_files=["res://.godot/imported/back_2.png-f8ca947a9101ebe636302af92c31d7d3.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

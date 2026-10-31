@@ -1,22 +1,32 @@
 extends Node2D
-func _draw() -> void:
-	draw_rect(Rect2(24,204,1104,436), Color("54794a"))
-	draw_rect(Rect2(520,370,112,260), Color("bcaa7e"))
-	for x in [100,165,230,300,850,920,990,1055]:
-		for y in [300,400,510,605]:
-			for offset in [-12,12]:
-				draw_line(Vector2(x+offset,y), Vector2(x+offset,y-65), Color("a5c76b"), 8)
-				for k in [20,40,60]:
-					draw_line(Vector2(x+offset-5,y-k),Vector2(x+offset+5,y-k),Color("496d3e"),2)
-	draw_rect(Rect2(440,260,272,110),Color("aa8060"))
-	draw_colored_polygon(PackedVector2Array([Vector2(410,270),Vector2(576,215),Vector2(742,270)]),Color("4b3936"))
-	draw_rect(Rect2(545,300,62,70),Color("302f2a"))
-	draw_string(ThemeDB.fallback_font,Vector2(545,292),"DOJO",HORIZONTAL_ALIGNMENT_LEFT,-1,20,Color("fff2d9"))
-	_arrow(Vector2(576,400),PI,"Entrar no dojo")
-	_arrow(Vector2(576,575),0,"Voltar ao lobby")
+const GROUND := preload("res://assets/cenario/bosque/chao_bosque.png")
+const DOJO := preload("res://assets/cenario/bosque/dojo.png")
+const BAMBOO_A := preload("res://assets/cenario/bosque/bambuzal_a.png")
+const BAMBOO_B := preload("res://assets/cenario/bosque/bambuzal_b.png")
+const FENCE := preload("res://assets/cenario/bosque/cerca_bambu.png")
+const LANTERN := preload("res://assets/cenario/bosque/lanterna_de_pedra.png")
+const BASIN := preload("res://assets/cenario/bosque/tsukubai.png")
+func _ready() -> void:
+	_object(DOJO,Rect2(416,210,320,205),385)
+	_object(BAMBOO_A,Rect2(35,210,170,325),533)
+	_object(BAMBOO_B,Rect2(200,210,120,260),470)
+	_object(BAMBOO_A,Rect2(900,210,170,325),533)
+	for x in [365,755]:
+		_object(LANTERN,Rect2(x,335,45,77),412)
+		_object(FENCE,Rect2(x-45,490,110,41),524)
+	_object(BASIN,Rect2(800,530,66,55),580)
 
-func _arrow(point: Vector2, angle: float, title: String) -> void:
-	draw_set_transform(point,angle)
-	draw_colored_polygon(PackedVector2Array([Vector2(-8,-18),Vector2(8,-18),Vector2(8,0),Vector2(20,0),Vector2(0,22),Vector2(-20,0),Vector2(-8,0)]),Color("edd7a0"))
-	draw_set_transform(Vector2.ZERO)
-	draw_string(ThemeDB.fallback_font,point+Vector2(35,6),title,HORIZONTAL_ALIGNMENT_LEFT,-1,18,Color("fff2d9"))
+func _object(texture: Texture2D, rect: Rect2, ground_y: int) -> void:
+	var sprite := Sprite2D.new()
+	sprite.texture = texture
+	sprite.position = rect.get_center()
+	sprite.scale = rect.size / texture.get_size()
+	sprite.z_index = ground_y
+	add_child(sprite)
+
+func _draw() -> void:
+	draw_texture_rect(GROUND,Rect2(24,204,1104,436),false)
+	_arrow(Vector2(576,400),PI)
+	_arrow(Vector2(576,608),0)
+func _arrow(point: Vector2, angle: float) -> void:
+	load("res://scripts/world/ground_arrow.gd").paint(self,point,angle)

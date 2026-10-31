@@ -5,65 +5,97 @@ var overlay: Control
 var fighters: Array[AnimatedSprite2D] = []
 var timer_label: Label
 var remaining := 0.0
-const COLORS := [Color("6b9e80"), Color("648ab1"), Color("ad795c")]
+var selected_card := -1
+var selected_slot := -1
+var selected_answer := -1
+var selection_revision := -1
+const PET := preload("res://scripts/player/pet_companion.gd")
+const PET_BACK := preload("res://assets/pets/flying_fish/back_1.png")
+var fighter_pets: Array[Node2D]=[]
+const CARD := preload("res://scripts/minigames/math/card_button.gd")
+const ROOM := preload("res://assets/cenario/dojo_sala/fundo_dojo_sala.png")
+const DESK := preload("res://assets/cenario/dojo_sala/mesa_baixa.png")
+const SITTING := preload("res://assets/sprites/urso/frames/N_sit.png")
+const SEATS := [Vector2(252,476),Vector2(900,476),Vector2(211,580),Vector2(940,580),Vector2(169,684),Vector2(983,684),Vector2(450,476),Vector2(702,476)]
+const INK := Color("513d2b")
+const CREAM := Color("fff5dc")
 
 func _ready() -> void:
-	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	get_viewport().size_changed.connect(_fit)
+	_fit()
+	mouse_filter=Control.MOUSE_FILTER_IGNORE
 	for side in range(2):
-		var bear := AnimatedSprite2D.new()
-		var frames := SpriteFrames.new()
+		var bear:=AnimatedSprite2D.new()
+		var frames:=SpriteFrames.new()
 		frames.add_animation("idle")
-		frames.set_animation_speed("idle", 2)
-		for index in range(1,3):
-			frames.add_frame("idle", load("res://assets/sprites/urso/frames/E_idle_%d.png" % index))
-		bear.sprite_frames = frames
+		frames.set_animation_speed("idle",2)
+		for index in range(1,3): frames.add_frame("idle",load("res://assets/sprites/urso/frames/E_idle_%d.png" % index))
+		bear.sprite_frames=frames
 		bear.play("idle")
-		bear.flip_h = side == 1
-		bear.position = Vector2(240 if side == 0 else 912, 345)
-		bear.scale = Vector2(0.78,0.78)
+		bear.flip_h=side==1
+		bear.position=Vector2(265 if side==0 else 887,300)
+		bear.scale=Vector2(0.42,0.42)
 		add_child(bear)
+		bear.z_index=10
 		fighters.append(bear)
-	overlay = Control.new()
+		var pet:=PET.new()
+		pet.attached_to_bear=false
+		pet.position=bear.position+Vector2(0,12)
+		pet.configure("right" if side==0 else "left",false)
+		add_child(pet)
+		fighter_pets.append(pet)
+	overlay=Control.new()
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	overlay.z_index=20
+	overlay.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	add_child(overlay)
 	Duel.changed.connect(_refresh)
 	_refresh()
 
-func _style(color: Color, border := Color("d9c18a")) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = color
-	style.border_color = border
-	style.set_border_width_all(2)
-	style.set_corner_radius_all(12)
-	style.content_margin_left = 12
-	style.content_margin_right = 12
-	return style
+func _style(color: Color, border := INK) -> StyleBoxFlat:
+	var box:=StyleBoxFlat.new()
+	box.bg_color=color
+	box.border_color=border
+	box.set_border_width_all(2)
+	box.set_corner_radius_all(16)
+	box.shadow_color=Color(0.15,0.1,0.06,0.25)
+	box.shadow_offset=Vector2(0,4)
+	box.shadow_size=2
+	return box
 
-func _label(text: String, rect: Rect2, font_size := 22, color := Color("fff2d9")) -> Label:
-	var label := Label.new()
-	label.text = text
-	label.position = rect.position
-	label.size = rect.size
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+func _panel(rect: Rect2) -> void:
+	var panel:=Panel.new()
+	panel.position=rect.position
+	panel.size=rect.size
+	panel.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	panel.add_theme_stylebox_override("panel",_style(CREAM))
+	overlay.add_child(panel)
+
+func _label(text: String, rect: Rect2, font_size := 22, color := INK) -> Label:
+	var label:=Label.new()
+	label.text=text
+	label.position=rect.position
+	label.size=rect.size
+	label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+	label.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+	label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
 	label.add_theme_font_size_override("font_size",font_size)
 	label.add_theme_color_override("font_color",color)
-	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	label.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	overlay.add_child(label)
 	return label
 
-func _button(text: String, rect: Rect2, action: Callable, enabled := true) -> Button:
-	var button := Button.new()
-	button.text = text
-	button.position = rect.position
-	button.size = rect.size
-	button.disabled = not enabled
-	button.add_theme_font_size_override("font_size",19)
-	button.add_theme_stylebox_override("normal",_style(Color("294b46")))
-	button.add_theme_stylebox_override("hover",_style(Color("42665a"),Color("fff1b1")))
+func _button(text: String, rect: Rect2, action: Callable, enabled := true, light := false) -> Button:
+	var button:=Button.new()
+	button.text=text
+	button.position=rect.position
+	button.size=rect.size
+	button.disabled=not enabled
+	button.add_theme_font_size_override("font_size",18)
+	button.add_theme_color_override("font_color",INK if light else Color.WHITE)
+	button.add_theme_stylebox_override("normal",_style(CREAM if light else Color("259dcb")))
+	button.add_theme_stylebox_override("hover",_style(Color("e7d6a4") if light else Color("3db3df"),Color("e4b347")))
+	button.add_theme_stylebox_override("disabled",_style(Color("d5d1bf")))
 	button.pressed.connect(action)
 	overlay.add_child(button)
 	return button
@@ -72,118 +104,126 @@ func _refresh() -> void:
 	for child in overlay.get_children():
 		overlay.remove_child(child)
 		child.queue_free()
-	timer_label = null
-	var v: Dictionary = Duel.view
-	var phase: String = v.get("phase","idle")
-	var mine := 0
-	if v.has("ids"):
-		mine = v.ids.find(multiplayer.get_unique_id())
-	_label("DOJO DO BAMBU",Rect2(360,20,432,45),30)
-	_button("Sair do dojo",Rect2(970,24,160,40),_return)
-	_label("M: mapa da ilha",Rect2(20,24,180,40),17)
+	timer_label=null
+	var v: Dictionary=Duel.view
+	var phase: String=v.get("phase","idle")
+	var spectator: bool=v.get("spectator",false)
+	var mine: int=v.get("ids",[]).find(multiplayer.get_unique_id())
+	var revision: int=v.get("revision",-1)
+	if revision!=selection_revision:
+		selected_card=-1
+		selected_slot=-1
+		selected_answer=-1
+		selection_revision=revision
 	for side in range(2):
-		var name_text := "Você" if side == 0 else "Aguardando rival"
-		var energy := 5
-		if v.has("names"):
-			name_text = v.names[side] + (" • você" if side == mine else "")
-			energy = v.energy[side]
-		var x := 70 if side == 0 else 752
-		_label(name_text,Rect2(x,86,330,38),23)
-		var bar := ProgressBar.new()
-		bar.position = Vector2(x+25,130)
-		bar.size = Vector2(280,22)
-		bar.max_value = 5
-		bar.value = energy
-		bar.show_percentage = false
-		bar.add_theme_stylebox_override("background",_style(Color("302d28")))
-		bar.add_theme_stylebox_override("fill",_style(Color("83b887"),Color("83b887")))
+		var x:=26 if side==0 else 866
+		_panel(Rect2(x,24,260,74))
+		var name_text: String=v.names[side] if v.has("names") else ("Você" if side==0 else "Aguardando rival")
+		_label(name_text+(" • você" if side==mine else ""),Rect2(x+10,30,240,30),19)
+		var energy: int=v.energy[side] if v.has("energy") else 5
+		var bar:=ColorRect.new()
+		bar.position=Vector2(x+16,74)
+		bar.size=Vector2(180,9)
+		bar.color=Color("ddd5b6")
+		bar.mouse_filter=Control.MOUSE_FILTER_IGNORE
 		overlay.add_child(bar)
-		_label("%d / 5 energia" % energy,Rect2(x,156,330,28),17)
-		fighters[side].modulate = Color.WHITE if v.has("ids") or side == 0 else Color(1,1,1,0.25)
-		_label("DEFESA" if v.has("attacker") and side != v.attacker else "ATAQUE",Rect2(x,450,330,30),18,Color("ead39a"))
-	if phase in ["idle","waiting"]:
-		_label("Duelo de multiplicação" if phase == "idle" else "Procurando adversário…",Rect2(382,202,388,64),26)
-		_label("Escolha uma carta para atacar.\nResponda para defender.\nAcerto bloqueia; erro tira 1 energia.",Rect2(390,274,372,102),19)
-		_button("Procurar adversário" if phase == "idle" else "Cancelar busca",Rect2(401,396,350,52),func(): Duel.act("join" if phase == "idle" else "leave"))
-		_fan([2,2,1],false)
-	else:
-		remaining = v.seconds
-		_label("Turno %d / 10" % v.turn,Rect2(430,90,292,30),19)
-		timer_label = _label("",Rect2(430,121,292,30),18)
-		if phase == "choose":
-			_label("Escolha uma carta\npara atacar" if mine == v.attacker else "O rival está escolhendo\numa carta…",Rect2(390,240,372,100),27)
-			_label("Todas as cartas causam 1 de dano.",Rect2(385,360,382,40),17)
-		elif phase == "answer":
-			_label("Defenda seu urso!" if mine != v.attacker else "O rival está defendendo…",Rect2(385,195,382,50),22)
-			_label(v.question,Rect2(390,250,372,70),40)
-			for index in range(v.options.size()):
-				_button(str(v.options[index]),Rect2(422+(index%2)*163,340+(index/2)*55,145,46),func(): Duel.act("answer",index),mine != v.attacker)
-		elif phase == "resolve":
-			_label(v.feedback,Rect2(385,235,382,170),24)
-		elif phase == "finished":
-			_label(v.feedback,Rect2(385,205,382,95),28)
-			_label("Defesas certas: %d de %d" % [v.correct[mine],v.attempts[mine]],Rect2(385,300,382,50),20)
-			_button("Jogar novamente",Rect2(426,380,300,50),func(): Duel.act("join"))
-		_fan(v.cards[mine],phase == "choose" and mine == v.attacker)
-	_label("SEU BARALHO  •  2 fáceis · 2 médias · 1 difícil por partida",Rect2(260,689,632,28),16,Color("e0d2b9"))
+		var fill:=ColorRect.new()
+		fill.position=bar.position
+		fill.size=Vector2(180.0*energy/5.0,9)
+		fill.color=Color("6cae4b")
+		fill.mouse_filter=Control.MOUSE_FILTER_IGNORE
+		overlay.add_child(fill)
+		_label("%d/5" % energy,Rect2(x+198,62,50,28),16)
+		fighters[side].modulate=Color.WHITE if v.has("ids") or side==0 else Color(1,1,1,0.25)
+		fighter_pets[side].visible=v.has("ids") or side==0
+	_panel(Rect2(430,24,292,74))
+	var heading: String={"idle":"Dojo do Bambu","waiting":"Procurando rival","watch_wait":"Plateia","resolve":"Resultado","finished":"Fim do duelo"}.get(phase,"Sua defesa" if mine!=v.get("attacker",-1) else "Seu ataque")
+	if spectator and v.has("ids"): heading="Assistindo ao duelo"
+	_label(heading,Rect2(440,30,272,30),21)
+	remaining=v.get("seconds",0.0)
+	_label("Matemática • Turno %d/10" % v.turn if v.has("turn") else "Multiplicação",Rect2(440,64,195,25),14)
+	timer_label=_label("%ds" % ceili(remaining) if remaining>0 else "",Rect2(638,62,74,28),16)
+	_button("‹ Sair",Rect2(26,118,92,32),_return,true,true)
+	if phase in ["idle","waiting","watch_wait"]:
+		_panel(Rect2(396,200,360,236))
+		_label("Duelo de multiplicação" if phase=="idle" else ("Você está na plateia" if phase=="watch_wait" else "Aguardando outro urso…"),Rect2(410,210,332,54),23)
+		_label("Ataque com uma carta.\nAcerte a resposta para se defender.",Rect2(416,270,320,60),18)
+		_button("Procurar adversário" if phase=="idle" else "Cancelar",Rect2(436,339,280,36),func(): Duel.act("join" if phase=="idle" else "leave"))
+		_button("Assistir sentado" if phase!="watch_wait" else "Levantar",Rect2(436,385,280,36),func(): Duel.act("watch" if phase!="watch_wait" else "leave"))
+	elif phase=="answer":
+		_panel(Rect2(376,203,400,300))
+		_label("Defenda seu urso" if mine!=v.attacker and not spectator else "O defensor está respondendo",Rect2(391,215,370,34),19,Color("1478a2"))
+		_label(v.question,Rect2(390,256,372,65),38)
+		for index in range(v.options.size()):
+			var button:=_button(str(v.options[index]),Rect2(396+(index%2)*184,338+(index/2)*65,176,52),func(): selected_answer=index; _refresh(),not spectator and mine!=v.attacker,true)
+			if index==selected_answer: button.add_theme_stylebox_override("normal",_style(Color("d1edfa"),Color("259dcb")))
+		_button("Confirmar",Rect2(456,520,240,44),func(): Duel.act("answer",selected_answer),selected_answer>=0 and not spectator and mine!=v.attacker)
+	elif phase in ["resolve","finished"]:
+		_panel(Rect2(376,220,400,258))
+		var title: String=v.feedback
+		if phase=="finished" and not spectator: title=("Empate!" if v.winner==-1 else ("Vitória!" if v.winner==mine else "Derrota"))+"\n"+v.feedback
+		_label(title,Rect2(397,238,358,158),24)
+		if phase=="finished": _button("Jogar novamente" if not spectator else "Entrar na fila",Rect2(446,412,260,44),func(): Duel.act("join"))
+	if not spectator and phase in ["idle","waiting","choose"]:
+		_fan(v.cards[mine] if v.has("cards") else [2,2,1],phase=="choose" and mine==v.attacker)
+		if phase=="choose": _button("Jogar carta",Rect2(924,622,202,48),func(): Duel.act("card",selected_card),selected_card>=0 and mine==v.attacker)
+	if spectator and v.has("ids"):
+		_button("Levantar",Rect2(456,638,240,40),func(): Duel.act("leave"))
 	queue_redraw()
 
 func _fan(counts: Array, playable: bool) -> void:
-	var levels: Array[int] = []
+	var levels: Array[int]=[]
 	for level in range(3):
-		for index in range(counts[level]):
-			levels.append(level)
-	if levels.is_empty():
-		_label("Baralho esgotado",Rect2(390,555,372,80),24)
-		return
+		for index in range(counts[level]): levels.append(level)
 	for index in range(levels.size()):
-		var level: int = levels[index]
-		var offset := float(index) - float(levels.size()-1)/2.0
-		var base := Vector2(576+offset*102-75,475+absf(offset)*8)
-		var card := _button("×\n\n%s\n\nATÉ %d\n1 DANO" % [["FÁCIL","MÉDIA","DIFÍCIL"][level],[5,9,12][level]],Rect2(base,Vector2(150,170)),func(): Duel.act("card",level),playable)
-		card.name = "Card%d" % index
-		card.pivot_offset = Vector2(75,170)
-		card.rotation = deg_to_rad(offset*9)
-		card.add_theme_font_size_override("font_size",18)
-		card.add_theme_stylebox_override("normal",_style(COLORS[level]))
-		card.add_theme_stylebox_override("disabled",_style(COLORS[level].darkened(0.35),Color("968465")))
-		card.add_theme_color_override("font_disabled_color",Color("d1c6af"))
-		card.add_theme_stylebox_override("hover",_style(COLORS[level].lightened(0.2),Color("fff4be")))
-		card.mouse_entered.connect(func():
-			if not card.disabled:
-				card.z_index = 20
-				card.position = base + Vector2(0,-22))
-		card.mouse_exited.connect(func():
-			card.z_index = 0
-			card.position = base)
+		var level: int=levels[index]
+		var offset:=float(index)-float(levels.size()-1)/2.0
+		var card:=CARD.new()
+		card.difficulty=level
+		card.selected=selected_slot==index
+		card.disabled=not playable
+		card.position=Vector2(520+offset*124-64,520+absf(offset)*6-(18 if card.selected else 0))
+		card.size=Vector2(128,154)
+		card.pivot_offset=Vector2(64,154)
+		card.rotation=deg_to_rad(offset*3.5)
+		card.name="Card%d" % index
+		card.pressed.connect(func(): selected_card=level; selected_slot=index; _refresh())
+		overlay.add_child(card)
 
 func _draw() -> void:
-	draw_rect(Rect2(0,0,1152,720),Color("322b29"))
-	draw_rect(Rect2(20,65,1112,145),Color("654c3e"))
-	for x in range(30,1152,86):
-		draw_rect(Rect2(x,65,7,145),Color("3d302b"))
-	draw_rect(Rect2(0,200,1152,520),Color("a77e55"))
-	for y in range(220,720,40):
-		draw_line(Vector2(0,y),Vector2(1152,y),Color("8d6949"),2)
-	draw_colored_polygon(PackedVector2Array([Vector2(125,244),Vector2(1027,244),Vector2(1090,484),Vector2(62,484)]),Color("c7bd8b"))
-	draw_polyline(PackedVector2Array([Vector2(125,244),Vector2(1027,244),Vector2(1090,484),Vector2(62,484),Vector2(125,244)]),Color("63765e"),7,true)
-	draw_line(Vector2(576,245),Vector2(576,484),Color("a5a077"),3)
-	draw_circle(Vector2(576,363),65,Color("b3ac7c"))
-	draw_rect(Rect2(0,510,1152,210),Color(0.09,0.13,0.12,0.87))
+	draw_texture_rect(ROOM,Rect2(0,0,1152,720),false)
+	var audience: Array=Duel.view.get("spectators",[])
+	for seat in range(8):
+		var point: Vector2=SEATS[seat]
+		for person in audience:
+			if person.seat==seat:
+				draw_texture_rect(PET_BACK,Rect2(point+Vector2(24,-78),Vector2(28,28)),false)
+				draw_texture_rect(SITTING,Rect2(point-Vector2(40,80),Vector2(80,80)),false)
+				draw_string_outline(ThemeDB.fallback_font,point+Vector2(-30,-84),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,4,Color("142535"))
+				draw_string(ThemeDB.fallback_font,point+Vector2(-30,-84),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("ffe15c"))
+		draw_texture_rect(DESK,Rect2(point-Vector2(72,26),Vector2(144,66)),false)
 
 func _process(delta: float) -> void:
-	remaining = maxf(0,remaining-delta)
-	if is_instance_valid(timer_label):
-		timer_label.text = "Tempo: %ds" % ceili(remaining) if remaining > 0 else ""
-
+	remaining=maxf(0,remaining-delta)
+	if is_instance_valid(timer_label): timer_label.text="%ds" % ceili(remaining) if remaining>0 else ""
 func _return() -> void:
 	Duel.act("leave")
 	finished.emit({"game":"math","completed":false})
-
-func _exit_dojo() -> void:
-	_return()
-
+func _exit_dojo() -> void: _return()
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		get_viewport().set_input_as_handled()
 		_return()
+func _fit() -> void:
+	set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+	size=Vector2(1152,720)
+	var viewport_size:=get_viewport_rect().size
+	var factor:=minf(viewport_size.x/1152.0,viewport_size.y/720.0)
+	scale=Vector2.ONE*factor
+	position=(viewport_size-size*factor)/2.0
+
+func _bar_style(color: Color) -> StyleBoxFlat:
+	var box:=StyleBoxFlat.new()
+	box.bg_color=color
+	box.set_corner_radius_all(4)
+	return box

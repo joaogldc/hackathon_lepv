@@ -1,5 +1,6 @@
 extends Node2D
 
+const SIGN := preload("res://scripts/world/direction_sign.gd")
 const GROUND := preload("res://assets/cenario/praca/chao.png")
 const BUSH := preload("res://assets/cenario/praca/arbusto.png")
 const BENCH := preload("res://assets/cenario/praca/banco.png")
@@ -8,6 +9,8 @@ const COMMERCE := preload("res://scenes/world/commerce.tscn")
 const MAP := preload("res://scripts/world/world_map.gd")
 var bamboo_view: Node2D
 var fountain: Sprite2D
+var world_hud: Control
+var login_panel: PanelContainer
 var commerce_view: Node2D
 var title_label: Label
 var bears: Dictionary = {}
@@ -23,10 +26,20 @@ var game_view: Control
 var portal_button: Button
 var current_zone := "lobby"
 var nearby_portal := ""
+var result_dialog: AcceptDialog
+var transition_tween: Tween
 var exit_armed := false
 var map_view: Control
+var signs: Array[Node2D] = []
 
 func _ready() -> void:
+	var sign_positions := {"commerce": Vector2(715,340), "math": Vector2(117,420), "science": Vector2(1020,420), "language": Vector2(715,620)}
+	for destination in sign_positions:
+		var sign_board := SIGN.new()
+		sign_board.destination = destination
+		sign_board.position = sign_positions[destination]
+		add_child(sign_board)
+		signs.append(sign_board)
 	commerce_view = COMMERCE.instantiate()
 	commerce_view.visible = false
 	add_child(commerce_view)
@@ -42,6 +55,7 @@ func _ready() -> void:
 	_build_ui()
 	Network.status_changed.connect(func(message: String): status_label.text = message)
 	Network.roster_changed.connect(_sync_players)
+	Duel.result_received.connect(_show_result)
 	game_layer = CanvasLayer.new()
 	game_layer.layer = 10
 	add_child(game_layer)
@@ -64,24 +78,28 @@ func _process(_delta: float) -> void:
 	Network.set_movement(movement)
 	host_button.disabled = Network.active or OS.has_feature("web")
 	join_button.disabled = Network.active
+	var has_profile := Network.players.has(multiplayer.get_unique_id())
+	login_panel.visible = not has_profile
+	world_hud.visible = has_profile
+	count_label.visible = false
 	nearby_portal = ""
 	var id := multiplayer.get_unique_id()
-	if current_zone in Minigames.WORLD_ZONES and Network.players.has(id):
-		nearby_portal = Minigames.nearest(Network.players[id].position, current_zone)
 	portal_button.visible = false
-	if nearby_portal.is_empty() or (Network.players.has(id) and Network.players[id].position.distance_to(Minigames.portal(nearby_portal).position) > 35.0):
+	if current_zone in Minigames.WORLD_ZONES and Network.players.has(id):
+		nearby_portal = Minigames.exit_at(Network.players[id].position,current_zone)
+	if nearby_portal.is_empty():
 		exit_armed = true
-	elif exit_armed and not is_instance_valid(map_view) and Network.players.has(id):
-		var point: Vector2 = Minigames.portal(nearby_portal).position
-		if Network.players[id].position.distance_to(point) < 28.0:
-			exit_armed = false
-			Network.request_zone(nearby_portal)
-	if portal_button.visible:
-		portal_button.text = "Entrar: %s  [E]" % Minigames.portal(nearby_portal).title
+	elif exit_armed and not is_instance_valid(map_view):
+		exit_armed = false
+		Network.request_zone(nearby_portal)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and not event.echo:
 		if Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
+			if event.physical_keycode == KEY_P and current_zone in Minigames.WORLD_ZONES:
+				world_hud.toggle_passport()
+				get_viewport().set_input_as_handled()
+				return
 			if event.physical_keycode == KEY_M:
 				_toggle_map()
 				get_viewport().set_input_as_handled()
@@ -124,7 +142,20 @@ func _enter_portal() -> void:
 func _set_zone(zone: String) -> void:
 	if zone == current_zone:
 		return
+	var previous_zone := current_zone
 	current_zone = zone
+	if transition_tween:
+		transition_tween.kill()
+	position = Vector2.ZERO
+	if zone in Minigames.WORLD_ZONES:
+		var offset := Vector2(0,24)
+		if previous_zone == "lobby" and zone == "math":
+			offset = Vector2(0,35)
+		elif previous_zone == "math" and zone == "lobby":
+			offset = Vector2(55,0)
+		position = offset
+		transition_tween = create_tween()
+		transition_tween.tween_property(self,"position",Vector2.ZERO,0.28).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	exit_armed = false
 	_close_map()
 	if is_instance_valid(game_view):
@@ -134,7 +165,9 @@ func _set_zone(zone: String) -> void:
 	commerce_view.visible = zone == "commerce"
 	bamboo_view.visible = zone == "math"
 	fountain.visible = zone == "lobby"
-	title_label.text = "MUNDO DOS URSOS  /  " + ("Área comercial" if zone == "commerce" else ("Bosque de bambu" if zone == "math" else "Praça dos encontros"))
+	for sign_board in signs:
+		sign_board.visible = zone == "lobby"
+	title_label.text = "MUNDO DOS URSOS  /  " + ("Área comercial" if zone == "commerce" else ("Bosque da Matemática" if zone == "math" else "Praça dos encontros"))
 	queue_redraw()
 	if zone in Minigames.WORLD_ZONES:
 		get_viewport().gui_release_focus()
@@ -184,7 +217,13 @@ func _build_ui() -> void:
 	var layer := CanvasLayer.new()
 	hud = layer
 	add_child(layer)
+	world_hud = load("res://scripts/world/world_hud.gd").new()
+	layer.add_child(world_hud)
+	world_hud.visible = false
+	world_hud.map_requested.connect(_toggle_map)
+	world_hud.travel_requested.connect(_travel_from_map)
 	var panel := PanelContainer.new()
+	login_panel = panel
 	panel.position = Vector2(24, 18)
 	panel.size = Vector2(1104, 170)
 	layer.add_child(panel)
@@ -230,12 +269,14 @@ func _build_ui() -> void:
 	var help := Label.new()
 	help.text = "WASD / setas: andar  •  Passe nas setas para sair  •  M: mapa da ilha"
 	help.position = Vector2(390, 652)
+	help.visible = false
 	layer.add_child(help)
 	portal_button = _button(layer, "Entrar no portal  [E]", _enter_portal)
 	portal_button.position = Vector2(375, 680)
 	portal_button.size = Vector2(410, 32)
 	portal_button.visible = false
 	var map_button := _button(layer, "Mapa [M]", _toggle_map)
+	map_button.visible = false
 	map_button.position = Vector2(980, 130)
 	map_button.size = Vector2(125, 36)
 
@@ -254,7 +295,6 @@ func _draw() -> void:
 		draw_texture_rect(BUSH, Rect2(point - Vector2(45, 38), Vector2(90, 66)), false)
 	for point in [Vector2(365, 340), Vector2(780, 340)]:
 		draw_texture_rect(BENCH, Rect2(point - Vector2(48, 32), Vector2(96, 64)), false)
-	var font := ThemeDB.fallback_font
 	for id in Minigames.PORTALS:
 		if id == "dojo":
 			continue
@@ -267,14 +307,19 @@ func _draw() -> void:
 			angle = PI / 2
 		elif id == "science":
 			angle = -PI / 2
-		draw_set_transform(point, angle)
-		draw_colored_polygon(PackedVector2Array([Vector2(-9,-22), Vector2(9,-22), Vector2(9,0), Vector2(23,0), Vector2(0,25), Vector2(-23,0), Vector2(-9,0)]), portal.color)
-		draw_set_transform(Vector2.ZERO)
-		var text_width := font.get_string_size(portal.title, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-		draw_string(font, point + Vector2(-text_width / 2, 58), portal.title, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("f7ebcd"))
+		load("res://scripts/world/ground_arrow.gd").paint(self,point,angle)
 
 func _ground_style() -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = Color("60866a")
 	style.set_corner_radius_all(32)
 	return style
+
+func _show_result(result: Dictionary) -> void:
+	var mine: int = result.ids.find(multiplayer.get_unique_id())
+	if not is_instance_valid(result_dialog):
+		result_dialog = AcceptDialog.new()
+		add_child(result_dialog)
+	result_dialog.title = "Empate" if result.winner == -1 else ("Vitória!" if result.winner == mine else "Derrota")
+	result_dialog.dialog_text = result.feedback
+	result_dialog.popup_centered(Vector2i(440,160))

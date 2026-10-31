@@ -1,5 +1,7 @@
 extends Node2D
 ## Optional Inkscape exports: assets/characters/brown/{front,back,left,right}.png.
+const PET := preload("res://scripts/player/pet_companion.gd")
+var pet: Node2D
 var direction := "front"
 var nickname := "Urso"
 var target := Vector2.ZERO
@@ -11,6 +13,9 @@ var moving := false
 const FACES := {"front": "S", "back": "N", "left": "E", "right": "E", "front_right": "SE", "front_left": "SE", "back_right": "NE", "back_left": "NE"}
 
 func _ready() -> void:
+	pet=PET.new()
+	add_child(pet)
+	pet.configure(direction,false)
 	for face in ["S", "N", "E", "NE", "SE"]:
 		for action in ["idle", "walk"]:
 			var frames: Array[Texture2D] = []
@@ -31,23 +36,22 @@ func _process(delta: float) -> void:
 		animation_time = 0.0
 	animation_time += delta
 	position = position.lerp(target, 1.0 - exp(-18.0 * delta))
+	pet.configure(direction,moving)
 	z_index = int(position.y)
 	queue_redraw()
 
 func _draw() -> void:
-	draw_set_transform(Vector2.ZERO, 0.0, Vector2(1, 0.3))
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2(0.7, 0.21))
 	draw_circle(Vector2.ZERO, 27, Color(0.05, 0.12, 0.1, 0.25))
-	draw_set_transform(Vector2.ZERO)
-	if local_player:
-		draw_arc(Vector2(0, -4), 32, 0, TAU, 40, Color("f3ce79"), 2, true)
+	draw_set_transform(Vector2.ZERO,0.0,Vector2(0.7,0.7))
 	var face: String = FACES.get(direction, "S")
 	var frames: Array = animation_frames.get(face + ("_walk" if moving else "_idle"), [])
 	if not frames.is_empty():
 		var frame: Texture2D = frames[int(animation_time * (8.0 if moving else 2.0)) % frames.size()]
 		var flip := direction in ["left", "front_left", "back_left"]
-		draw_set_transform(Vector2.ZERO, 0.0, Vector2(-1 if flip else 1, 1))
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2(-0.7 if flip else 0.7, 0.7))
 		draw_texture_rect(frame, Rect2(-48, -96, 96, 96), false)
-		draw_set_transform(Vector2.ZERO)
+		draw_set_transform(Vector2.ZERO,0.0,Vector2(0.7,0.7))
 	elif textures.has(direction):
 		draw_texture_rect(textures[direction], Rect2(-48, -88, 96, 96), false)
 	else:
@@ -66,6 +70,8 @@ func _draw() -> void:
 				draw_circle(Vector2(-11 + offset, -50), 3, Color("342c2a"))
 			if direction != "left":
 				draw_circle(Vector2(11 + offset, -50), 3, Color("342c2a"))
+	draw_set_transform(Vector2.ZERO)
 	var font := ThemeDB.fallback_font
 	var width := font.get_string_size(nickname, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
-	draw_string(font, Vector2(-width / 2, -85), nickname, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color("fff2d9"))
+	draw_string_outline(font,Vector2(-width/2,-68),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,5,Color("142535"))
+	draw_string(font,Vector2(-width/2,-68),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color("ffe15c"))

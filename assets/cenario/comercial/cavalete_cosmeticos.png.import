@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tiwj8gd4rf5o"
-path="res://.godot/imported/urso_sprites.svg-f8a955f94009f064c9fad7c2740e3b2e.ctex"
+uid="uid://dnlm6awoum0i0"
+path="res://.godot/imported/cavalete_cosmeticos.png-ffd3cce96532c16044823989b2206190.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/urso/fonte/urso_sprites.svg"
-dest_files=["res://.godot/imported/urso_sprites.svg-f8a955f94009f064c9fad7c2740e3b2e.ctex"]
+source_file="res://assets/cenario/comercial/cavalete_cosmeticos.png"
+dest_files=["res://.godot/imported/cavalete_cosmeticos.png-ffd3cce96532c16044823989b2206190.ctex"]
 
 [params]
 
@@ -38,6 +38,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

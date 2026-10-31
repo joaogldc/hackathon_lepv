@@ -1,5 +1,17 @@
 # Verificações — 30/10/2026
 
+## Atualização visual — 31/10/2026
+
+- Importação e inicialização no Godot 4.7.2 sem erros de script.
+- Praça, bosque e sala de aula renderizados e inspecionados: placas e bambus
+  ocultam o urso quando ele está atrás; mesas e espectadores maiores.
+- Círculo de seleção removido; pet flutua à altura do ombro.
+- Placas extraídas do vetor original, com texto renderizado pelo Godot:
+  Bosque da Matemática, Floresta de Ciências e Geleira do Português.
+
+As seções abaixo registram verificações das etapas anteriores; algumas descrevem
+comportamentos que foram substituídos nas etapas seguintes.
+
 Executado com Godot **4.7.2.stable.official.ed1daf0bf**, Windows:
 
 | Verificação | Resultado |
@@ -98,3 +110,9 @@ validação de turnos, revanche e desconexão. Código 0 nos dois processos do t
 Aplicados todos os quatro tipos de PNG da praça de `fcabd3d`. Colisão da fonte,
 pontos de retorno, bosque caminhável, acesso ao dojo e duelo em dois processos
 verificados no Godot 4.7.2. Capturas inspecionadas. Veja [PRACA_E_BOSQUE.md](PRACA_E_BOSQUE.md).
+
+## Sala de aula, espectadores e resultados
+
+Testados três processos em quatro casos de abandono, espectadores sem permissão
+de jogar, partida completa e transições por borda. Novas artes renderizadas e
+inspecionadas. Detalhes e limites em [SALA_DE_AULA.md](SALA_DE_AULA.md).

@@ -13,9 +13,9 @@ func _ready() -> void:
 	add_child(lobby)
 	host_mode = "--test-host" in OS.get_cmdline_user_args()
 	if host_mode:
-		Network.host("Host")
+		Network.host("Host",false,19081)
 	else:
-		Network.join_room("Client", "ws://127.0.0.1:9080")
+		Network.join_room("Client", "ws://127.0.0.1:19081")
 
 func _process(delta: float) -> void:
 	elapsed += delta

@@ -4,9 +4,9 @@ signal destination_selected(destination: String)
 signal close_requested
 const DESTINATIONS := {
 	"commerce": {"label": "Vila das lojas", "detail": "Cosméticos e pets", "rect": Rect2(465, 211, 222, 65)},
-	"math": {"label": "Bosque de bambu", "detail": "Duelo matemático", "rect": Rect2(213, 343, 222, 65)},
-	"science": {"label": "Floresta", "detail": "Foguete de ciências", "rect": Rect2(718, 343, 222, 65)},
-	"language": {"label": "Porto de gelo", "detail": "Barco de português", "rect": Rect2(465, 523, 222, 65)},
+	"math": {"label": "Bosque da Matemática", "detail": "Duelo matemático", "rect": Rect2(213, 343, 222, 65)},
+	"science": {"label": "Floresta de Ciências", "detail": "Minijogo de ciências", "rect": Rect2(718, 343, 222, 65)},
+	"language": {"label": "Geleira do Português", "detail": "Minijogo de português", "rect": Rect2(465, 523, 222, 65)},
 	"lobby": {"label": "Praça dos encontros", "detail": "Lobby", "rect": Rect2(465, 363, 222, 65)}
 }
 var zone := "lobby"

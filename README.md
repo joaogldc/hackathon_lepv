@@ -2,7 +2,7 @@
 
 > Mundo social online 2D em que aprender gera conquistas, moedas e novas formas de se expressar entre amigos.
 
-**Status:** início da implementação da pessoa 1: lobby provisório, movimento em quatro direções e rede WebSocket. Os demais sistemas abaixo descrevem o escopo planejado.
+**Status:** protótipo jogável com praça, área comercial, Bosque da Matemática, rede WebSocket, duelo matemático 1x1, espectadores e pet acompanhante. Os sistemas descritos mais abaixo também incluem funcionalidades planejadas.
 
 **Tecnologias:** Godot **4.7.2** (versão informada), GDScript e arte em produção no Inkscape.
 **Nome do jogo:** provisório.
@@ -10,6 +10,10 @@
 **Executar:** importar `project.godot` e pressionar F5. Criar uma sala na primeira janela e entrar na segunda com `ws://127.0.0.1:9080`. Veja [desenvolvimento e testes](docs/DESENVOLVIMENTO.md) e o [padrão dos exports do urso](assets/characters/brown/README.md).
 
 **Novo:** duelo matemático 1x1 com fila, cartas, multiplicação, energia e resultado. [Como jogar e integrar a arte do dojo](docs/DUELO_MATEMATICO.md).
+
+**Versão local sincronizada em 31/10/2026:** HUD e cartas integradas, plateia sentada, vitória por abandono, transições pelas bordas, colisões e profundidade dos objetos, placas vetoriais e peixe acompanhante. **M** abre o mapa para viajar; **P** abre o passaporte da sessão. Veja [sala de aula](docs/SALA_DE_AULA.md), [HUD](docs/HUD_INTEGRADA.md) e [pet](docs/PET_PEIXE.md).
+
+O projeto inclui cenas, scripts, artes, configurações de importação e testes. O Godot recria a pasta `.godot` ao importar. Não é necessário copiar caches, baixar o motor de teste ou executar os scripts de preparação das imagens para jogar. Esses scripts opcionais ficam em `scripts/tools`; o de recorte do pet usa Python com Pillow.
 
 ## Cena de cartas
 

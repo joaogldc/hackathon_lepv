@@ -2,12 +2,14 @@ extends Node
 ## The server owns positions. Clients send only a movement intent.
 signal status_changed(message: String)
 signal roster_changed
+signal leaving_zone(id: int, destination: String)
 
 const GEOMETRY := preload("res://scripts/world/world_geometry.gd")
 const PORT := 9080
 const SPEED := 190.0
 const BOUNDS := Rect2(72, 230, 1008, 400)
 const MAX_PLAYERS := 8
+const SPAWNS := [Vector2(420,535),Vector2(520,535),Vector2(620,535),Vector2(720,535),Vector2(435,575),Vector2(525,575),Vector2(615,575),Vector2(705,575)]
 var players: Dictionary = {}
 var intents: Dictionary = {}
 var nickname := "Urso"
@@ -23,22 +25,22 @@ func _ready() -> void:
 	multiplayer.server_disconnected.connect(func(): leave("O servidor encerrou a sala."))
 	multiplayer.peer_disconnected.connect(_disconnected)
 
-func host(player_name: String, headless := false) -> Error:
+func host(player_name: String, headless := false, server_port := PORT) -> Error:
 	leave("")
 	if OS.has_feature("web"):
 		status_changed.emit("No navegador, conecte a um servidor aberto no aplicativo Godot.")
 		return ERR_UNAVAILABLE
 	var peer := WebSocketMultiplayerPeer.new()
-	var error := peer.create_server(PORT)
+	var error := peer.create_server(server_port)
 	if error != OK:
-		status_changed.emit("Não foi possível abrir a porta %d: %s" % [PORT, error_string(error)])
+		status_changed.emit("Não foi possível abrir a porta %d: %s" % [server_port, error_string(error)])
 		return error
 	multiplayer.multiplayer_peer = peer
 	active = true
 	dedicated = headless
 	if not dedicated:
 		_add_player(1, player_name)
-	status_changed.emit("Sala aberta • porta %d" % PORT)
+	status_changed.emit("Sala aberta • porta %d" % server_port)
 	return OK
 
 func join_room(player_name: String, url: String) -> Error:
@@ -88,12 +90,18 @@ func _add_player(id: int, player_name: String) -> void:
 	var clean := player_name.strip_edges().replace("\n", " ").replace("\r", " ").left(18)
 	if clean.is_empty():
 		clean = "Urso"
-	players[id] = {"nickname": clean, "position": Vector2(300 + (players.size() % 4) * 55, 530 + (players.size() / 4) * 40), "direction": "front", "zone": "lobby", "destination": null}
+	var occupied: Array = players.values().map(func(player): return player.get("spawn_slot", -1))
+	var slot := 0
+	while occupied.has(slot) and slot < SPAWNS.size()-1:
+		slot += 1
+	players[id] = {"spawn_slot": slot, "nickname": clean, "position": SPAWNS[slot], "direction": "front", "zone": "lobby", "destination": null}
+	players[id].position = GEOMETRY.safe_position("lobby",players[id].position)
 	intents[id] = {"vector": Vector2.ZERO, "age": 0.0}
 	roster_changed.emit()
 
 func _disconnected(id: int) -> void:
 	if multiplayer.is_server():
+		leaving_zone.emit(id, "disconnected")
 		players.erase(id)
 		intents.erase(id)
 		roster_changed.emit()
@@ -163,19 +171,42 @@ func _change_zone(id: int, destination: String, from_map := false) -> void:
 		elif previous in ["language", "science"] and destination == "lobby":
 			pass
 		else:
-			if Minigames.nearest(players[id].position, previous) != destination:
+			if Minigames.exit_at(players[id].position, previous) != destination:
 				return
-			if players[id].position.distance_to(Minigames.portal(destination).position) > 30.0:
-				return
+	leaving_zone.emit(id, destination)
 	if previous == "lobby":
-		players[id].lobby_position = players[id].position if from_map else players[id].position.move_toward(Vector2(576, 447), 110.0)
+		players[id].lobby_position = players[id].position if from_map else players[id].position.move_toward(Vector2(576, 447), 70.0)
 	if destination == "lobby":
-		players[id].position = players[id].get("lobby_position", Vector2(350, 450))
+		if not from_map and previous == "math":
+			players[id].position = Vector2(175,Minigames.PORTALS.math.position.y)
+		elif not from_map and previous == "commerce":
+			players[id].position = Vector2(players[id].position.x,325)
+		else:
+			players[id].position = players[id].get("lobby_position", Vector2(350,450))
 	elif destination == "commerce":
-		players[id].position = Vector2(576, 465)
+		players[id].position = Vector2(players[id].position.x,585) if not from_map else Vector2(576,530)
 	elif destination == "math":
-		players[id].position = Vector2(576, 490)
+		if previous == "dojo":
+			players[id].position = Vector2(560,500)
+		else:
+			players[id].position = Vector2(576,580)
 	players[id].position = GEOMETRY.safe_position(destination, players[id].position)
+	players[id].entry_until = 0
+	players[id].entry_motion = Vector2.ZERO
+	if not from_map and destination in Minigames.WORLD_ZONES:
+		var entry_motion := Vector2.ZERO
+		if previous == "lobby" and destination == "math":
+			entry_motion = Vector2.UP
+		elif previous == "math" and destination == "lobby":
+			entry_motion = Vector2.RIGHT
+		elif previous == "lobby" and destination == "commerce":
+			entry_motion = Vector2.UP
+		elif previous == "commerce" and destination == "lobby":
+			entry_motion = Vector2.DOWN
+		elif previous == "dojo" and destination == "math":
+			entry_motion = Vector2.ZERO
+		players[id].entry_motion = entry_motion
+		players[id].entry_until = Time.get_ticks_msec() + 260
 	players[id].zone = destination
 	players[id].destination = null
 	intents[id] = {"vector": Vector2.ZERO, "age": 0.0}
@@ -209,6 +240,8 @@ func _physics_process(delta: float) -> void:
 			var intent: Dictionary = intents[id]
 			intent.age += delta
 			var motion: Vector2 = intent.vector if intent.age < 0.5 else Vector2.ZERO
+			if Time.get_ticks_msec() < players[id].get("entry_until", 0):
+				motion = players[id].get("entry_motion", Vector2.ZERO)
 			if motion != Vector2.ZERO:
 				players[id].destination = null
 			if players[id].zone not in Minigames.WORLD_ZONES:
