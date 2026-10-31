@@ -11,6 +11,12 @@
 
 **Novo:** duelo matemático 1x1 com fila, cartas, multiplicação, energia e resultado. [Como jogar e integrar a arte do dojo](docs/DUELO_MATEMATICO.md).
 
+## Cena de cartas
+
+Captura enviada pelo usuário da versão atual do dojo.
+
+![Dojo com os ursos e cartas em leque](docs/imagens/cena_cartas.png)
+
 ## Índice
 
 - [Visão do produto](#visão-do-produto)
