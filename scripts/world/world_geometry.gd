@@ -26,10 +26,15 @@ static func blocked(zone: String, point: Vector2) -> bool:
 		for shop in [Rect2(159, 355, 300, 57), Rect2(694, 355, 300, 57)]:
 			if shop.has_point(point):
 				return true
-		for lamp in [Vector2(528.56, 446.22), Vector2(623.44, 446.22)]:
+		if Rect2(505, 412, 142, 24).has_point(point):
+			return true
+		for table in [Vector2(282.75, 552.19), Vector2(869.25, 552.19)]:
+			if ((point - table) / Vector2(38, 21)).length_squared() < 1.0:
+				return true
+		for lamp in [Vector2(239.63, 470.44), Vector2(912.38, 470.44)]:
 			if point.distance_to(lamp) < 11.0:
 				return true
-		for sign_board in [Vector2(429.38, 458.33), Vector2(722.63, 458.33)]:
+		for sign_board in [Vector2(429.38, 452.28), Vector2(722.63, 452.28)]:
 			if point.distance_to(sign_board) < 17.0:
 				return true
 

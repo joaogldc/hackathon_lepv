@@ -1,17 +1,18 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/cenario/comercial/chao_comercial.png" id="2_r"]
 [ext_resource type="Texture2D" path="res://assets/cenario/comercial/vitrine_vidro.png" id="3_r"]
 [ext_resource type="Script" path="res://scripts/world/shop_window.gd" id="4_r"]
 [ext_resource type="Texture2D" path="res://assets/cenario/comercial/loja_pets.png" id="5_r"]
 [ext_resource type="Texture2D" path="res://assets/cenario/comercial/loja_cosmeticos.png" id="6_r"]
-[ext_resource type="Texture2D" path="res://assets/cenario/comercial/poste_luz.png" id="7_r"]
-[ext_resource type="Texture2D" path="res://assets/cenario/comercial/floreira.png" id="8_r"]
-[ext_resource type="Texture2D" path="res://assets/cenario/comercial/cavalete_pets.png" id="9_r"]
-[ext_resource type="Texture2D" path="res://assets/cenario/comercial/cavalete_cosmeticos.png" id="10_r"]
-[ext_resource type="Texture2D" path="res://assets/cenario/placas/placa_esquerda_loja_pets.png" id="11_r"]
-[ext_resource type="Texture2D" path="res://assets/cenario/placas/placa_direita_cosmeticos.png" id="12_r"]
-[ext_resource type="Texture2D" path="res://assets/cenario/placas/placa_sul_praca.png" id="13_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/food_truck.png" id="7_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/poste_luz.png" id="8_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/mesa_bistro.png" id="9_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/mesa_bistro_azul.png" id="11_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/floreira.png" id="12_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/cavalete_pets.png" id="13_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/cavalete_cosmeticos.png" id="14_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/placas/placa_sul_praca.png" id="15_r"]
 [node name="CommerceArt" type="Node2D"]
 
 [node name="Fundo" type="Sprite2D" parent="."]
@@ -152,89 +153,81 @@ position = Vector2(114, 98)
 texture = ExtResource("3_r")
 centered = false
 
-[node name="PosteLuz1" type="Sprite2D" parent="Objetos"]
-position = Vector2(528.56250, 446.22222)
+[node name="FoodTruck1" type="Sprite2D" parent="Objetos"]
+position = Vector2(576.00000, 428.05556)
 texture = ExtResource("7_r")
+offset = Vector2(0, -95)
+scale = Vector2(0.605556, 0.605556)
+z_index = 428
+z_as_relative = false
+
+[node name="PosteLuz1" type="Sprite2D" parent="Objetos"]
+position = Vector2(239.62500, 470.44444)
+texture = ExtResource("8_r")
 offset = Vector2(0, -102.5)
 scale = Vector2(0.605556, 0.605556)
-z_index = 446
+z_index = 470
 z_as_relative = false
 
 [node name="PosteLuz2" type="Sprite2D" parent="Objetos"]
-position = Vector2(623.43750, 446.22222)
-texture = ExtResource("7_r")
+position = Vector2(912.37500, 470.44444)
+texture = ExtResource("8_r")
 offset = Vector2(0, -102.5)
 scale = Vector2(0.605556, 0.605556)
-z_index = 446
+z_index = 470
+z_as_relative = false
+
+[node name="MesaBistro1" type="Sprite2D" parent="Objetos"]
+position = Vector2(282.75000, 552.19444)
+texture = ExtResource("9_r")
+offset = Vector2(0, -77.5)
+scale = Vector2(0.605556, 0.605556)
+z_index = 552
+z_as_relative = false
+
+[node name="MesaBistroAzul1" type="Sprite2D" parent="Objetos"]
+position = Vector2(869.25000, 552.19444)
+texture = ExtResource("11_r")
+offset = Vector2(0, -77.5)
+scale = Vector2(0.605556, 0.605556)
+z_index = 552
 z_as_relative = false
 
 [node name="Floreira1" type="Sprite2D" parent="Objetos"]
-position = Vector2(84.37500, 488.61111)
-texture = ExtResource("8_r")
+position = Vector2(101.62500, 621.83333)
+texture = ExtResource("12_r")
 offset = Vector2(0, -28)
 scale = Vector2(0.605556, 0.605556)
-z_index = 489
+z_index = 622
 z_as_relative = false
 
 [node name="Floreira2" type="Sprite2D" parent="Objetos"]
-position = Vector2(1067.62500, 488.61111)
-texture = ExtResource("8_r")
+position = Vector2(1050.37500, 621.83333)
+texture = ExtResource("12_r")
 offset = Vector2(0, -28)
 scale = Vector2(0.605556, 0.605556)
-z_index = 489
-z_as_relative = false
-
-[node name="Floreira3" type="Sprite2D" parent="Objetos"]
-position = Vector2(84.37500, 615.77778)
-texture = ExtResource("8_r")
-offset = Vector2(0, -28)
-scale = Vector2(0.605556, 0.605556)
-z_index = 616
-z_as_relative = false
-
-[node name="Floreira4" type="Sprite2D" parent="Objetos"]
-position = Vector2(1067.62500, 615.77778)
-texture = ExtResource("8_r")
-offset = Vector2(0, -28)
-scale = Vector2(0.605556, 0.605556)
-z_index = 616
+z_index = 622
 z_as_relative = false
 
 [node name="CavaletePets1" type="Sprite2D" parent="Objetos"]
-position = Vector2(429.37500, 458.33333)
-texture = ExtResource("9_r")
+position = Vector2(429.37500, 452.27778)
+texture = ExtResource("13_r")
 offset = Vector2(0, -74)
 scale = Vector2(0.605556, 0.605556)
-z_index = 458
+z_index = 452
 z_as_relative = false
 
 [node name="CavaleteCosmeticos1" type="Sprite2D" parent="Objetos"]
-position = Vector2(722.62500, 458.33333)
-texture = ExtResource("10_r")
+position = Vector2(722.62500, 452.27778)
+texture = ExtResource("14_r")
 offset = Vector2(0, -74)
 scale = Vector2(0.605556, 0.605556)
-z_index = 458
-z_as_relative = false
-
-[node name="PlacaLojaPets" type="Sprite2D" parent="Objetos"]
-position = Vector2(282.75000, 591.55556)
-texture = ExtResource("11_r")
-offset = Vector2(0, -140)
-scale = Vector2(0.333056, 0.333056)
-z_index = 592
-z_as_relative = false
-
-[node name="PlacaCosmeticos" type="Sprite2D" parent="Objetos"]
-position = Vector2(869.25000, 591.55556)
-texture = ExtResource("12_r")
-offset = Vector2(0, -140)
-scale = Vector2(0.333056, 0.333056)
-z_index = 592
+z_index = 452
 z_as_relative = false
 
 [node name="PlacaPraca" type="Sprite2D" parent="Objetos"]
-position = Vector2(386.25000, 635.15556)
-texture = ExtResource("13_r")
+position = Vector2(239.62500, 635.15556)
+texture = ExtResource("15_r")
 offset = Vector2(0, -140)
 scale = Vector2(0.333056, 0.333056)
 z_index = 635

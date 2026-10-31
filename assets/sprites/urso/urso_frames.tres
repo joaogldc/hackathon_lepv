@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=40 format=3]
+[gd_resource type="SpriteFrames" load_steps=44 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/sprites/urso/urso_spritesheet.png" id="1_sheet"]
 
@@ -153,6 +153,22 @@ region = Rect2(1536, 1280, 256, 256)
 [sub_resource type="AtlasTexture" id="AtlasTexture_37"]
 atlas = ExtResource("1_sheet")
 region = Rect2(1792, 1280, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_38"]
+atlas = ExtResource("1_sheet")
+region = Rect2(0, 1536, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_39"]
+atlas = ExtResource("1_sheet")
+region = Rect2(256, 1536, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40"]
+atlas = ExtResource("1_sheet")
+region = Rect2(512, 1536, 256, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41"]
+atlas = ExtResource("1_sheet")
+region = Rect2(768, 1536, 256, 256)
 
 [resource]
 animations = [{
@@ -347,4 +363,29 @@ animations = [{
 "loop": false,
 "name": &"mao_N",
 "speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_38")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_39")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40")
+}],
+"loop": false,
+"name": &"sentar",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_40")
+}, {
+"duration": 0.25,
+"texture": SubResource("AtlasTexture_41")
+}],
+"loop": true,
+"name": &"sentado",
+"speed": 1.0
 }]

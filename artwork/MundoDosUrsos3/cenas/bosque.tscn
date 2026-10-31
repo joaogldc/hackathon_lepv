@@ -1,0 +1,237 @@
+[gd_scene load_steps=23 format=3]
+
+[ext_resource type="Script" path="res://scripts/cena.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/bosque/chao_bosque.png" id="2_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/bosque/dojo.png" id="3_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/bosque/lanterna_de_pedra.png" id="4_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/bosque/tsukubai.png" id="5_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/bosque/cerca_bambu.png" id="6_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/bosque/bambuzal_a.png" id="7_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/bosque/bambuzal_b.png" id="8_r"]
+[ext_resource type="PackedScene" path="res://cenas/urso.tscn" id="9_r"]
+[ext_resource type="Script" path="res://scripts/porta.gd" id="10_r"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0"]
+normal = Vector2(0, 1)
+distance = 330.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1"]
+normal = Vector2(0, -1)
+distance = -720.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2"]
+normal = Vector2(1, 0)
+distance = 0.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3"]
+normal = Vector2(-1, 0)
+distance = -1280.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4"]
+size = Vector2(540, 80)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5"]
+radius = 22.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6"]
+radius = 36.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7"]
+size = Vector2(200, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8"]
+size = Vector2(170, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_9"]
+size = Vector2(110, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10"]
+size = Vector2(90, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11"]
+size = Vector2(260, 12)
+
+[node name="Bosque" type="Node2D"]
+script = ExtResource("1_r")
+
+[node name="Fundo" type="Sprite2D" parent="."]
+texture = ExtResource("2_r")
+centered = false
+
+[node name="Bordas" type="StaticBody2D" parent="."]
+
+[node name="Borda0" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_0")
+
+[node name="Borda1" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_1")
+
+[node name="Borda2" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_2")
+
+[node name="Borda3" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_3")
+
+[node name="Objetos" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Dojo1" type="Sprite2D" parent="Objetos"]
+position = Vector2(640, 432)
+texture = ExtResource("3_r")
+offset = Vector2(0, -177.5)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Dojo1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Dojo1/Corpo"]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_4")
+
+[node name="LanternaDePedra1" type="Sprite2D" parent="Objetos"]
+position = Vector2(470, 480)
+texture = ExtResource("4_r")
+offset = Vector2(0, -67.5)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/LanternaDePedra1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/LanternaDePedra1/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_5")
+
+[node name="LanternaDePedra2" type="Sprite2D" parent="Objetos"]
+position = Vector2(815, 480)
+texture = ExtResource("4_r")
+offset = Vector2(0, -67.5)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/LanternaDePedra2"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/LanternaDePedra2/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_5")
+
+[node name="Tsukubai1" type="Sprite2D" parent="Objetos"]
+position = Vector2(900, 560)
+texture = ExtResource("5_r")
+offset = Vector2(0, -34)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Tsukubai1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Tsukubai1/Corpo"]
+position = Vector2(0, -12)
+shape = SubResource("CircleShape2D_6")
+
+[node name="CercaBambu1" type="Sprite2D" parent="Objetos"]
+position = Vector2(450, 610)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/CercaBambu1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/CercaBambu1/Corpo"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_7")
+
+[node name="CercaBambu2" type="Sprite2D" parent="Objetos"]
+position = Vector2(830, 610)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/CercaBambu2"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/CercaBambu2/Corpo"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_7")
+
+[node name="BambuzalA1" type="Sprite2D" parent="Objetos"]
+position = Vector2(90, 470)
+texture = ExtResource("7_r")
+offset = Vector2(0, -305)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/BambuzalA1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/BambuzalA1/Corpo"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_8")
+
+[node name="BambuzalB1" type="Sprite2D" parent="Objetos"]
+position = Vector2(250, 560)
+texture = ExtResource("8_r")
+offset = Vector2(0, -265)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/BambuzalB1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/BambuzalB1/Corpo"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_9")
+
+[node name="BambuzalA2" type="Sprite2D" parent="Objetos"]
+position = Vector2(1190, 480)
+texture = ExtResource("7_r")
+offset = Vector2(0, -305)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/BambuzalA2"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/BambuzalA2/Corpo"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_8")
+
+[node name="BambuzalB2" type="Sprite2D" parent="Objetos"]
+position = Vector2(1030, 580)
+texture = ExtResource("8_r")
+offset = Vector2(0, -265)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/BambuzalB2"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/BambuzalB2/Corpo"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_9")
+
+[node name="BambuzalB3" type="Sprite2D" parent="Objetos"]
+position = Vector2(40, 740)
+texture = ExtResource("8_r")
+offset = Vector2(0, -265)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/BambuzalB3"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/BambuzalB3/Corpo"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_9")
+
+[node name="BambuzalB4" type="Sprite2D" parent="Objetos"]
+position = Vector2(1250, 745)
+texture = ExtResource("8_r")
+offset = Vector2(0, -265)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/BambuzalB4"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/BambuzalB4/Corpo"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_9")
+
+[node name="Urso" parent="Objetos" instance=ExtResource("9_r")]
+position = Vector2(640, 640)
+
+[node name="PortaDojo" type="Area2D" parent="."]
+position = Vector2(640, 446)
+script = ExtResource("10_r")
+destino = "res://cenas/dojo_interior.tscn"
+ponto = "entrada"
+
+[node name="Area" type="CollisionShape2D" parent="PortaDojo"]
+shape = SubResource("RectangleShape2D_10")
+
+[node name="SaidaPraca" type="Area2D" parent="."]
+position = Vector2(640, 716)
+script = ExtResource("10_r")
+destino = "res://cenas/praca.tscn"
+ponto = "chegada_bosque"
+
+[node name="Area" type="CollisionShape2D" parent="SaidaPraca"]
+shape = SubResource("RectangleShape2D_11")
+
+[node name="Pontos" type="Node2D" parent="."]
+
+[node name="chegada_praca" type="Marker2D" parent="Pontos"]
+position = Vector2(640, 640)
+
+[node name="saida_dojo" type="Marker2D" parent="Pontos"]
+position = Vector2(640, 500)

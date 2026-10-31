@@ -1,0 +1,443 @@
+{
+  "assets": {
+    "quest_map": {
+      "file": "hud/mapa-de-descobertas.png",
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": null,
+      "visible_bounds": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "pivot_pixels": [
+        836.0,
+        941
+      ]
+    },
+    "glacial_scene": {
+      "file": "cenario/porto-glacial-conceito.png",
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": null,
+      "visible_bounds": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "pivot_pixels": [
+        836.0,
+        941
+      ]
+    },
+    "ship": {
+      "file": "elementos/navio-polar.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "visible_bounds": [
+        104,
+        22,
+        1472,
+        1000
+      ],
+      "pivot_pixels": [
+        788.0,
+        1000
+      ]
+    },
+    "mammoth": {
+      "file": "elementos/mamute-congelado.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        44,
+        73,
+        1212,
+        1190
+      ],
+      "pivot_pixels": [
+        628.0,
+        1190
+      ]
+    },
+    "smilodon": {
+      "file": "elementos/smilodon-congelado.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        43,
+        164,
+        1211,
+        1119
+      ],
+      "pivot_pixels": [
+        627.0,
+        1119
+      ]
+    },
+    "ground": {
+      "file": "cenario/chao-glacial.png",
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": null,
+      "visible_bounds": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "pivot_pixels": [
+        836.0,
+        941
+      ]
+    },
+    "arch": {
+      "file": "elementos/arco-gruta-gelo.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        29,
+        133,
+        1228,
+        1124
+      ],
+      "pivot_pixels": [
+        628.5,
+        1124
+      ]
+    },
+    "lantern": {
+      "file": "elementos/poste-lanterna.png",
+      "size": [
+        1225,
+        1284
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        270,
+        119,
+        999,
+        1174
+      ],
+      "pivot_pixels": [
+        634.5,
+        1174
+      ]
+    },
+    "fence": {
+      "file": "elementos/cerca-corda.png",
+      "size": [
+        1672,
+        941
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        78,
+        141,
+        1602,
+        843
+      ],
+      "pivot_pixels": [
+        840.0,
+        843
+      ]
+    },
+    "crystals": {
+      "file": "elementos/cristais-gelo.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        108,
+        70,
+        1148,
+        1187
+      ],
+      "pivot_pixels": [
+        628.0,
+        1187
+      ]
+    },
+    "pine": {
+      "file": "elementos/pinheiro-nevado.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bounds": [
+        210,
+        74,
+        1064,
+        1201
+      ],
+      "pivot_pixels": [
+        637.0,
+        1201
+      ]
+    },
+    "fossil": {
+      "file": "elementos/lago-fossil.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "visible_bounds": [
+        33,
+        97,
+        1506,
+        927
+      ],
+      "pivot_pixels": [
+        769.5,
+        927
+      ]
+    }
+  },
+  "layout": [
+    {
+      "asset": "arch",
+      "name": "Gruta",
+      "position": [
+        620,
+        225
+      ],
+      "scale": 0.23713420787083753,
+      "z": 225
+    },
+    {
+      "asset": "pine",
+      "name": "PinheiroNorte",
+      "position": [
+        355,
+        144
+      ],
+      "scale": 0.1002661934338953,
+      "z": 144
+    },
+    {
+      "asset": "pine",
+      "name": "PinheiroOeste",
+      "position": [
+        45,
+        157
+      ],
+      "scale": 0.12067435669920142,
+      "z": 157
+    },
+    {
+      "asset": "mammoth",
+      "name": "Mamute",
+      "position": [
+        168,
+        297
+      ],
+      "scale": 0.2226027397260274,
+      "z": 297
+    },
+    {
+      "asset": "smilodon",
+      "name": "Smilodon",
+      "position": [
+        174,
+        514
+      ],
+      "scale": 0.1857876712328767,
+      "z": 514
+    },
+    {
+      "asset": "fence",
+      "name": "CercaMamute",
+      "position": [
+        252,
+        348
+      ],
+      "scale": 0.14763779527559054,
+      "z": 348
+    },
+    {
+      "asset": "fence",
+      "name": "CercaSmilodon",
+      "position": [
+        253,
+        552
+      ],
+      "scale": 0.13582677165354332,
+      "z": 552
+    },
+    {
+      "asset": "ship",
+      "name": "Navio",
+      "position": [
+        1020,
+        490
+      ],
+      "scale": 0.3472222222222222,
+      "z": 490
+    },
+    {
+      "asset": "fossil",
+      "name": "LagoFossil",
+      "position": [
+        1007,
+        687
+      ],
+      "scale": 0.20027155465037338,
+      "z": -5
+    },
+    {
+      "asset": "crystals",
+      "name": "CristaisA",
+      "position": [
+        372,
+        289
+      ],
+      "scale": 0.06893464637421665,
+      "z": 289
+    },
+    {
+      "asset": "crystals",
+      "name": "CristaisB",
+      "position": [
+        801,
+        287
+      ],
+      "scale": 0.07251566696508505,
+      "z": 287
+    },
+    {
+      "asset": "crystals",
+      "name": "CristaisC",
+      "position": [
+        1115,
+        700
+      ],
+      "scale": 0.06535362578334826,
+      "z": 700
+    },
+    {
+      "asset": "crystals",
+      "name": "CristaisD",
+      "position": [
+        465,
+        659
+      ],
+      "scale": 0.06087735004476276,
+      "z": 659
+    },
+    {
+      "asset": "lantern",
+      "name": "LanternaA",
+      "position": [
+        419,
+        243
+      ],
+      "scale": 0.0909952606635071,
+      "z": 243
+    },
+    {
+      "asset": "lantern",
+      "name": "LanternaB",
+      "position": [
+        808,
+        249
+      ],
+      "scale": 0.0909952606635071,
+      "z": 249
+    },
+    {
+      "asset": "lantern",
+      "name": "LanternaC",
+      "position": [
+        921,
+        476
+      ],
+      "scale": 0.0947867298578199,
+      "z": 476
+    },
+    {
+      "asset": "lantern",
+      "name": "LanternaD",
+      "position": [
+        475,
+        690
+      ],
+      "scale": 0.0985781990521327,
+      "z": 690
+    },
+    {
+      "asset": "pine",
+      "name": "PinheiroSulOeste",
+      "position": [
+        60,
+        705
+      ],
+      "scale": 0.13398402839396628,
+      "z": 705
+    },
+    {
+      "asset": "pine",
+      "name": "PinheiroSulLeste",
+      "position": [
+        1215,
+        704
+      ],
+      "scale": 0.13220940550133098,
+      "z": 704
+    }
+  ],
+  "viewport": [
+    1280,
+    720
+  ]
+}

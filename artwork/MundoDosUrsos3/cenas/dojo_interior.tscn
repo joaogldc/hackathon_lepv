@@ -1,0 +1,439 @@
+[gd_scene load_steps=32 format=3]
+
+[ext_resource type="Script" path="res://scripts/cena.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/dojo_sala/fundo_dojo_sala.png" id="2_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/dojo_sala/estante_livros.png" id="3_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/dojo_sala/taiko.png" id="4_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/dojo_sala/pulpito.png" id="5_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/dojo_sala/mesa_baixa.png" id="6_r"]
+[ext_resource type="PackedScene" path="res://assets/sprites/urso/urso_frames.tres" id="7_r"]
+[ext_resource type="PackedScene" path="res://cenas/urso.tscn" id="8_r"]
+[ext_resource type="Script" path="res://scripts/porta.gd" id="9_r"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0"]
+normal = Vector2(0, 1)
+distance = 345.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1"]
+normal = Vector2(0, -1)
+distance = -720.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2"]
+normal = Vector2(0.802, 0.597)
+distance = 317.3
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3"]
+normal = Vector2(-0.8, 0.595)
+distance = -707.6
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4"]
+radius = 50.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5"]
+radius = 26.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6"]
+size = Vector2(130, 24)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_9"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_12"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_13"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_14"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_15"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_16"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_17"]
+size = Vector2(140, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_18"]
+size = Vector2(140, 18)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_19"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_20"]
+radius = 40.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_21"]
+size = Vector2(200, 16)
+
+[node name="DojoSala" type="Node2D"]
+script = ExtResource("1_r")
+
+[node name="Fundo" type="Sprite2D" parent="."]
+texture = ExtResource("2_r")
+centered = false
+
+[node name="Bordas" type="StaticBody2D" parent="."]
+
+[node name="Borda0" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_0")
+
+[node name="Borda1" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_1")
+
+[node name="Borda2" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_2")
+
+[node name="Borda3" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_3")
+
+[node name="Objetos" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Estante" type="Sprite2D" parent="Objetos"]
+position = Vector2(130, 432)
+texture = ExtResource("3_r")
+offset = Vector2(0, -92.5)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Estante"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Estante/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_6")
+
+[node name="Taiko" type="Sprite2D" parent="Objetos"]
+position = Vector2(1168, 452)
+texture = ExtResource("4_r")
+offset = Vector2(0, -75)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Taiko"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Taiko/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_4")
+
+[node name="Pulpito" type="Sprite2D" parent="Objetos"]
+position = Vector2(866, 362)
+texture = ExtResource("5_r")
+offset = Vector2(0, -51.5)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Pulpito"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Pulpito/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_5")
+
+[node name="Mesa1" type="Sprite2D" parent="Objetos"]
+position = Vector2(294, 446)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(0.885, 0.885)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa1/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_7")
+
+[node name="Mesa2" type="Sprite2D" parent="Objetos"]
+position = Vector2(507, 446)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(0.885, 0.885)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa2"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa2/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_8")
+
+[node name="Mesa3" type="Sprite2D" parent="Objetos"]
+position = Vector2(773, 446)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(0.885, 0.885)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa3"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa3/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_9")
+
+[node name="Mesa4" type="Sprite2D" parent="Objetos"]
+position = Vector2(986, 446)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(0.885, 0.885)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa4"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa4/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_10")
+
+[node name="Mesa5" type="Sprite2D" parent="Objetos"]
+position = Vector2(248, 549)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(1.005, 1.005)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa5"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa5/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_11")
+
+[node name="Mesa6" type="Sprite2D" parent="Objetos"]
+position = Vector2(490, 549)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(1.005, 1.005)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa6"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa6/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_12")
+
+[node name="Mesa7" type="Sprite2D" parent="Objetos"]
+position = Vector2(790, 549)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(1.005, 1.005)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa7"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa7/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_13")
+
+[node name="Mesa8" type="Sprite2D" parent="Objetos"]
+position = Vector2(1032, 549)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(1.005, 1.005)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa8"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa8/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_14")
+
+[node name="Mesa9" type="Sprite2D" parent="Objetos"]
+position = Vector2(202, 652)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(1.125, 1.125)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa9"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa9/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_15")
+
+[node name="Mesa10" type="Sprite2D" parent="Objetos"]
+position = Vector2(472, 652)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(1.125, 1.125)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa10"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa10/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_16")
+
+[node name="Mesa11" type="Sprite2D" parent="Objetos"]
+position = Vector2(808, 652)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(1.125, 1.125)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa11"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa11/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_17")
+
+[node name="Mesa12" type="Sprite2D" parent="Objetos"]
+position = Vector2(1078, 652)
+texture = ExtResource("6_r")
+offset = Vector2(0, -29)
+scale = Vector2(1.125, 1.125)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Mesa12"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Mesa12/Corpo"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_18")
+
+[node name="Aluno1" type="AnimatedSprite2D" parent="Objetos"]
+position = Vector2(281, 480)
+scale = Vector2(0.443, 0.443)
+sprite_frames = ExtResource("7_r")
+animation = &"sit_N"
+autoplay = "sit_N"
+offset = Vector2(0, -110)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Aluno1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Aluno1/Corpo"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_19")
+
+[node name="Aluno2" type="AnimatedSprite2D" parent="Objetos"]
+position = Vector2(502, 480)
+scale = Vector2(0.443, 0.443)
+sprite_frames = ExtResource("7_r")
+animation = &"mao_N"
+autoplay = "mao_N"
+offset = Vector2(0, -110)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Aluno2"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Aluno2/Corpo"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_19")
+
+[node name="Aluno3" type="AnimatedSprite2D" parent="Objetos"]
+position = Vector2(778, 480)
+scale = Vector2(0.443, 0.443)
+sprite_frames = ExtResource("7_r")
+animation = &"sit_N"
+autoplay = "sit_N"
+offset = Vector2(0, -110)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Aluno3"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Aluno3/Corpo"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_19")
+
+[node name="Aluno5" type="AnimatedSprite2D" parent="Objetos"]
+position = Vector2(235, 583)
+scale = Vector2(0.502, 0.502)
+sprite_frames = ExtResource("7_r")
+animation = &"sit_N"
+autoplay = "sit_N"
+offset = Vector2(0, -110)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Aluno5"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Aluno5/Corpo"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_19")
+
+[node name="Aluno6" type="AnimatedSprite2D" parent="Objetos"]
+position = Vector2(485, 583)
+scale = Vector2(0.502, 0.502)
+sprite_frames = ExtResource("7_r")
+animation = &"sit_N"
+autoplay = "sit_N"
+offset = Vector2(0, -110)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Aluno6"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Aluno6/Corpo"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_19")
+
+[node name="Aluno7" type="AnimatedSprite2D" parent="Objetos"]
+position = Vector2(795, 583)
+scale = Vector2(0.502, 0.502)
+sprite_frames = ExtResource("7_r")
+animation = &"mao_N"
+autoplay = "mao_N"
+offset = Vector2(0, -110)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Aluno7"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Aluno7/Corpo"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_19")
+
+[node name="Aluno8" type="AnimatedSprite2D" parent="Objetos"]
+position = Vector2(1045, 583)
+scale = Vector2(0.502, 0.502)
+sprite_frames = ExtResource("7_r")
+animation = &"sit_N"
+autoplay = "sit_N"
+offset = Vector2(0, -110)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Aluno8"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Aluno8/Corpo"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_19")
+
+[node name="Aluno10" type="AnimatedSprite2D" parent="Objetos"]
+position = Vector2(467, 687)
+scale = Vector2(0.562, 0.562)
+sprite_frames = ExtResource("7_r")
+animation = &"sit_N"
+autoplay = "sit_N"
+offset = Vector2(0, -110)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Aluno10"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Aluno10/Corpo"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_19")
+
+[node name="Aluno12" type="AnimatedSprite2D" parent="Objetos"]
+position = Vector2(1091, 687)
+scale = Vector2(0.562, 0.562)
+sprite_frames = ExtResource("7_r")
+animation = &"sit_N"
+autoplay = "sit_N"
+offset = Vector2(0, -110)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Aluno12"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Aluno12/Corpo"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_19")
+
+[node name="Professor" type="AnimatedSprite2D" parent="Objetos"]
+position = Vector2(786, 364)
+scale = Vector2(0.42, 0.42)
+sprite_frames = ExtResource("7_r")
+animation = &"idle_S"
+autoplay = "idle_S"
+offset = Vector2(0, -110)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Professor"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Professor/Corpo"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_20")
+
+[node name="Urso" parent="Objetos" instance=ExtResource("8_r")]
+position = Vector2(640, 640)
+
+[node name="Saida" type="Area2D" parent="."]
+position = Vector2(640, 712)
+script = ExtResource("9_r")
+destino = "res://cenas/bosque.tscn"
+ponto = "saida_dojo"
+
+[node name="Area" type="CollisionShape2D" parent="Saida"]
+shape = SubResource("RectangleShape2D_21")
+
+[node name="Pontos" type="Node2D" parent="."]
+
+[node name="entrada" type="Marker2D" parent="Pontos"]
+position = Vector2(640, 650)
