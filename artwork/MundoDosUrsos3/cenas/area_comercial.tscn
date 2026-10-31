@@ -1,0 +1,451 @@
+[gd_scene load_steps=36 format=3]
+
+[ext_resource type="Script" path="res://scripts/cena.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/chao_comercial.png" id="2_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/vitrine_vidro.png" id="3_r"]
+[ext_resource type="Script" path="res://scripts/vitrine.gd" id="4_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/loja_pets.png" id="5_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/loja_cosmeticos.png" id="6_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/food_truck.png" id="7_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/poste_luz.png" id="8_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/mesa_bistro.png" id="9_r"]
+[ext_resource type="Script" path="res://scripts/banco.gd" id="10_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/mesa_bistro_azul.png" id="11_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/floreira.png" id="12_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/cavalete_pets.png" id="13_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/comercial/cavalete_cosmeticos.png" id="14_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/placas/placa_sul_praca.png" id="15_r"]
+[ext_resource type="PackedScene" path="res://cenas/urso.tscn" id="16_r"]
+[ext_resource type="Script" path="res://scripts/loja_porta.gd" id="17_r"]
+[ext_resource type="Script" path="res://scripts/porta.gd" id="18_r"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0"]
+normal = Vector2(0, 1)
+distance = 300.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1"]
+normal = Vector2(0, -1)
+distance = -720.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2"]
+normal = Vector2(1, 0)
+distance = 0.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3"]
+normal = Vector2(-1, 0)
+distance = -1280.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4"]
+size = Vector2(460, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5"]
+size = Vector2(460, 96)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6"]
+radius = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7"]
+size = Vector2(110, 20)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8"]
+radius = 20.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_9"]
+size = Vector2(210, 30)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_10"]
+radius = 22.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11"]
+size = Vector2(190, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_12"]
+size = Vector2(190, 40)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_13"]
+radius = 10.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_14"]
+size = Vector2(70, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_15"]
+size = Vector2(70, 22)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_16"]
+size = Vector2(300, 12)
+
+[node name="AreaComercial" type="Node2D"]
+script = ExtResource("1_r")
+
+[node name="Fundo" type="Sprite2D" parent="."]
+texture = ExtResource("2_r")
+centered = false
+
+[node name="Bordas" type="StaticBody2D" parent="."]
+
+[node name="Borda0" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_0")
+
+[node name="Borda1" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_1")
+
+[node name="Borda2" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_2")
+
+[node name="Borda3" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_3")
+
+[node name="Lojas" type="StaticBody2D" parent="."]
+
+[node name="Bloco0" type="CollisionShape2D" parent="Lojas"]
+position = Vector2(330.0, 298.0)
+shape = SubResource("RectangleShape2D_4")
+
+[node name="Bloco1" type="CollisionShape2D" parent="Lojas"]
+position = Vector2(950.0, 298.0)
+shape = SubResource("RectangleShape2D_5")
+
+[node name="Objetos" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="LojaPets" type="Sprite2D" parent="Objetos"]
+position = Vector2(330, 330)
+texture = ExtResource("5_r")
+offset = Vector2(0, -182.5)
+scale = Vector2(0.85, 0.85)
+
+[node name="VitrineEsquerda" type="Node2D" parent="Objetos/LojaPets"]
+position = Vector2(-195, -140)
+script = ExtResource("4_r")
+
+[node name="Espacos" type="Node2D" parent="Objetos/LojaPets/VitrineEsquerda"]
+
+[node name="Espaco1" type="Marker2D" parent="Objetos/LojaPets/VitrineEsquerda/Espacos"]
+position = Vector2(24, 48)
+
+[node name="Espaco2" type="Marker2D" parent="Objetos/LojaPets/VitrineEsquerda/Espacos"]
+position = Vector2(69, 48)
+
+[node name="Espaco3" type="Marker2D" parent="Objetos/LojaPets/VitrineEsquerda/Espacos"]
+position = Vector2(114, 48)
+
+[node name="Espaco4" type="Marker2D" parent="Objetos/LojaPets/VitrineEsquerda/Espacos"]
+position = Vector2(24, 98)
+
+[node name="Espaco5" type="Marker2D" parent="Objetos/LojaPets/VitrineEsquerda/Espacos"]
+position = Vector2(69, 98)
+
+[node name="Espaco6" type="Marker2D" parent="Objetos/LojaPets/VitrineEsquerda/Espacos"]
+position = Vector2(114, 98)
+
+[node name="Vidro" type="Sprite2D" parent="Objetos/LojaPets/VitrineEsquerda"]
+texture = ExtResource("3_r")
+centered = false
+
+[node name="VitrineDireita" type="Node2D" parent="Objetos/LojaPets"]
+position = Vector2(57, -140)
+script = ExtResource("4_r")
+
+[node name="Espacos" type="Node2D" parent="Objetos/LojaPets/VitrineDireita"]
+
+[node name="Espaco1" type="Marker2D" parent="Objetos/LojaPets/VitrineDireita/Espacos"]
+position = Vector2(24, 48)
+
+[node name="Espaco2" type="Marker2D" parent="Objetos/LojaPets/VitrineDireita/Espacos"]
+position = Vector2(69, 48)
+
+[node name="Espaco3" type="Marker2D" parent="Objetos/LojaPets/VitrineDireita/Espacos"]
+position = Vector2(114, 48)
+
+[node name="Espaco4" type="Marker2D" parent="Objetos/LojaPets/VitrineDireita/Espacos"]
+position = Vector2(24, 98)
+
+[node name="Espaco5" type="Marker2D" parent="Objetos/LojaPets/VitrineDireita/Espacos"]
+position = Vector2(69, 98)
+
+[node name="Espaco6" type="Marker2D" parent="Objetos/LojaPets/VitrineDireita/Espacos"]
+position = Vector2(114, 98)
+
+[node name="Vidro" type="Sprite2D" parent="Objetos/LojaPets/VitrineDireita"]
+texture = ExtResource("3_r")
+centered = false
+
+[node name="LojaCosmeticos" type="Sprite2D" parent="Objetos"]
+position = Vector2(950, 330)
+texture = ExtResource("6_r")
+offset = Vector2(0, -182.5)
+scale = Vector2(0.85, 0.85)
+
+[node name="VitrineEsquerda" type="Node2D" parent="Objetos/LojaCosmeticos"]
+position = Vector2(-195, -140)
+script = ExtResource("4_r")
+
+[node name="Espacos" type="Node2D" parent="Objetos/LojaCosmeticos/VitrineEsquerda"]
+
+[node name="Espaco1" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineEsquerda/Espacos"]
+position = Vector2(24, 48)
+
+[node name="Espaco2" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineEsquerda/Espacos"]
+position = Vector2(69, 48)
+
+[node name="Espaco3" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineEsquerda/Espacos"]
+position = Vector2(114, 48)
+
+[node name="Espaco4" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineEsquerda/Espacos"]
+position = Vector2(24, 98)
+
+[node name="Espaco5" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineEsquerda/Espacos"]
+position = Vector2(69, 98)
+
+[node name="Espaco6" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineEsquerda/Espacos"]
+position = Vector2(114, 98)
+
+[node name="Vidro" type="Sprite2D" parent="Objetos/LojaCosmeticos/VitrineEsquerda"]
+texture = ExtResource("3_r")
+centered = false
+
+[node name="VitrineDireita" type="Node2D" parent="Objetos/LojaCosmeticos"]
+position = Vector2(57, -140)
+script = ExtResource("4_r")
+
+[node name="Espacos" type="Node2D" parent="Objetos/LojaCosmeticos/VitrineDireita"]
+
+[node name="Espaco1" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineDireita/Espacos"]
+position = Vector2(24, 48)
+
+[node name="Espaco2" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineDireita/Espacos"]
+position = Vector2(69, 48)
+
+[node name="Espaco3" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineDireita/Espacos"]
+position = Vector2(114, 48)
+
+[node name="Espaco4" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineDireita/Espacos"]
+position = Vector2(24, 98)
+
+[node name="Espaco5" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineDireita/Espacos"]
+position = Vector2(69, 98)
+
+[node name="Espaco6" type="Marker2D" parent="Objetos/LojaCosmeticos/VitrineDireita/Espacos"]
+position = Vector2(114, 98)
+
+[node name="Vidro" type="Sprite2D" parent="Objetos/LojaCosmeticos/VitrineDireita"]
+texture = ExtResource("3_r")
+centered = false
+
+[node name="FoodTruck1" type="Sprite2D" parent="Objetos"]
+position = Vector2(640, 370)
+texture = ExtResource("7_r")
+offset = Vector2(0, -95)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/FoodTruck1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/FoodTruck1/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_9")
+
+[node name="PosteLuz1" type="Sprite2D" parent="Objetos"]
+position = Vector2(250, 440)
+texture = ExtResource("8_r")
+offset = Vector2(0, -102.5)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/PosteLuz1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/PosteLuz1/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_6")
+
+[node name="PosteLuz2" type="Sprite2D" parent="Objetos"]
+position = Vector2(1030, 440)
+texture = ExtResource("8_r")
+offset = Vector2(0, -102.5)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/PosteLuz2"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/PosteLuz2/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_6")
+
+[node name="MesaBistro1" type="Sprite2D" parent="Objetos"]
+position = Vector2(300, 575)
+texture = ExtResource("9_r")
+offset = Vector2(0, -77.5)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/MesaBistro1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/MesaBistro1/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_10")
+
+[node name="CadeirasMesaBistro1" type="Area2D" parent="Objetos"]
+position = Vector2(300, 575)
+script = ExtResource("10_r")
+altura_assento = 32.0
+assentos = Array[float]([-48.0, 48.0])
+
+[node name="Area" type="CollisionShape2D" parent="Objetos/CadeirasMesaBistro1"]
+position = Vector2(0, 14.0)
+shape = SubResource("RectangleShape2D_11")
+
+[node name="Dica" type="Label" parent="Objetos/CadeirasMesaBistro1"]
+offset_left = -80.0
+offset_top = -150.0
+offset_right = 80.0
+offset_bottom = -120.0
+horizontal_alignment = 1
+theme_override_colors/font_outline_color = Color(0.2, 0.1, 0.05, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
+text = "[Espaço] sentar"
+
+[node name="MesaBistroAzul1" type="Sprite2D" parent="Objetos"]
+position = Vector2(980, 575)
+texture = ExtResource("11_r")
+offset = Vector2(0, -77.5)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/MesaBistroAzul1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/MesaBistroAzul1/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_10")
+
+[node name="CadeirasMesaBistroAzul1" type="Area2D" parent="Objetos"]
+position = Vector2(980, 575)
+script = ExtResource("10_r")
+altura_assento = 32.0
+assentos = Array[float]([-48.0, 48.0])
+
+[node name="Area" type="CollisionShape2D" parent="Objetos/CadeirasMesaBistroAzul1"]
+position = Vector2(0, 14.0)
+shape = SubResource("RectangleShape2D_12")
+
+[node name="Dica" type="Label" parent="Objetos/CadeirasMesaBistroAzul1"]
+offset_left = -80.0
+offset_top = -150.0
+offset_right = 80.0
+offset_bottom = -120.0
+horizontal_alignment = 1
+theme_override_colors/font_outline_color = Color(0.2, 0.1, 0.05, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
+text = "[Espaço] sentar"
+
+[node name="Floreira1" type="Sprite2D" parent="Objetos"]
+position = Vector2(90, 690)
+texture = ExtResource("12_r")
+offset = Vector2(0, -28)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Floreira1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Floreira1/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_7")
+
+[node name="Floreira2" type="Sprite2D" parent="Objetos"]
+position = Vector2(1190, 690)
+texture = ExtResource("12_r")
+offset = Vector2(0, -28)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/Floreira2"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/Floreira2/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("RectangleShape2D_7")
+
+[node name="CavaletePets1" type="Sprite2D" parent="Objetos"]
+position = Vector2(470, 410)
+texture = ExtResource("13_r")
+offset = Vector2(0, -74)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/CavaletePets1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/CavaletePets1/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_8")
+
+[node name="CavaleteCosmeticos1" type="Sprite2D" parent="Objetos"]
+position = Vector2(810, 410)
+texture = ExtResource("14_r")
+offset = Vector2(0, -74)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/CavaleteCosmeticos1"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/CavaleteCosmeticos1/Corpo"]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_8")
+
+[node name="PlacaPraca" type="Sprite2D" parent="Objetos"]
+position = Vector2(250, 712)
+texture = ExtResource("15_r")
+offset = Vector2(0, -140)
+scale = Vector2(0.55, 0.55)
+
+[node name="Corpo" type="StaticBody2D" parent="Objetos/PlacaPraca"]
+
+[node name="Colisao" type="CollisionShape2D" parent="Objetos/PlacaPraca/Corpo"]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_13")
+
+[node name="Urso" parent="Objetos" instance=ExtResource("16_r")]
+position = Vector2(640, 640)
+
+[node name="PortaPets" type="Area2D" parent="."]
+position = Vector2(330, 356)
+script = ExtResource("17_r")
+nome_loja = "Loja de Pets"
+destino = "res://cenas/loja_pets.tscn"
+ponto = "entrada"
+
+[node name="Area" type="CollisionShape2D" parent="PortaPets"]
+shape = SubResource("RectangleShape2D_14")
+
+[node name="Aviso" type="Label" parent="PortaPets"]
+offset_left = -120.0
+offset_top = -200.0
+offset_right = 120.0
+offset_bottom = -140.0
+horizontal_alignment = 1
+theme_override_colors/font_outline_color = Color(0.2, 0.1, 0.05, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 22
+text = "Loja"
+
+[node name="PortaCosmeticos" type="Area2D" parent="."]
+position = Vector2(950, 356)
+script = ExtResource("17_r")
+nome_loja = "Cosméticos"
+destino = "res://cenas/loja_cosmeticos.tscn"
+ponto = "entrada"
+
+[node name="Area" type="CollisionShape2D" parent="PortaCosmeticos"]
+shape = SubResource("RectangleShape2D_15")
+
+[node name="Aviso" type="Label" parent="PortaCosmeticos"]
+offset_left = -120.0
+offset_top = -200.0
+offset_right = 120.0
+offset_bottom = -140.0
+horizontal_alignment = 1
+theme_override_colors/font_outline_color = Color(0.2, 0.1, 0.05, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 22
+text = "Loja"
+
+[node name="SaidaPraca" type="Area2D" parent="."]
+position = Vector2(640, 716)
+script = ExtResource("18_r")
+destino = "res://cenas/praca.tscn"
+ponto = "chegada_comercial"
+
+[node name="Area" type="CollisionShape2D" parent="SaidaPraca"]
+shape = SubResource("RectangleShape2D_16")
+
+[node name="Pontos" type="Node2D" parent="."]
+
+[node name="chegada_praca" type="Marker2D" parent="Pontos"]
+position = Vector2(640, 640)
+
+[node name="chegada_pets" type="Marker2D" parent="Pontos"]
+position = Vector2(330, 410)
+
+[node name="chegada_cosmeticos" type="Marker2D" parent="Pontos"]
+position = Vector2(950, 410)

@@ -1,0 +1,11 @@
+; Projeto Godot 4 — Mundo dos Ursos (protótipo do hackathon)
+config_version=5
+
+[application]
+config/name="Mundo dos Ursos"
+run/main_scene="res://cenas/praca.tscn"
+
+[display]
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"

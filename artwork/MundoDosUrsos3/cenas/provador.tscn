@@ -1,0 +1,125 @@
+[gd_scene load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://scripts/cena.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/provador/fundo_provador.png" id="2_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/provador/espelho_vidro.png" id="3_r"]
+[ext_resource type="Script" path="res://scripts/espelho.gd" id="4_r"]
+[ext_resource type="PackedScene" path="res://assets/sprites/urso/urso_frames.tres" id="5_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/provador/espelho_brilho.png" id="6_r"]
+[ext_resource type="Texture2D" path="res://assets/cenario/provador/pufe_provador.png" id="7_r"]
+[ext_resource type="Script" path="res://scripts/banco.gd" id="8_r"]
+[ext_resource type="PackedScene" path="res://cenas/urso.tscn" id="9_r"]
+[ext_resource type="Script" path="res://scripts/porta.gd" id="10_r"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_0"]
+normal = Vector2(0, 1)
+distance = 575.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_1"]
+normal = Vector2(0, -1)
+distance = -720.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_2"]
+normal = Vector2(1, 0)
+distance = 240.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3"]
+normal = Vector2(-1, 0)
+distance = -1040.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4"]
+size = Vector2(90, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5"]
+size = Vector2(220, 12)
+
+[node name="Provador" type="Node2D"]
+script = ExtResource("1_r")
+
+[node name="Fundo" type="Sprite2D" parent="."]
+texture = ExtResource("2_r")
+centered = false
+
+[node name="Bordas" type="StaticBody2D" parent="."]
+
+[node name="Borda0" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_0")
+
+[node name="Borda1" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_1")
+
+[node name="Borda2" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_2")
+
+[node name="Borda3" type="CollisionShape2D" parent="Bordas"]
+shape = SubResource("WorldBoundaryShape2D_3")
+
+[node name="Espelho" type="Sprite2D" parent="."]
+position = Vector2(430, 70)
+texture = ExtResource("3_r")
+centered = false
+clip_children = 1
+script = ExtResource("4_r")
+urso_path = NodePath("../Objetos/Urso")
+linha_chao = 420.0
+chao_sala = 575.0
+
+[node name="Reflexo" type="AnimatedSprite2D" parent="Espelho"]
+modulate = Color(0.92, 0.97, 1, 0.95)
+sprite_frames = ExtResource("5_r")
+animation = &"idle_S"
+offset = Vector2(0, -110)
+
+[node name="Brilho" type="Sprite2D" parent="."]
+position = Vector2(430, 70)
+texture = ExtResource("6_r")
+centered = false
+
+[node name="Objetos" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="Pufe" type="Sprite2D" parent="Objetos"]
+position = Vector2(1040, 640)
+texture = ExtResource("7_r")
+offset = Vector2(0, -19)
+
+[node name="AssentoPufe" type="Area2D" parent="Objetos"]
+position = Vector2(1040, 640)
+script = ExtResource("8_r")
+altura_assento = 30.0
+assentos = Array[float]([0.0])
+
+[node name="Area" type="CollisionShape2D" parent="Objetos/AssentoPufe"]
+position = Vector2(0, 14.0)
+shape = SubResource("RectangleShape2D_4")
+
+[node name="Dica" type="Label" parent="Objetos/AssentoPufe"]
+offset_left = -80.0
+offset_top = -150.0
+offset_right = 80.0
+offset_bottom = -120.0
+horizontal_alignment = 1
+theme_override_colors/font_outline_color = Color(0.2, 0.1, 0.05, 1)
+theme_override_constants/outline_size = 6
+theme_override_font_sizes/font_size = 16
+text = "[Espaço] sentar"
+
+[node name="Urso" parent="Objetos" instance=ExtResource("9_r")]
+position = Vector2(640, 640)
+
+[node name="PontoVestir" type="Marker2D" parent="."]
+position = Vector2(640, 600)
+
+[node name="Saida" type="Area2D" parent="."]
+position = Vector2(640, 714)
+script = ExtResource("10_r")
+destino = "res://cenas/loja_cosmeticos.tscn"
+ponto = "saida_provador"
+
+[node name="Area" type="CollisionShape2D" parent="Saida"]
+shape = SubResource("RectangleShape2D_5")
+
+[node name="Pontos" type="Node2D" parent="."]
+
+[node name="entrada" type="Marker2D" parent="Pontos"]
+position = Vector2(640, 640)

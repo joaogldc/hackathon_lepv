@@ -1,0 +1,7 @@
+{
+  "prompt": "Use case: text-localization / precise-object-edit. Edit the attached map image. Make EXACTLY ONE CHANGE: on the wooden sign in the upper-left woodland region, replace the existing Portuguese words \"Bosque do Saber\" with the exact words \"Bosque da Sabedoria\". Keep the same dark-brown friendly rounded lettering style and the same wooden sign, location, shape, color and perspective. Fit the new phrase neatly on the existing sign (slightly smaller lettering if needed), all on one line if possible. Preserve EVERYTHING ELSE exactly: the bear portrait, main title, level and XP values, every tree, waterfall, path, twelve numbered quest nodes and their states, glacier, ship, observatory, all other labels, quest panel and button, layout, resolution, colors and crop. Do not redraw the illustration or change any other word. The sole visual difference must be the region-name replacement.",
+  "generatedWith": "image_gen",
+  "resultFile": "hud/mapa-de-descobertas.png",
+  "source": "exec-e042a08a-8452-4922-bdb9-fb4f86cd6904.png",
+  "change": "Bosque do Saber → Bosque da Sabedoria"
+}

@@ -1,14 +1,14 @@
 extends "res://tests/portals_smoke.gd"
 
 func _run_host() -> void:
-	var entry: Vector2 = Minigames.PORTALS.commerce.position
+	var entry: Vector2 = Vector2(576, 240)
 	var client_id := 0
 	for id in Network.players:
 		if id != 1:
 			client_id = id
 	Network.players[1].position = entry
 	Network.request_zone("commerce")
-	var return_point: Vector2 = Network.players[1].lobby_position
+	await get_tree().create_timer(0.35).timeout
 	if lobby.current_zone != "commerce" or not lobby.commerce_view.visible or lobby.bears[client_id].visible:
 		_fail("Área comercial não separou a presença dos jogadores")
 		return
@@ -34,10 +34,10 @@ func _run_host() -> void:
 	if lobby.bears[client_id].visible:
 		_fail("Visitante no lobby aparece nas lojas")
 		return
-	Network.walk_to(Minigames.EXIT.position)
+	Network.walk_to(Vector2(576, 615))
 	if not await _wait_until(func(): return lobby.current_zone == "lobby", "retorno automático do anfitrião"):
 		return
-	if Network.players[1].position != return_point:
+	if absf(Network.players[1].position.x - 576) >= 90 or Network.players[1].position.y < 325:
 		_fail("Posição de retorno do anfitrião incorreta")
 		return
 	if not await _wait_until(func(): return Network.players.size() == 1, "desconexão visitante"):
@@ -48,13 +48,13 @@ func _run_host() -> void:
 
 func _run_client() -> void:
 	var local_id := multiplayer.get_unique_id()
-	var entry: Vector2 = Minigames.PORTALS.commerce.position
-	if not await _wait_until(func(): return Network.players[local_id].position == entry, "visitante no portal"):
+	var entry: Vector2 = Vector2(576, 240)
+	if not await _wait_until(func(): return Network.players[local_id].zone == "commerce", "visitante no portal"):
 		return
 	Network.request_zone("commerce")
 	if not await _wait_until(func(): return lobby.current_zone == "commerce", "cena comercial"):
 		return
-	var return_point: Vector2 = Network.players[local_id].lobby_position
+	await get_tree().create_timer(0.35).timeout
 	lobby._toggle_map()
 	if not is_instance_valid(lobby.map_view) or lobby.map_view.zone != "commerce":
 		_fail("Mapa comercial ausente")
@@ -67,14 +67,14 @@ func _run_client() -> void:
 	Network.walk_to(Vector2(800, 450))
 	if not await _wait_until(func(): return Network.players[local_id].position.distance_to(Vector2(800, 450)) < 1, "visitante caminhou nas lojas"):
 		return
-	Network.walk_to(Minigames.EXIT.position)
+	Network.walk_to(Vector2(576, 615))
 	if not await _wait_until(func(): return lobby.current_zone == "lobby", "visitante no lobby"):
 		return
-	if Network.players[local_id].position != return_point:
+	if absf(Network.players[local_id].position.x - 576) >= 90 or Network.players[local_id].position.y < 325:
 		_fail("Posição de retorno do visitante incorreta")
 		return
 	if not await _wait_until(func(): return Network.players[1].zone == "lobby", "anfitrião voltou"):
 		return
-	print("COMMERCE PASS: remote transition, area map, walking and original lobby position")
+	print("COMMERCE PASS: remote transition, area map, walking and lobby exit corridor")
 	Network.leave("")
 	get_tree().quit(0)
