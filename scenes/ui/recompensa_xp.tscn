@@ -1,0 +1,360 @@
+[gd_scene load_steps=18 format=3]
+[ext_resource type="Script" path="res://scripts/ui/recompensa_xp.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/urso/frames/S_idle_1.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/urso/frames/S_idle_2.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/urso/frames/S_wave_1.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/urso/frames/S_wave_2.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/urso/frames/S_wave_3.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/urso/frames/S_wave_4.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/ui/recompensas/mel_fundo.svg" id="8"]
+[ext_resource type="Texture2D" path="res://assets/ui/recompensas/mel_liquido.svg" id="9"]
+[ext_resource type="Texture2D" path="res://assets/ui/recompensas/mel_contorno.svg" id="10"]
+
+[sub_resource type="StyleBoxFlat" id="Painel"]
+bg_color = Color(1,0.961,0.863,1)
+border_color = Color(0.318,0.239,0.169,1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 26
+corner_radius_top_right = 26
+corner_radius_bottom_left = 26
+corner_radius_bottom_right = 26
+
+[sub_resource type="StyleBoxFlat" id="Diarias"]
+bg_color = Color(1,0.903,0.68,1)
+border_color = Color(0.80,0.58,0.24,1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_left = 22
+corner_radius_bottom_right = 22
+
+[sub_resource type="StyleBoxFlat" id="Botao"]
+bg_color = Color(0.145,0.616,0.796,1)
+border_color = Color(0.11,0.38,0.49,1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+
+[sub_resource type="StyleBoxFlat" id="BarraFundo"]
+bg_color = Color(0.88,0.86,0.78,1)
+border_color = Color(0.88,0.86,0.78,1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+
+[sub_resource type="StyleBoxFlat" id="BarraXP"]
+bg_color = Color(0.39,0.67,0.36,1)
+border_color = Color(0.30,0.55,0.27,1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+
+[sub_resource type="StyleBoxFlat" id="Circulo"]
+bg_color = Color(0.84,0.92,0.82,1)
+border_color = Color(0.84,0.92,0.82,1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 90
+corner_radius_top_right = 90
+corner_radius_bottom_left = 90
+corner_radius_bottom_right = 90
+
+[sub_resource type="SpriteFrames" id="Urso"]
+animations = [{
+"frames": [{"duration": 1.0, "texture": ExtResource("4")}, {"duration": 1.0, "texture": ExtResource("5")}, {"duration": 1.0, "texture": ExtResource("6")}, {"duration": 1.0, "texture": ExtResource("7")}, {"duration": 1.0, "texture": ExtResource("6")}, {"duration": 1.0, "texture": ExtResource("5")}],
+"loop": true,
+"name": &"comemorar",
+"speed": 8.0
+}, {
+"frames": [{"duration": 1.0, "texture": ExtResource("2")}, {"duration": 1.0, "texture": ExtResource("3")}],
+"loop": true,
+"name": &"repouso",
+"speed": 2.0
+}]
+
+[node name="RecompensaXP" type="CanvasLayer"]
+layer = 41
+script = ExtResource("1")
+reproduzir_ao_iniciar = true
+
+[node name="Tela" type="Control" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Fundo" type="ColorRect" parent="Tela"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.035,0.12,0.16,0.76)
+
+[node name="Painel" type="Panel" parent="Tela"]
+offset_left = 146.0
+offset_top = 90.0
+offset_right = 1006.0
+offset_bottom = 630.0
+theme_override_styles/panel = SubResource("Painel")
+
+[node name="Chamada" type="Label" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 18.0
+offset_right = 825.0
+offset_bottom = 44.0
+mouse_filter = 2
+text = "CONHECIMENTO PARA LEVAR NA MOCHILA"
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.12,0.48,0.61,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Titulo" type="Label" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 48.0
+offset_right = 825.0
+offset_bottom = 98.0
+mouse_filter = 2
+text = "Aprender faz você crescer!"
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(0.318,0.239,0.169,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Circulo" type="Panel" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 153.0
+offset_right = 240.0
+offset_bottom = 323.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Circulo")
+
+[node name="Aluno" type="AnimatedSprite2D" parent="Tela/Painel"]
+position = Vector2(155,234)
+scale = Vector2(0.70,0.70)
+sprite_frames = SubResource("Urso")
+animation = &"comemorar"
+
+[node name="Valor" type="Label" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 245.0
+offset_top = 177.0
+offset_right = 450.0
+offset_bottom = 255.0
+mouse_filter = 2
+text = "+20 XP"
+theme_override_font_sizes/font_size = 42
+theme_override_colors/font_color = Color(0.22,0.51,0.26,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Legenda" type="Label" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 254.0
+offset_right = 455.0
+offset_bottom = 302.0
+mouse_filter = 2
+text = "por aprender e jogar"
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.318,0.239,0.169,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Nivel" type="Label" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 343.0
+offset_right = 235.0
+offset_bottom = 377.0
+mouse_filter = 2
+text = "NÍVEL 3"
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.318,0.239,0.169,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Meta" type="Label" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 250.0
+offset_top = 343.0
+offset_right = 435.0
+offset_bottom = 377.0
+mouse_filter = 2
+text = "70 / 100 XP"
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.318,0.239,0.169,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Progresso" type="ProgressBar" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 387.0
+offset_right = 425.0
+offset_bottom = 409.0
+mouse_filter = 2
+show_percentage = false
+theme_override_styles/background = SubResource("BarraFundo")
+theme_override_styles/fill = SubResource("BarraXP")
+
+[node name="Incentivo" type="Label" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 419.0
+offset_right = 425.0
+offset_bottom = 454.0
+mouse_filter = 2
+text = "Uma descoberta de cada vez."
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.318,0.239,0.169,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Diarias" type="Panel" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 478.0
+offset_top = 127.0
+offset_right = 808.0
+offset_bottom = 482.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("Diarias")
+
+[node name="Sequencia" type="Label" parent="Tela/Painel/Diarias"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 12.0
+offset_right = 320.0
+offset_bottom = 46.0
+mouse_filter = 2
+text = "4 dias de mel"
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.318,0.239,0.169,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Mel" type="TextureProgressBar" parent="Tela/Painel/Diarias"]
+layout_mode = 0
+offset_left = 107.0
+offset_top = 53.0
+offset_right = 223.0
+offset_bottom = 198.0
+mouse_filter = 2
+texture_under = ExtResource("8")
+texture_progress = ExtResource("9")
+texture_over = ExtResource("10")
+fill_mode = 3
+nine_patch_stretch = true
+value = 55.0
+
+[node name="Bonus" type="Label" parent="Tela/Painel/Diarias"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 200.0
+offset_right = 318.0
+offset_bottom = 235.0
+mouse_filter = 2
+text = "+20 XP de bônus"
+theme_override_font_sizes/font_size = 25
+theme_override_colors/font_color = Color(0.55,0.33,0.10,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Missoes" type="Label" parent="Tela/Painel/Diarias"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 239.0
+offset_right = 318.0
+offset_bottom = 266.0
+mouse_filter = 2
+text = "3/3 missões de hoje"
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.318,0.239,0.169,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Dias" type="Label" parent="Tela/Painel/Diarias"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 271.0
+offset_right = 310.0
+offset_bottom = 297.0
+mouse_filter = 2
+text = "●  ●  ●  ●  ○  ○  ○"
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.63,0.39,0.10,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Descricao" type="Label" parent="Tela/Painel/Diarias"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 303.0
+offset_right = 318.0
+offset_bottom = 345.0
+mouse_filter = 2
+text = "Seu mel cresce a cada dia concluído."
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.318,0.239,0.169,1)
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Efeitos" type="Control" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 860.0
+offset_bottom = 540.0
+mouse_filter = 2
+
+
+[node name="Continuar" type="Button" parent="Tela/Painel"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 478.0
+offset_right = 420.0
+offset_bottom = 522.0
+text = "Continuar"
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(1,1,1,1)
+theme_override_styles/normal = SubResource("Botao")
+theme_override_styles/hover = SubResource("Botao")
+theme_override_styles/pressed = SubResource("Botao")

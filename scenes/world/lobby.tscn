@@ -1,10 +1,19 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/world/lobby.gd" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/ui/recompensa_moedas.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ui/recompensa_xp.tscn" id="3"]
 
 [node name="Lobby" type="Node2D"]
 script = ExtResource("1")
 
 [node name="RecompensaMoedas" parent="." instance=ExtResource("2")]
+reproduzir_ao_iniciar = false
+
+[node name="RecompensaXP" parent="." instance=ExtResource("3")]
+xp_atual = 0
+nivel_atual = 1
+dias_sequencia = 0
+missoes_concluidas = 0
+exibir_bonus_diario = false
 reproduzir_ao_iniciar = false

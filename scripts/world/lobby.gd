@@ -32,8 +32,11 @@ var exit_armed := false
 var map_view: Control
 var signs: Array[Node2D] = []
 @onready var recompensa_moedas: CanvasLayer = $RecompensaMoedas
+@onready var recompensa_xp: CanvasLayer = $RecompensaXP
+var xp_pendente := false
 
 func _ready() -> void:
+	recompensa_moedas.fechada.connect(_apos_moedas)
 	var sign_positions := {"commerce": Vector2(715,340), "math": Vector2(117,420), "science": Vector2(1020,420), "language": Vector2(715,620)}
 	for destination in sign_positions:
 		var sign_board := SIGN.new()
@@ -70,9 +73,12 @@ func _ready() -> void:
 	queue_redraw()
 
 func _process(_delta: float) -> void:
+	var recompensa_aberta := recompensa_moedas.visible or recompensa_xp.visible
+	if current_zone == "language" and is_instance_valid(game_view):
+		game_view.permitir_movimento = not recompensa_aberta and not is_instance_valid(map_view)
 	var movement := Vector2.ZERO
 	var focused := get_viewport().gui_get_focus_owner()
-	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not recompensa_moedas.visible:
+	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not recompensa_aberta:
 		movement = Vector2(
 			float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)),
 			float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN)) - float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP)))
@@ -90,12 +96,12 @@ func _process(_delta: float) -> void:
 		nearby_portal = Minigames.exit_at(Network.players[id].position,current_zone)
 	if nearby_portal.is_empty():
 		exit_armed = true
-	elif exit_armed and not is_instance_valid(map_view) and not recompensa_moedas.visible:
+	elif exit_armed and not is_instance_valid(map_view) and not recompensa_aberta:
 		exit_armed = false
 		Network.request_zone(nearby_portal)
 
 func _input(event: InputEvent) -> void:
-	if recompensa_moedas.visible:
+	if recompensa_moedas.visible or recompensa_xp.visible:
 		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
@@ -187,7 +193,9 @@ func _minigame_finished(_result: Dictionary) -> void:
 func _sync_players() -> void:
 	if not Network.active:
 		_close_map()
+		xp_pendente = false
 		recompensa_moedas.fechar()
+		recompensa_xp.reiniciar_sessao()
 	var local_id := multiplayer.get_unique_id()
 	var zone := "lobby"
 	if Network.players.has(local_id):
@@ -327,6 +335,7 @@ func _show_result(result: Dictionary) -> void:
 		if is_instance_valid(result_dialog):
 			result_dialog.hide()
 		recompensa_moedas.mostrar(-1, str(result.names[mine]))
+		xp_pendente = true
 		return
 	if not is_instance_valid(result_dialog):
 		result_dialog = AcceptDialog.new()
@@ -334,3 +343,9 @@ func _show_result(result: Dictionary) -> void:
 	result_dialog.title = "Empate" if result.winner == -1 else ("Vitória!" if result.winner == mine else "Derrota")
 	result_dialog.dialog_text = result.feedback
 	result_dialog.popup_centered(Vector2i(440,160))
+
+func _apos_moedas() -> void:
+	if not xp_pendente: return
+	xp_pendente = false
+	if Network.active:
+		recompensa_xp.mostrar()
