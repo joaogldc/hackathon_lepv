@@ -58,6 +58,18 @@ func _button(caption: String,rect: Rect2,action: Callable,enabled:=true,color:=C
 		button.add_theme_color_override("font_disabled_color",Color("fff8e9"))
 	button.add_theme_stylebox_override("normal",normal)
 	button.add_theme_stylebox_override("disabled",locked)
+	var hover: StyleBoxFlat=normal.duplicate()
+	hover.bg_color=normal.bg_color.lightened(0.13)
+	var pressed: StyleBoxFlat=normal.duplicate()
+	pressed.bg_color=normal.bg_color.darkened(0.12)
+	var focus: StyleBoxFlat=normal.duplicate()
+	focus.bg_color=Color.TRANSPARENT
+	focus.border_color=Color("f7ce59")
+	focus.set_border_width_all(4)
+	button.add_theme_stylebox_override("hover",hover)
+	button.add_theme_stylebox_override("pressed",pressed)
+	button.add_theme_stylebox_override("hover_pressed",pressed)
+	button.add_theme_stylebox_override("focus",focus)
 	button.pressed.connect(action)
 	content.add_child(button)
 

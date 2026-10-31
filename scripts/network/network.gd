@@ -200,7 +200,7 @@ func _change_zone(id: int, destination: String, from_map := false) -> void:
 	elif destination in ["loja_pets","loja_cosmeticos","provador"]:
 		players[id].position=Vector2(865,475) if previous=="provador" else Vector2(576,580)
 	elif destination=="language":
-		players[id].position=Vector2(710,510) if previous=="ship" else (Vector2(559,405) if previous=="cave" else Vector2(576,580))
+		players[id].position=Vector2(660,510) if previous=="ship" else (Vector2(559,405) if previous=="cave" else Vector2(576,580))
 	elif destination == "math":
 		if previous == "dojo":
 			players[id].position = Vector2(560,500)

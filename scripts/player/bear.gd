@@ -1,6 +1,7 @@
 extends Node2D
 ## Optional Inkscape exports: assets/characters/brown/{front,back,left,right}.png.
 const PET := preload("res://scripts/player/pet_companion.gd")
+const COSMETICS := preload("res://scripts/player/cosmetics.gd")
 var pet: Node2D
 var direction := "front"
 var nickname := "Urso"
@@ -81,19 +82,10 @@ func _draw() -> void:
 			if direction != "left":
 				draw_circle(Vector2(11 + offset, -50), 3, Color("342c2a"))
 	draw_set_transform(Vector2.ZERO)
-	if outfit!="none":
-		var color:=Color("cb4e42") if outfit=="scarf_red" else Color("428fce")
-		var y:=-43.0-seat_height if sitting else -43.0
-		draw_style_box(_scarf_style(color),Rect2(-12,y,24,7))
-		draw_colored_polygon(PackedVector2Array([Vector2(7,y+4),Vector2(15,y+6),Vector2(11,y+21),Vector2(5,y+18)]),color)
+	COSMETICS.paint(self,outfit,direction,Vector2(0,-seat_height if sitting else 0))
 	var font := ThemeDB.fallback_font
 	var width := font.get_string_size(nickname, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
 	var nick_y:=-68.0-seat_height if sitting else -68.0
+	nick_y-=24 if outfit=="cartola" else (8 if outfit=="laco_rosa" else 0)
 	draw_string_outline(font,Vector2(-width/2,nick_y),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,5,Color("142535"))
 	draw_string(font,Vector2(-width/2,nick_y),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color("ffe15c"))
-
-func _scarf_style(color: Color) -> StyleBoxFlat:
-	var style:=StyleBoxFlat.new()
-	style.bg_color=color
-	style.set_corner_radius_all(3)
-	return style

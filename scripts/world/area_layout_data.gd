@@ -281,24 +281,6 @@ const DATA := {
         "depth": 464
       },
       {
-        "name": "Pufe1",
-        "texture": "res://assets/cenario/loja_cosmeticos/pufe.png",
-        "position": [
-          576.0,
-          543.111
-        ],
-        "offset": [
-          0.0,
-          -19.0
-        ],
-        "scale": [
-          0.6055555555555555,
-          0.6055555555555555
-        ],
-        "centered": true,
-        "depth": 543
-      },
-      {
         "name": "PlantaVaso1",
         "texture": "res://assets/cenario/loja_cosmeticos/planta_vaso.png",
         "position": [
@@ -367,16 +349,6 @@ const DATA := {
         "position": [
           429.375,
           460.756
-        ]
-      },
-      {
-        "size": [
-          54.5,
-          24.22222222222222
-        ],
-        "position": [
-          576.0,
-          551.589
         ]
       },
       {
@@ -564,8 +536,8 @@ const DATA := {
           -416.9921875
         ],
         "scale": [
-          0.5046296264,
-          0.5042356922654176
+          0.65601851432,
+          0.655506399945043
         ],
         "centered": false,
         "depth": 501

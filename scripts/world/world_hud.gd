@@ -96,7 +96,7 @@ func _redraw_hud() -> void:
 		child.queue_free()
 	_box(Rect2(24,18,262,90),Color("e5f2ee"))
 	_label(nickname,Rect2(100,28,170,32),23)
-	_label("Nível %d • %d XP" % [Progress.view.get("level",1),Progress.view.get("xp",0)],Rect2(100,63,170,28),16)
+	_label("Nível %d • %d moedas" % [Progress.view.get("level",1),Progress.view.get("coins",0)],Rect2(100,63,170,28),16)
 	var portrait:=Sprite2D.new()
 	portrait.texture=load("res://assets/sprites/urso/frames/S_idle_1.png")
 	portrait.position=Vector2(70,63)

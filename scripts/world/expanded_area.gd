@@ -25,6 +25,14 @@ func _ready() -> void:
 		vendor.z_index=441
 		add_child(vendor)
 	if zone=="provador":
+		for side in ["esquerda","direita"]:
+			var curtain:=Sprite2D.new()
+			curtain.texture=load("res://assets/cenario/provador/cortina_"+side+".png")
+			curtain.centered=false
+			curtain.position=Vector2(24 if side=="esquerda" else 921,204)
+			curtain.scale=Vector2(0.8625,0.605556)
+			curtain.z_index=552
+			add_child(curtain)
 		var glass:=Sprite2D.new()
 		glass.texture=load("res://assets/cenario/provador/espelho_vidro.png")
 		glass.centered=false
@@ -61,7 +69,6 @@ func _draw() -> void:
 	draw_texture_rect(ground,Rect2(24,204,1104,436),false)
 	load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(576,608),0.0)
 	if zone=="language":
-		load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(760,500),-PI/2)
-		load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(559,362),PI)
+		load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(710,500),-PI/2)
 	elif zone=="loja_cosmeticos":
 		load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(865,432),PI)

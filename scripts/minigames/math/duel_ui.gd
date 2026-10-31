@@ -13,6 +13,8 @@ const PET := preload("res://scripts/player/pet_companion.gd")
 const PET_BACK := preload("res://assets/pets/flying_fish/back_1.png")
 const PARROT_BACK := preload("res://assets/pets/parrot/back_1.png")
 var fighter_pets: Array[Node2D]=[]
+var fighter_cosmetics: Array[Node2D]=[]
+const COSMETICS := preload("res://scripts/player/cosmetics.gd")
 const CARD := preload("res://scripts/minigames/math/card_button.gd")
 const ROOM := preload("res://assets/cenario/dojo_sala/fundo_dojo_sala.png")
 const DESK := preload("res://assets/cenario/dojo_sala/mesa_baixa.png")
@@ -47,6 +49,13 @@ func _ready() -> void:
 		pet.configure("right" if side==0 else "left",false)
 		add_child(pet)
 		fighter_pets.append(pet)
+		var accessory: Node2D=load("res://scripts/player/cosmetic_display.gd").new()
+		accessory.position=bear.position+Vector2(0,48)
+		accessory.scale=Vector2.ONE*1.45
+		accessory.direction="right" if side==0 else "left"
+		accessory.z_index=12
+		add_child(accessory)
+		fighter_cosmetics.append(accessory)
 	overlay=Control.new()
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.z_index=20
@@ -157,6 +166,9 @@ func _refresh() -> void:
 		fighters[side].visible=occupied
 		fighter_pets[side].visible=occupied
 		fighter_pets[side].configure("right" if side==0 else "left",false,v.get("pets",["fish","fish"])[side])
+		fighter_cosmetics[side].visible=occupied
+		fighter_cosmetics[side].outfit=v.get("outfits",["none","none"])[side]
+		fighter_cosmetics[side].queue_redraw()
 	_hud_panel(Rect2(430,24,292,74),TURN_PANEL)
 	var heading: String={"idle":"Dojo do Bambu","waiting":"Procurando rival","watch_wait":"Plateia","resolve":"Resultado","finished":"Fim do duelo"}.get(phase,"Sua defesa" if mine!=v.get("attacker",-1) else "Seu ataque")
 	if spectator and v.has("ids"): heading="Assistindo ao duelo"
@@ -223,8 +235,10 @@ func _draw() -> void:
 			if person.seat==seat:
 				draw_texture_rect(PARROT_BACK if person.get("pet","fish")=="parrot" else PET_BACK,Rect2(point+Vector2(24,-78),Vector2(28,28)),false)
 				draw_texture_rect(SITTING,Rect2(point-Vector2(40,80),Vector2(80,80)),false)
-				draw_string_outline(ThemeDB.fallback_font,point+Vector2(-30,-84),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,4,Color("142535"))
-				draw_string(ThemeDB.fallback_font,point+Vector2(-30,-84),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("ffe15c"))
+				COSMETICS.paint(self,person.get("outfit","none"),"back",point+Vector2(0,8),1.2)
+				var label_y:=-108 if person.get("outfit","")=="cartola" else (-92 if person.get("outfit","")=="laco_rosa" else -84)
+				draw_string_outline(ThemeDB.fallback_font,point+Vector2(-30,label_y),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,4,Color("142535"))
+				draw_string(ThemeDB.fallback_font,point+Vector2(-30,label_y),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("ffe15c"))
 		draw_texture_rect(DESK,Rect2(point-Vector2(72,26),Vector2(144,66)),false)
 
 func _process(delta: float) -> void:

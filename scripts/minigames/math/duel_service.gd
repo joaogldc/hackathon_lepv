@@ -220,8 +220,9 @@ func _depart(id: int) -> void:
 func _reward_result(m: Dictionary, completed: bool) -> void:
 	if m.get("rewarded",false): return
 	m.rewarded=true
+	m.coin_rewards=[0,0]
 	for side in range(2):
-		Progress.duel_result(m.ids[side],"draw" if m.winner==-1 else ("win" if m.winner==side else "loss"),completed)
+		m.coin_rewards[side]=Progress.duel_result(m.ids[side],"draw" if m.winner==-1 else ("win" if m.winner==side else "loss"),completed)
 
 func _publish(m: Dictionary) -> void:
 	m.revision += 1
@@ -230,10 +231,11 @@ func _publish(m: Dictionary) -> void:
 	public.erase("explanation")
 	public.erase("rewarded")
 	public.pets=m.ids.map(func(id): return Network.players.get(id,{}).get("pet","fish"))
+	public.outfits=m.ids.map(func(id): return Network.players.get(id,{}).get("outfit","none"))
 	public.spectators = []
 	for id in watchers:
 		if watchers[id].match_id == m.match_id and Network.players.has(id):
-			public.spectators.append({"id": id, "name": Network.players[id].nickname, "seat": watchers[id].seat,"pet":Network.players[id].get("pet","fish")})
+			public.spectators.append({"id": id, "name": Network.players[id].nickname, "seat": watchers[id].seat,"pet":Network.players[id].get("pet","fish"),"outfit":Network.players[id].get("outfit","none")})
 	for id in m.ids:
 		if membership.has(id) and membership[id] == m.match_id:
 			public.spectator = false
@@ -262,7 +264,7 @@ func _publish_waiting() -> void:
 	var audience: Array = []
 	for id in watchers:
 		if watchers[id].match_id == 0 and Network.players.has(id):
-			audience.append({"id": id, "name": Network.players[id].nickname, "seat": watchers[id].seat,"pet":Network.players[id].get("pet","fish")})
+			audience.append({"id": id, "name": Network.players[id].nickname, "seat": watchers[id].seat,"pet":Network.players[id].get("pet","fish"),"outfit":Network.players[id].get("outfit","none")})
 	for id in watchers:
 		if watchers[id].match_id == 0:
 			_send(id,{"phase":"watch_wait","spectator":true,"seat":watchers[id].seat,"spectators":audience})

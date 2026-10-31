@@ -1,6 +1,9 @@
 extends Node
 ## Rewards, quests, daily rollover and pet/outfit ownership are server-owned.
 signal changed
+const CATALOG := preload("res://scripts/world/world_catalog.gd")
+const COSMETICS := preload("res://scripts/player/cosmetics.gd")
+const WIN_COINS := 25
 const STORY := [
 	["Conheça o Bosque da Sabedoria","visit_math",1,30,"math"],
 	["Entre no dojo","visit_dojo",1,30,"math"],
@@ -50,7 +53,7 @@ func day_number() -> int:
 	return int(Time.get_unix_time_from_system()/86400.0)
 
 func fresh() -> Dictionary:
-	return {"stats":{},"story":0,"xp":0,"daily_day":-1,"daily":{},"daily_regions":[],"daily_awarded":[],"last_daily":-999,"streak":0,"best_streak":0,"pet":"fish","outfit":"none","wins":0,"losses":0,"draws":0}
+	return {"stats":{},"story":0,"xp":0,"coins":0,"daily_day":-1,"daily":{},"daily_regions":[],"daily_awarded":[],"last_daily":-999,"streak":0,"best_streak":0,"pet":"fish","outfit":"none","wins":0,"losses":0,"draws":0}
 
 func attach(id: int, token: String) -> void:
 	if token.length()!=64 or not token.is_valid_hex_number(false): token=Crypto.new().generate_random_bytes(32).hex_encode()
@@ -102,9 +105,11 @@ func record(id: int, event: String, amount:=1) -> void:
 	_publish(id)
 	_save()
 
-func duel_result(id: int, result: String, completed: bool) -> void:
-	if not player_keys.has(id): return
+func duel_result(id: int, result: String, completed: bool) -> int:
+	if not player_keys.has(id): return 0
 	var p: Dictionary=profiles[player_keys[id]]
+	var coins:=WIN_COINS if result=="win" else 0
+	p.coins=int(p.get("coins",0))+coins
 	p[{"win":"wins","loss":"losses","draw":"draws"}[result]]+=1
 	# Abandonment gives a match result but never farms quest XP.
 	if completed:
@@ -113,14 +118,15 @@ func duel_result(id: int, result: String, completed: bool) -> void:
 	else:
 		_publish(id)
 		_save()
+	return coins
 
 func equip(id: int, kind: String, value: String) -> void:
 	if not player_keys.has(id) or not Network.players.has(id): return
 	var p: Dictionary=profiles[player_keys[id]]
-	if kind=="pet" and Network.players[id].zone=="loja_pets" and value in ["fish","parrot"]:
+	if kind=="pet" and Network.players[id].zone=="loja_pets" and CATALOG.near_merchant(Network.players[id].position) and value in ["fish","parrot"]:
 		p.pet=value
 		Network.players[id].pet=value
-	elif kind=="outfit" and Network.players[id].zone=="provador" and value in ["none","scarf_red","scarf_blue"]:
+	elif kind=="outfit" and COSMETICS.NAMES.has(value) and (Network.players[id].zone=="provador" or (Network.players[id].zone=="loja_cosmeticos" and CATALOG.near_merchant(Network.players[id].position))):
 		p.outfit=value
 		Network.players[id].outfit=value
 	else: return
@@ -130,7 +136,7 @@ func equip(id: int, kind: String, value: String) -> void:
 func _publish(id: int) -> void:
 	if not Network.players.has(id) or not player_keys.has(id): return
 	var p: Dictionary=profiles[player_keys[id]]
-	Network.players[id].progress={"story":p.story,"xp":p.xp,"level":1+int(p.xp)/100,"stats":p.stats.duplicate(),"daily":p.daily.duplicate(),"daily_awarded":p.daily_awarded.duplicate(),"daily_day":p.daily_day,"streak":p.streak,"best_streak":p.best_streak,"wins":p.wins,"losses":p.losses,"draws":p.draws,"pet":p.pet,"outfit":p.outfit}
+	Network.players[id].progress={"story":p.story,"xp":p.xp,"coins":p.coins,"level":1+int(p.xp)/100,"stats":p.stats.duplicate(),"daily":p.daily.duplicate(),"daily_awarded":p.daily_awarded.duplicate(),"daily_day":p.daily_day,"streak":p.streak,"best_streak":p.best_streak,"wins":p.wins,"losses":p.losses,"draws":p.draws,"pet":p.pet,"outfit":p.outfit}
 	Network.roster_changed.emit()
 
 func _save() -> void:

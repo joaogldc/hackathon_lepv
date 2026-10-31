@@ -38,6 +38,7 @@ var transition_tween: Tween
 var exit_armed := false
 var map_view: Control
 var signs: Array[Node2D] = []
+@onready var recompensa_moedas: CanvasLayer = $RecompensaMoedas
 
 func _ready() -> void:
 	for zone in ["language","loja_pets","loja_cosmeticos","provador"]:
@@ -84,7 +85,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	var movement := Vector2.ZERO
 	var focused := get_viewport().gui_get_focus_owner()
-	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not is_instance_valid(quests) and not (is_instance_valid(action_dialog) and action_dialog.visible):
+	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not is_instance_valid(quests) and not (is_instance_valid(action_dialog) and action_dialog.visible) and not recompensa_moedas.visible:
 		movement = Vector2(
 			float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)),
 			float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN)) - float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP)))
@@ -103,11 +104,13 @@ func _process(_delta: float) -> void:
 		nearby_portal = Minigames.exit_at(Network.players[id].position,current_zone)
 	if nearby_portal.is_empty():
 		exit_armed = true
-	elif exit_armed and not is_instance_valid(map_view) and not is_instance_valid(quests):
+	elif exit_armed and not is_instance_valid(map_view) and not is_instance_valid(quests) and not recompensa_moedas.visible:
 		exit_armed = false
 		Network.request_zone(nearby_portal)
 
 func _input(event: InputEvent) -> void:
+	if recompensa_moedas.visible:
+		return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
 			if event.physical_keycode==KEY_Q:
@@ -223,6 +226,7 @@ func _sync_players() -> void:
 	if not Network.active:
 		_close_map()
 		_close_quests()
+		recompensa_moedas.fechar()
 	var local_id := multiplayer.get_unique_id()
 	var zone := "lobby"
 	if Network.players.has(local_id):
@@ -366,6 +370,15 @@ func _ground_style() -> StyleBoxFlat:
 
 func _show_result(result: Dictionary) -> void:
 	var mine: int = result.ids.find(multiplayer.get_unique_id())
+	if mine >= 0 and result.winner == mine:
+		# O resultado vem de Duel; este efeito não concede saldo por conta própria.
+		_close_map()
+		_close_quests()
+		if is_instance_valid(result_dialog):
+			result_dialog.hide()
+		var amount: int=result.get("coin_rewards",[recompensa_moedas.quantidade_moedas,recompensa_moedas.quantidade_moedas])[mine]
+		recompensa_moedas.mostrar(amount, str(result.names[mine]))
+		return
 	if not is_instance_valid(result_dialog):
 		result_dialog = AcceptDialog.new()
 		add_child(result_dialog)
@@ -396,8 +409,10 @@ func _hint() -> String:
 	if p.is_empty(): return ""
 	if p.get("sitting",false): return "Espaço ou movimento: levantar  •  Q: história e diárias"
 	if CATALOG.nearest_seat(current_zone,p.position)>=0: return "Espaço: sentar  •  Q: história e diárias"
-	if current_zone=="loja_pets": return "E: escolher seu pet  •  Q: história e diárias"
-	if current_zone=="provador": return "E: experimentar um lenço  •  Q: história e diárias"
+	if current_zone in ["loja_pets","loja_cosmeticos"]:
+		if CATALOG.near_merchant(p.position): return "E: conversar com o comerciante  •  Q: história e diárias"
+		return "Aproxime-se do comerciante para escolher "+("seu pet" if current_zone=="loja_pets" else "um acessório")
+	if current_zone=="provador": return "E: experimentar acessórios  •  Q: história e diárias"
 	if current_zone=="language":
 		if p.position.distance_to(Vector2(275,411))<75: return "E: investigar o mamute"
 		if p.position.distance_to(Vector2(885,574))<75: return "E: investigar o fóssil"
@@ -410,14 +425,18 @@ func _interact_nearby() -> void:
 	var text:=""
 	var kind:=""
 	if current_zone=="loja_pets":
-		title="Escolha seu companheiro"
-		text="Peixe e papagaio estão disponíveis nesta versão. Sua escolha fica salva."
+		var player: Dictionary=Network.players.get(multiplayer.get_unique_id(),{})
+		if not CATALOG.near_merchant(player.get("position",Vector2.ZERO)): return
+		title="Comerciante de pets"
+		text="Olá! Qual companheiro vai explorar a ilha com você? Escolha o peixe ou o papagaio."
 		options={"Peixe voador":"fish","Papagaio":"parrot"}
 		kind="pet"
-	elif current_zone=="provador":
-		title="Experimente no espelho"
-		text="Escolha um lenço. Os outros jogadores também veem sua aparência."
-		options={"Sem lenço":"none","Lenço vermelho":"scarf_red","Lenço azul":"scarf_blue"}
+	elif current_zone in ["loja_cosmeticos","provador"]:
+		var player: Dictionary=Network.players.get(multiplayer.get_unique_id(),{})
+		if current_zone=="loja_cosmeticos" and not CATALOG.near_merchant(player.get("position",Vector2.ZERO)): return
+		title="Experimente no espelho" if current_zone=="provador" else "Comerciante de cosméticos"
+		text="Cartola, laço rosa e lenços estão disponíveis para experimentar. Sua escolha fica salva."
+		options={"Sem acessório":"none","Cartola":"cartola","Laço rosa":"laco_rosa","Lenço vermelho":"scarf_red","Lenço azul":"scarf_blue"}
 		kind="outfit"
 	elif current_zone=="language":
 		var point: Vector2=Network.players.get(multiplayer.get_unique_id(),{}).get("position",Vector2.ZERO)
@@ -435,15 +454,33 @@ func _interact_nearby() -> void:
 	action_dialog.dialog_text=text
 	add_child(action_dialog)
 	if not options.is_empty():
-		var row:=HBoxContainer.new()
-		row.position=Vector2(20,95)
+		action_dialog.dialog_text=""
+		action_dialog.get_label().hide()
+		var content:=VBoxContainer.new()
+		content.add_theme_constant_override("separation",18)
+		action_dialog.add_child(content)
+		var description:=Label.new()
+		description.text=text
+		description.custom_minimum_size.x=580
+		description.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+		description.add_theme_font_size_override("font_size",18)
+		content.add_child(description)
+		var row:=GridContainer.new()
+		row.columns=3
 		row.add_theme_constant_override("separation",12)
-		action_dialog.add_child(row)
+		row.add_theme_constant_override("h_separation",12)
+		row.add_theme_constant_override("v_separation",12)
+		content.add_child(row)
 		for caption in options:
 			var value: String=options[caption]
 			var button:=Button.new()
 			button.text=caption
 			button.custom_minimum_size=Vector2(150,46)
+			var style:=StyleBoxFlat.new()
+			style.bg_color=Color("299bd1")
+			style.set_corner_radius_all(10)
+			button.add_theme_stylebox_override("normal",style)
+			button.add_theme_stylebox_override("hover",style)
 			button.pressed.connect(func(): Network.interact(kind,value); action_dialog.hide(); get_viewport().gui_release_focus())
 			row.add_child(button)
-	action_dialog.popup_centered(Vector2i(600,220))
+	action_dialog.popup_centered(Vector2i(640,260))

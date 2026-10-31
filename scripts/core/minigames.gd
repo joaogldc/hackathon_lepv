@@ -44,8 +44,7 @@ func exit_at(point: Vector2, zone: String) -> String:
 			if point.distance_to(Vector2(309,432))<30: return "loja_pets"
 			if point.distance_to(Vector2(843,432))<30: return "loja_cosmeticos"
 		if zone=="language":
-			if point.distance_to(Vector2(760,500))<32: return "ship"
-			if point.distance_to(Vector2(559,362))<28: return "cave"
+			if point.distance_to(Vector2(710,500))<32: return "ship"
 	elif zone in ["loja_pets","loja_cosmeticos","provador"]:
 		if point.y>=602 and absf(point.x-576)<90: return "loja_cosmeticos" if zone=="provador" else "commerce"
 		if zone=="loja_cosmeticos" and point.distance_to(Vector2(865,432))<28: return "provador"

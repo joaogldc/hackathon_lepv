@@ -41,11 +41,12 @@ func _run() -> void:
 	Network.players[1].position=Vector2(309,432)
 	Network.request_zone("loja_pets")
 	assert(Network.players[1].zone=="loja_pets")
+	Network.players[1].position=Vector2(576,480)
 	Network.interact("pet","parrot")
 	assert(Network.players[1].pet=="parrot")
 	var guest: int=Network.players.keys().filter(func(id): return id!=1)[0]
 	Network.players[guest].zone="loja_pets"
-	Network.players[guest].position=Vector2(576,580)
+	Network.players[guest].position=Vector2(576,480)
 	assert(await wait_for(func(): return Network.players[guest].get("pet","")=="parrot"))
 	await get_tree().create_timer(0.3).timeout
 	Network.players[1].position=Vector2(576,610)
@@ -63,7 +64,7 @@ func _run() -> void:
 	Network.players[1].position=Vector2(275,411)
 	Network.interact("discover","mammoth")
 	assert(Network.players[1].progress.stats.get("discover_mammoth",0)>0)
-	Network.players[1].position=Vector2(760,500)
+	Network.players[1].position=Vector2(710,500)
 	Network.request_zone("ship")
 	assert(Network.players[1].zone=="ship")
 	Learning.act("start")

@@ -7,5 +7,5 @@ func _ready() -> void:
 
 func _draw() -> void:
 	var font := ThemeDB.fallback_font
-	var exit_point: Vector2 = Minigames.EXIT.position
+	var exit_point:=Vector2(576,615)
 	load("res://scripts/world/ground_arrow.gd").paint(self,exit_point,0.0)

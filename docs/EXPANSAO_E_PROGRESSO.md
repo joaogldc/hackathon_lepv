@@ -12,9 +12,10 @@ mesmo computador.
 - **Espaço:** sentar/levantar perto de bancos, cadeiras do comércio e pufes.
   Movimentar-se também levanta. Cada assento recebe apenas um jogador.
 - As portas continuam automáticas por aproximação; não exigem E.
-- **E na loja de pets:** escolher peixe ou papagaio. Ambos estão disponíveis
+- **E perto do comerciante da loja de pets:** conversar e escolher peixe ou papagaio. Ambos estão disponíveis
   gratuitamente nesta versão; o equipamento é salvo e sincronizado.
-- **E no provador:** experimentar lenços vermelho/azul ou remover o acessório.
+- **E perto do comerciante de cosméticos ou no provador:** experimentar cartola,
+  laço rosa e lenços vermelho/azul, ou remover o acessório.
   O espelho acompanha posição, direção e aparência do jogador local.
 - **E perto do mamute ou do lago com fóssil:** investigar e registrar a descoberta.
 
@@ -22,12 +23,16 @@ mesmo computador.
 
 A nova composição comercial contém food truck, mesas com guarda-sol e colisões
 nas bases. Aproxime-se da porta da loja de pets ou de cosméticos para entrar.
-Na loja de cosméticos, a seta ao fundo à direita leva ao provador. A saída de
+Na loja de cosméticos, a seta ao fundo à direita leva ao provador. O puff central
+foi removido; o puff lateral do provador permanece. O espelho e as cortinas
+têm colisão; as cortinas também têm uma camada visual na frente do jogador.
+A saída de
 baixo retorna à loja e depois ao comércio.
 
 Porto Glacial é uma área compartilhada caminhável, com objetos separados,
-profundidade, colisões e saída para a praça. O navio e a gruta abrem expedições
-de leitura/interpretação. O Observatório abre um desafio de ciências. Cada
+profundidade, colisões e saída para a praça. O navio, ampliado em 30%, abre uma
+expedição de leitura/interpretação. A gruta é decorativa, sem seta nem entrada
+ativa. O Observatório abre um desafio de ciências. Cada
 expedição contém três perguntas; dois acertos concluem o desafio. Essas são
 atividades curtas já jogáveis, não a mecânica planejada de pilotar barco/foguete.
 
@@ -45,7 +50,7 @@ recortado da imagem enviada; o tabuleiro quadriculado foi removido dos recortes.
 5. Visitar o Porto Glacial.
 6. Investigar o mamute.
 7. Investigar o lago com fóssil.
-8. Concluir a expedição de leitura do navio/gruta.
+8. Concluir a expedição de leitura do navio.
 9. Visitar o Observatório.
 10. Acertar uma pergunta de ciências.
 11. Acertar três perguntas de ciências.
@@ -74,7 +79,12 @@ para a história nem conta como duelo concluído nas diárias.
 ## Salvamento e rede
 
 O servidor mantém `user://progress_v1.json`: história, XP, diárias, sequência,
-resultados, pet e lenço. A instalação do cliente tem um identificador aleatório
+resultados, moedas, pet e acessório. Cada vitória em duelo, incluindo abandono,
+concede 25 moedas; o servidor credita apenas uma vez por partida. A animação do
+Kilim usa o valor confirmado no resultado. Pular, fechar ou repetir sua exibição
+não altera o saldo. Os acessórios e pets continuam gratuitos para experimentar
+nesta versão; ainda não há compra com desconto de saldo.
+A instalação do cliente tem um identificador aleatório
 em `user://identity.cfg`; perfil é identificado por ele e pelo apelido. Reentrar
 no mesmo servidor com o mesmo apelido restaura os dados. Não há conta em nuvem
 ou compartilhamento de progresso entre servidores independentes.
@@ -95,5 +105,9 @@ outros visitantes e seus equipamentos aparecem normalmente na sala.
   duelo completo, revanche, quatro formas de abandono e permissões da plateia.
 - Importação/inicialização no Godot 4.7.2 e inspeção das áreas, espelho, história,
   diárias e desafio de ciências renderizados.
+- `polish_smoke`: proximidade do comerciante no cliente/servidor, acessórios,
+  remoção do puff, colisão do espelho/cortinas, gruta inativa, estados circulares
+  de missões e moedas creditadas/salvas uma vez por partida.
+- `reward_smoke`: quantidade, zero, substituição do valor, pular, reabrir e Esc.
 
 Testes de rede usam portas 19081 e 19094, sem ocupar a porta normal 9080.
