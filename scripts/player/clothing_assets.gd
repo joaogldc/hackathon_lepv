@@ -1,10 +1,9 @@
 extends RefCounted
-## Referências persistentes: mantêm os atlas vivos durante o desenho pelo CanvasItem.
-const LAYERS := {
-	"camisa_cor": preload("res://assets/sprites/urso/roupas/camisa_cor.tres"),
-	"terno_cor": preload("res://assets/sprites/urso/roupas/terno_cor.tres"),
-	"terno_detalhe": preload("res://assets/sprites/urso/roupas/terno_detalhe.tres"),
-	"chapeu_cor": preload("res://assets/sprites/urso/roupas/chapeu_cor.tres"),
-	"chapeu_detalhe": preload("res://assets/sprites/urso/roupas/chapeu_detalhe.tres"),
-	"touca_cor": preload("res://assets/sprites/urso/roupas/touca_cor.tres")
-}
+## Keep only requested atlases alive. Clothing is optional to the world/server.
+const IDS := ["camisa_cor","terno_cor","terno_detalhe","chapeu_cor","chapeu_detalhe","touca_cor"]
+static var loaded: Dictionary={}
+static func layer(id: String) -> SpriteFrames:
+	if not IDS.has(id): return null
+	if not loaded.has(id):
+		loaded[id]=load("res://assets/sprites/urso/roupas/"+id+".tres") as SpriteFrames
+	return loaded[id]

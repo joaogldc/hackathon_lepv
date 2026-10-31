@@ -49,9 +49,20 @@ func _box(rect: Rect2,color:=CREAM) -> Panel:
 	widgets.add_child(panel)
 	return panel
 func _label(text: String,rect: Rect2,font_size:=19,align:=HORIZONTAL_ALIGNMENT_CENTER,wrap:=false) -> void:
+	var bounds:=Control.new()
+	bounds.position=rect.position
+	bounds.size=rect.size
+	bounds.clip_contents=true
+	bounds.mouse_filter=Control.MOUSE_FILTER_IGNORE
+	widgets.add_child(bounds)
 	var label:=Label.new()
 	label.text=text
-	label.position=rect.position
+	if wrap:
+		var lines:=PackedStringArray([""])
+		for word in text.split(" "):
+			if lines[-1].length()+word.length()>20: lines.append("")
+			lines[-1]+=(" " if not lines[-1].is_empty() else "")+word
+		label.text="\n".join(lines)
 	label.size=rect.size
 	label.horizontal_alignment=align
 	label.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
@@ -62,7 +73,7 @@ func _label(text: String,rect: Rect2,font_size:=19,align:=HORIZONTAL_ALIGNMENT_C
 	label.add_theme_font_size_override("font_size",font_size)
 	label.mouse_filter=Control.MOUSE_FILTER_IGNORE
 	label.size=rect.size
-	widgets.add_child(label)
+	bounds.add_child(label)
 func _button(text: String,rect: Rect2,action: Callable) -> void:
 	var button:=Button.new()
 	button.text=text
@@ -108,11 +119,11 @@ func _redraw_hud() -> void:
 	_box(Rect2(113,85,142,8),Color("bcdcdc"))
 	var done := int(Progress.view.get("xp",0))%100
 	if done > 0: _box(Rect2(113,85,maxf(8,142.0*done/100),8),Color("259dcb"))
-	_box(Rect2(22,138,246,94))
+	_box(Rect2(22,138,246,106))
 	_icon("quest",Rect2(39,154,36,40))
 	_label("Próxima descoberta",Rect2(87,145,170,24),14,HORIZONTAL_ALIGNMENT_LEFT)
-	_label(Progress.STORY[mini(int(Progress.view.get("story",0)),11)][0],Rect2(87,169,170,36),16,HORIZONTAL_ALIGNMENT_LEFT,true)
-	_link("Abrir passaporte ›",Rect2(87,207,170,23),toggle_passport)
+	_label(Progress.STORY[mini(int(Progress.view.get("story",0)),11)][0],Rect2(87,169,170,44),16,HORIZONTAL_ALIGNMENT_LEFT,true)
+	_link("Abrir passaporte ›",Rect2(87,215,170,23),toggle_passport)
 	_box(Rect2(22,248,246,88))
 	_icon("quest",Rect2(39,261,36,40))
 	_label("Missões diárias",Rect2(87,254,171,25),18,HORIZONTAL_ALIGNMENT_LEFT)

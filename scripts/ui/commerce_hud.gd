@@ -77,17 +77,18 @@ func close_window() -> void:
 
 func handle_key(event: InputEvent) -> bool:
 	if not event is InputEventKey or not event.pressed or event.echo: return false
-	if event.physical_keycode == KEY_ESCAPE and is_open():
+	var key: int=event.keycode if event.keycode else event.physical_keycode
+	if key == KEY_ESCAPE and is_open():
 		if not pending.is_empty(): pending = ""; _refresh()
 		else: close_window()
 		return true
-	if event.physical_keycode == KEY_Q:
+	if key == KEY_Q:
 		var profile: Dictionary = Network.players.get(multiplayer.get_unique_id(), {})
 		if not profile.is_empty() and profile.get("zone", "") not in Minigames.WORLD_ZONES: return false
 		if page == "daily": close_window()
 		else: open_page("daily")
 		return true
-	if event.physical_keycode == KEY_E and not is_open():
+	if key == KEY_E and not is_open():
 		var profile: Dictionary = Network.players.get(multiplayer.get_unique_id(), {})
 		if not profile.is_empty():
 			var action: String = Minigames.shop_action(profile.zone,profile.position)

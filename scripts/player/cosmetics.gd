@@ -14,7 +14,8 @@ static func paint(canvas: CanvasItem, outfit: String, direction: String, origin:
 		var flip: bool=direction in ["left","front_left","back_left"]
 		canvas.draw_set_transform(origin,0,Vector2(-0.7 if flip else 0.7,0.7)*size)
 		for layer in (["cor","detalhe"] if kind in ["terno","chapeu"] else ["cor"]):
-			var frames: SpriteFrames=CLOTHING.LAYERS[kind+"_"+layer]
+			var frames: SpriteFrames=CLOTHING.layer(kind+"_"+layer)
+			if not frames: continue
 			if not frames.has_animation(action): action="idle_"+face
 			var frame: Texture2D=frames.get_frame_texture(action,int(clock*(8.0 if moving else 2.0))%frames.get_frame_count(action))
 			canvas.draw_texture_rect(frame,Rect2(-48,-96,96,96),false,Color(product.color) if layer=="cor" else Color.WHITE)

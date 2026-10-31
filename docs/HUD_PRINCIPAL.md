@@ -55,3 +55,16 @@ A conversa da barra ainda exibe um balão local; Amigos lista quem está na sala
 O perfil permanece associado à instalação/apelido no servidor escolhido,
 sem conta em nuvem. A cena separada do salão glacial foi recebida e preservada;
 a entrada do navio no jogo mantém o desafio de leitura validado pelo servidor.
+
+## Inicialização e memória
+
+Os atlas de roupas agora são carregados apenas quando uma peça daquele tipo
+é desenhada. Uma falha opcional de roupa deixa o urso sem a sobreposição e
+preserva a montagem da interface e do servidor. O projeto usa importação
+sequencial e compressão sem perdas em PNG para evitar o pico de memória
+observado ao gerar as texturas WebP. O tamanho inicial continua 1152 × 720.
+
+`clothing_loading_smoke` cobre a abertura sem carregar seis atlas, a falha de
+uma camada opcional e a carga de uma camisa sem carregar os outros tipos.
+Os atalhos de interface também aceitam o código lógico do teclado, além do
+código físico, para funcionar com entrada virtual/acessível.

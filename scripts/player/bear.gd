@@ -1,5 +1,4 @@
 extends Node2D
-const CLOTHING := preload("res://scripts/player/clothing_assets.gd")
 ## Optional Inkscape exports: assets/characters/brown/{front,back,left,right}.png.
 const PET := preload("res://scripts/player/pet_companion.gd")
 const COSMETICS := preload("res://scripts/player/cosmetics.gd")

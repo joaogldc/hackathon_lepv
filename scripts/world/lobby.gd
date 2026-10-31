@@ -131,41 +131,42 @@ func _input(event: InputEvent) -> void:
 			return
 		if commerce_ui.is_open(): return
 	if event is InputEventKey and event.pressed and not event.echo:
+		var key: int=event.keycode if event.keycode else event.physical_keycode
 		if Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
-			if event.physical_keycode==KEY_Q:
+			if key==KEY_Q:
 				_toggle_quests()
 				get_viewport().set_input_as_handled()
 				return
 			if is_instance_valid(quests):
-				if event.physical_keycode==KEY_ESCAPE: _close_quests()
+				if key==KEY_ESCAPE: _close_quests()
 				get_viewport().set_input_as_handled()
 				return
 			if current_zone in Minigames.WORLD_ZONES:
-				if event.physical_keycode==KEY_B:
+				if key==KEY_B:
 					_toggle_pet_emotes()
 					get_viewport().set_input_as_handled()
 					return
-				if event.physical_keycode>=KEY_1 and event.physical_keycode<=KEY_8:
-					Network.interact("pet_emote",PET.EMOTE_IDS[event.physical_keycode-KEY_1])
+				if key>=KEY_1 and key<=KEY_8:
+					Network.interact("pet_emote",PET.EMOTE_IDS[key-KEY_1])
 					get_viewport().set_input_as_handled()
 					return
-			if event.physical_keycode==KEY_SPACE and current_zone in Minigames.WORLD_ZONES:
+			if key==KEY_SPACE and current_zone in Minigames.WORLD_ZONES:
 				Network.interact("sit")
 				get_viewport().set_input_as_handled()
 				return
-			if event.physical_keycode==KEY_E and current_zone in Minigames.WORLD_ZONES:
+			if key==KEY_E and current_zone in Minigames.WORLD_ZONES:
 				_interact_nearby()
 				get_viewport().set_input_as_handled()
 				return
-			if event.physical_keycode == KEY_P and current_zone in Minigames.WORLD_ZONES:
+			if key == KEY_P and current_zone in Minigames.WORLD_ZONES:
 				world_hud.toggle_passport()
 				get_viewport().set_input_as_handled()
 				return
-			if event.physical_keycode == KEY_M:
+			if key == KEY_M:
 				_toggle_map()
 				get_viewport().set_input_as_handled()
 				return
-			if event.physical_keycode == KEY_ESCAPE and is_instance_valid(map_view):
+			if key == KEY_ESCAPE and is_instance_valid(map_view):
 				_close_map()
 				get_viewport().set_input_as_handled()
 				return

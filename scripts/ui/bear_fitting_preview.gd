@@ -17,7 +17,8 @@ func _draw() -> void:
 	if product.has("garment"):
 		var kind: String = product.garment
 		for layer in (["cor","detalhe"] if kind in ["terno","chapeu"] else ["cor"]):
-			var frames: SpriteFrames = CLOTHING.LAYERS[kind+"_"+layer]
+			var frames: SpriteFrames = CLOTHING.layer(kind+"_"+layer)
+			if not frames: continue
 			var frame := frames.get_frame_texture("idle_S",0)
 			draw_texture_rect(frame,Rect2(0,0,256,256),false,Color(product.color) if layer == "cor" else Color.WHITE)
 	elif item_id == "cartola":
