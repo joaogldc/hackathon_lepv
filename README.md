@@ -1,3 +1,5 @@
+> **HUD principal aprovado: Clube.** Veja [HUD_PRINCIPAL](docs/HUD_PRINCIPAL.md) para o HUD de referência, lojas por balcão, provador e roupas recebidas.
+
 # 🐻 Mundo dos Ursos — Hackathon LEPV
 
 > Mundo social online 2D em que aprender gera conquistas, moedas e novas formas de se expressar entre amigos.

@@ -125,7 +125,7 @@ func _request_walk(point: Vector2) -> void:
 func _set_destination(id: int, point: Vector2) -> void:
 	if not point.is_finite() or not players.has(id) or players[id].zone not in Minigames.WORLD_ZONES:
 		return
-	players[id].destination = point.clamp(BOUNDS.position, BOUNDS.end)
+	players[id].destination = point.clamp(Minigames.bounds(players[id].zone).position, Minigames.bounds(players[id].zone).end)
 	intents[id] = {"vector": Vector2.ZERO, "age": 0.0}
 
 func request_zone(destination: String) -> void:
@@ -183,8 +183,13 @@ func _change_zone(id: int, destination: String, from_map := false) -> void:
 			players[id].position = Vector2(players[id].position.x,325)
 		else:
 			players[id].position = players[id].get("lobby_position", Vector2(350,450))
+	elif destination in ["pet_shop", "cosmetics_shop", "fitting_room"]:
+		players[id].position = Vector2(576,585)
+		if destination == "cosmetics_shop" and previous == "fitting_room": players[id].position = Vector2(878,382)
 	elif destination == "commerce":
-		players[id].position = Vector2(players[id].position.x,585) if not from_map else Vector2(576,530)
+		if previous in ["pet_shop", "cosmetics_shop"]:
+			players[id].position = Vector2(309 if previous == "pet_shop" else 844,474)
+		else: players[id].position = Vector2(players[id].position.x,585) if not from_map else Vector2(576,530)
 	elif destination == "math":
 		if previous == "dojo":
 			players[id].position = Vector2(560,500)
@@ -255,7 +260,7 @@ func _physics_process(delta: float) -> void:
 					players[id].destination = null
 			else:
 				pos += motion * SPEED * delta
-			players[id].position = GEOMETRY.move(players[id].zone, players[id].position, pos.clamp(BOUNDS.position, BOUNDS.end))
+			players[id].position = GEOMETRY.move(players[id].zone, players[id].position, pos.clamp(Minigames.bounds(players[id].zone).position, Minigames.bounds(players[id].zone).end))
 			if motion != Vector2.ZERO:
 				if absf(motion.x) > 0.2 and absf(motion.y) > 0.2:
 					players[id].direction = ("front" if motion.y > 0 else "back") + ("_right" if motion.x > 0 else "_left")

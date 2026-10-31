@@ -1,0 +1,34 @@
+[gd_scene load_steps=8 format=3]
+[ext_resource type="Script" path="res://assets/sprites/urso/roupas.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/urso/roupas/camisa_cor.tres" id="2"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/urso/roupas/terno_cor.tres" id="3"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/urso/roupas/terno_detalhe.tres" id="4"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/urso/roupas/chapeu_cor.tres" id="5"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/urso/roupas/chapeu_detalhe.tres" id="6"]
+[ext_resource type="SpriteFrames" path="res://assets/sprites/urso/roupas/touca_cor.tres" id="7"]
+[node name="Roupas" type="Node2D"]
+script = ExtResource("1")
+[node name="CamisaCor" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("2")
+animation = &"idle_S"
+[node name="TernoCor" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("3")
+animation = &"idle_S"
+[node name="TernoDetalhe" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("4")
+animation = &"idle_S"
+[node name="ChapeuCor" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("5")
+animation = &"idle_S"
+[node name="ChapeuDetalhe" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("6")
+animation = &"idle_S"
+[node name="ToucaCor" type="AnimatedSprite2D" parent="."]
+visible = false
+sprite_frames = ExtResource("7")
+animation = &"idle_S"

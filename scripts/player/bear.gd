@@ -1,4 +1,5 @@
 extends Node2D
+const CLOTHING := preload("res://scripts/player/clothing_assets.gd")
 ## Optional Inkscape exports: assets/characters/brown/{front,back,left,right}.png.
 const PET := preload("res://scripts/player/pet_companion.gd")
 var pet: Node2D
@@ -51,6 +52,16 @@ func _draw() -> void:
 		var flip := direction in ["left", "front_left", "back_left"]
 		draw_set_transform(Vector2.ZERO, 0.0, Vector2(-0.7 if flip else 0.7, 0.7))
 		draw_texture_rect(frame, Rect2(-48, -96, 96, 96), false)
+		if local_player:
+			var clothing := DailyJournal.item(DailyJournal.equipped)
+			if clothing.has("garment"):
+				var kind: String = clothing.garment
+				for layer in (["cor","detalhe"] if kind in ["terno","chapeu"] else ["cor"]):
+					var garments: SpriteFrames = CLOTHING.LAYERS[kind+"_"+layer]
+					var animation := ("walk_" if moving else "idle_")+face
+					if garments.has_animation(animation):
+						var index := int(animation_time*(8.0 if moving else 2.0)) % garments.get_frame_count(animation)
+						draw_texture_rect(garments.get_frame_texture(animation,index),Rect2(-48,-96,96,96),false,Color(clothing.color) if layer == "cor" else Color.WHITE)
 		draw_set_transform(Vector2.ZERO,0.0,Vector2(0.7,0.7))
 	elif textures.has(direction):
 		draw_texture_rect(textures[direction], Rect2(-48, -88, 96, 96), false)

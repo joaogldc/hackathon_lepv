@@ -10,8 +10,10 @@ const MAP := preload("res://scripts/world/world_map.gd")
 var bamboo_view: Node2D
 var fountain: Sprite2D
 var world_hud: Control
+var commerce_ui: Control
 var login_panel: PanelContainer
 var commerce_view: Node2D
+var interior_view: Node2D
 var title_label: Label
 var bears: Dictionary = {}
 var name_field: LineEdit
@@ -47,6 +49,9 @@ func _ready() -> void:
 	commerce_view = COMMERCE.instantiate()
 	commerce_view.visible = false
 	add_child(commerce_view)
+	interior_view = load("res://scripts/world/shop_interior.gd").new()
+	add_child(interior_view)
+	interior_view.hide()
 	bamboo_view = load("res://scripts/world/bamboo.gd").new()
 	bamboo_view.visible = false
 	add_child(bamboo_view)
@@ -62,6 +67,11 @@ func _ready() -> void:
 	Duel.result_received.connect(_show_result)
 	game_layer = CanvasLayer.new()
 	game_layer.layer = 10
+	var commerce_layer := CanvasLayer.new()
+	commerce_layer.layer = 8
+	add_child(commerce_layer)
+	commerce_ui = load("res://scripts/ui/commerce_hud.gd").new()
+	commerce_layer.add_child(commerce_ui)
 	add_child(game_layer)
 	var args := OS.get_cmdline_user_args()
 	if "--server" in args:
@@ -78,7 +88,7 @@ func _process(_delta: float) -> void:
 		game_view.permitir_movimento = not recompensa_aberta and not is_instance_valid(map_view)
 	var movement := Vector2.ZERO
 	var focused := get_viewport().gui_get_focus_owner()
-	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not recompensa_aberta:
+	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()):
 		movement = Vector2(
 			float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)),
 			float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN)) - float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP)))
@@ -96,13 +106,19 @@ func _process(_delta: float) -> void:
 		nearby_portal = Minigames.exit_at(Network.players[id].position,current_zone)
 	if nearby_portal.is_empty():
 		exit_armed = true
-	elif exit_armed and not is_instance_valid(map_view) and not recompensa_aberta:
+	elif exit_armed and not is_instance_valid(map_view) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()):
 		exit_armed = false
 		Network.request_zone(nearby_portal)
 
 func _input(event: InputEvent) -> void:
 	if recompensa_moedas.visible or recompensa_xp.visible:
 		return
+	if is_instance_valid(commerce_ui) and Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
+		if commerce_ui.handle_key(event):
+			_close_map()
+			get_viewport().set_input_as_handled()
+			return
+		if commerce_ui.is_open(): return
 	if event is InputEventKey and event.pressed and not event.echo:
 		if Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
 			if event.physical_keycode == KEY_P and current_zone in Minigames.WORLD_ZONES:
@@ -153,6 +169,7 @@ func _set_zone(zone: String) -> void:
 		return
 	var previous_zone := current_zone
 	current_zone = zone
+	if is_instance_valid(commerce_ui): commerce_ui.close_window()
 	if transition_tween:
 		transition_tween.kill()
 	position = Vector2.ZERO
@@ -172,6 +189,8 @@ func _set_zone(zone: String) -> void:
 		game_view = null
 	hud.visible = zone in Minigames.WORLD_ZONES
 	commerce_view.visible = zone == "commerce"
+	interior_view.visible = zone in Minigames.SHOP_ZONES
+	if interior_view.visible: interior_view.set_room(zone)
 	bamboo_view.visible = zone == "math"
 	fountain.visible = zone == "lobby"
 	for sign_board in signs:
@@ -234,6 +253,7 @@ func _build_ui() -> void:
 	world_hud.visible = false
 	world_hud.map_requested.connect(_toggle_map)
 	world_hud.travel_requested.connect(_travel_from_map)
+	world_hud.daily_requested.connect(func(): _close_map(); commerce_ui.open_page("daily"))
 	var panel := PanelContainer.new()
 	login_panel = panel
 	panel.position = Vector2(24, 18)

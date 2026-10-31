@@ -19,6 +19,7 @@ config/features=PackedStringArray("4.7", "GL Compatibility")
 Minigames="*res://scripts/core/minigames.gd"
 Network="*res://scripts/network/network.gd"
 Duel="*res://scripts/minigames/math/duel_service.gd"
+DailyJournal="*res://scripts/ui/daily_journal.gd"
 
 [display]
 

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+<title>Primeira vitória diária</title><desc>Selo dourado com estrela, sol nascente, ramos e fitas azuis.</desc>
+<g stroke="#513d2b" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M77 153 58 230 94 213 117 240 134 162M179 153 198 230 162 213 139 240 122 162" fill="#259dcb"/>
+<path d="m86 180-11 35m90-35 11 35" fill="none" stroke="#8ad2e5"/>
+<path d="m128 15 20 14 24-1 11 21 22 10 1 24 14 20-10 22 2 24-20 14-8 23-24 3-21 12-21-12-24-3-8-23-20-14 2-24-10-22 14-20 1-24 22-10 11-21 24 1Z" fill="#e7a640"/>
+<circle cx="128" cy="109" r="75" fill="#ffe59c"/>
+<circle cx="128" cy="109" r="63" fill="#fff5dc" stroke="#cf9440" stroke-width="3"/>
+<path d="M81 145a54 54 0 0 1 0-71m94 71a54 54 0 0 0 0-71" fill="none" stroke="#649363"/>
+<g fill="#8bb878" stroke="#649363" stroke-width="2"><ellipse cx="79" cy="127" rx="6" ry="12" transform="rotate(-40 79 127)"/><ellipse cx="73" cy="108" rx="6" ry="11" transform="rotate(-24 73 108)"/><ellipse cx="77" cy="88" rx="5" ry="10" transform="rotate(18 77 88)"/><ellipse cx="177" cy="127" rx="6" ry="12" transform="rotate(40 177 127)"/><ellipse cx="183" cy="108" rx="6" ry="11" transform="rotate(24 183 108)"/><ellipse cx="179" cy="88" rx="5" ry="10" transform="rotate(-18 179 88)"/></g>
+<path d="M105 76a25 25 0 0 1 46 0" fill="#f5c35b" stroke="#d89c36" stroke-width="3"/>
+<path d="M128 42v-8m-28 18-5-7m61 7 5-7" fill="none" stroke="#d89c36" stroke-width="3"/>
+<path d="m128 76 12 25 28 4-20 20 5 28-25-13-25 13 5-28-20-20 28-4Z" fill="#f4c768" stroke="#b7792c" stroke-width="4"/>
+<path d="m128 91 6 13-9 14" fill="none" stroke="#fff5dc" stroke-width="4"/>
+<path d="M108 169h40" stroke="#b7792c" stroke-width="3"/>
+</g></svg>

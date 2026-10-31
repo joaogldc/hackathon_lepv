@@ -3,6 +3,15 @@ extends RefCounted
 const CENTER := Vector2(576, 466)
 const RADII := Vector2(109, 48)
 static func blocked(zone: String, point: Vector2) -> bool:
+	if zone in ["pet_shop", "cosmetics_shop"]:
+		if Rect2(444,350,264,41).has_point(point): return true
+		if zone == "pet_shop":
+			for base in [Rect2(243,464,126,24),Rect2(810,504,110,24),Rect2(742,378,134,29)]:
+				if base.has_point(point): return true
+		else:
+			for base in [Rect2(184,451,172,28),Rect2(796,523,172,28),Rect2(534,487,84,32)]:
+				if base.has_point(point): return true
+		return false
 	if zone == "lobby":
 		if ((point - CENTER) / RADII).length_squared() < 1.0: return true
 		for bush in [Vector2(290,295),Vector2(850,295),Vector2(290,555),Vector2(850,555)]:
@@ -59,7 +68,7 @@ static func move(zone: String, start: Vector2, target: Vector2) -> Vector2:
 
 static func safe_position(zone: String, point: Vector2) -> Vector2:
 	if not blocked(zone,point): return point
-	var bounds := Rect2(72,230,1008,400)
+	var bounds := Rect2(230,520,692,110) if zone == "fitting_room" else (Rect2(90,315,972,315) if zone in ["pet_shop","cosmetics_shop"] else Rect2(72,230,1008,400))
 	for radius in range(8,241,8):
 		for index in range(32):
 			var candidate := point + Vector2.RIGHT.rotated(TAU*index/32.0)*radius
