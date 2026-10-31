@@ -8,6 +8,7 @@ func _run_host() -> void:
 			client_id = id
 	Network.players[1].position = entry
 	Network.request_zone("commerce")
+	var return_point: Vector2 = Network.players[1].lobby_position
 	if lobby.current_zone != "commerce" or not lobby.commerce_view.visible or lobby.bears[client_id].visible:
 		_fail("Área comercial não separou a presença dos jogadores")
 		return
@@ -34,10 +35,9 @@ func _run_host() -> void:
 		_fail("Visitante no lobby aparece nas lojas")
 		return
 	Network.walk_to(Minigames.EXIT.position)
-	if not await _wait_until(func(): return Network.players[1].position.distance_to(Minigames.EXIT.position) < 1, "anfitrião no portal de saída"):
+	if not await _wait_until(func(): return lobby.current_zone == "lobby", "retorno automático do anfitrião"):
 		return
-	Network.request_zone("lobby")
-	if lobby.current_zone != "lobby" or Network.players[1].position != entry:
+	if Network.players[1].position != return_point:
 		_fail("Posição de retorno do anfitrião incorreta")
 		return
 	if not await _wait_until(func(): return Network.players.size() == 1, "desconexão visitante"):
@@ -54,21 +54,23 @@ func _run_client() -> void:
 	Network.request_zone("commerce")
 	if not await _wait_until(func(): return lobby.current_zone == "commerce", "cena comercial"):
 		return
+	var return_point: Vector2 = Network.players[local_id].lobby_position
 	lobby._toggle_map()
 	if not is_instance_valid(lobby.map_view) or lobby.map_view.zone != "commerce":
 		_fail("Mapa comercial ausente")
 		return
 	lobby._close_map()
+	# Walk around the new freestanding shop sign instead of through it.
+	Network.walk_to(Vector2(800, 505))
+	if not await _wait_until(func(): return Network.players[local_id].position.distance_to(Vector2(800, 505)) < 1, "visitante contornou o cavalete"):
+		return
 	Network.walk_to(Vector2(800, 450))
 	if not await _wait_until(func(): return Network.players[local_id].position.distance_to(Vector2(800, 450)) < 1, "visitante caminhou nas lojas"):
 		return
 	Network.walk_to(Minigames.EXIT.position)
-	if not await _wait_until(func(): return Network.players[local_id].position.distance_to(Minigames.EXIT.position) < 1, "visitante no retorno"):
-		return
-	Network.request_zone("lobby")
 	if not await _wait_until(func(): return lobby.current_zone == "lobby", "visitante no lobby"):
 		return
-	if Network.players[local_id].position != entry:
+	if Network.players[local_id].position != return_point:
 		_fail("Posição de retorno do visitante incorreta")
 		return
 	if not await _wait_until(func(): return Network.players[1].zone == "lobby", "anfitrião voltou"):

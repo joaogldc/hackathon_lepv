@@ -7,6 +7,17 @@ static func blocked(zone: String, point: Vector2) -> bool:
 		return ((point - CENTER) / RADII).length_squared() < 1.0
 	if zone == "math":
 		return Rect2(430, 225, 292, 150).has_point(point)
+	if zone == "commerce":
+		# Footprints match the uniformly scaled shop and street sprites.
+		for shop in [Rect2(159, 355, 300, 57), Rect2(694, 355, 300, 57)]:
+			if shop.has_point(point):
+				return true
+		for lamp in [Vector2(528.56, 446.22), Vector2(623.44, 446.22)]:
+			if point.distance_to(lamp) < 11.0:
+				return true
+		for sign_board in [Vector2(429.38, 458.33), Vector2(722.63, 458.33)]:
+			if point.distance_to(sign_board) < 17.0:
+				return true
 	return false
 
 static func move(zone: String, start: Vector2, target: Vector2) -> Vector2:
