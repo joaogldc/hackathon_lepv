@@ -5,7 +5,7 @@ Personagem original no estilo cartoon de Club Penguin. Cada frame tem 256×256 p
 ## Arquivos
 | Arquivo | O que é |
 |---|---|
-| `urso_spritesheet.png` | Folha 6×6 com todos os frames |
+| `urso_spritesheet.png` | Folha com todos os frames, incluindo sentado e mão levantada de costas |
 | `urso_frames.tres` | SpriteFrames do Godot 4, com todas as animações configuradas |
 | `urso.gd` | Script de movimento em 8 direções (CharacterBody2D) |
 | `frames/` | Cada frame em PNG separado |
@@ -19,7 +19,7 @@ Personagem original no estilo cartoon de Club Penguin. Cada frame tem 256×256 p
 | 3 | E (lado) | idle | walk |
 | 4 | NE | idle | walk |
 | 5 | N (costas) | idle | walk |
-| 6 | — | wave_S (col. 1–4) | sit_S (5), sit_E (6) |
+| 6 | — | wave_S (col. 1–4) | sit_S (5), sit_E (6), sit_N (7), mao_N (8) |
 
 W, SW e NW são E, SE e NE com `flip_h = true`.
 
