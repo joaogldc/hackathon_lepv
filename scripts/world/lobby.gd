@@ -353,7 +353,7 @@ func _build_ui() -> void:
 	box.add_child(row)
 	name_field = LineEdit.new()
 	name_field.placeholder_text = "Seu apelido"
-	name_field.text = "Urso"
+	name_field.text = Network.nickname
 	name_field.max_length = 18
 	name_field.custom_minimum_size.x = 170
 	row.add_child(name_field)
