@@ -2,7 +2,6 @@ extends Node
 ## Rewards, quests, daily rollover and pet/outfit ownership are server-owned.
 signal changed
 const CATALOG := preload("res://scripts/world/world_catalog.gd")
-const COSMETICS := preload("res://scripts/player/cosmetics.gd")
 const SHOP := preload("res://scripts/core/shop_catalog.gd")
 const WIN_COINS := 25
 const STORY := [
@@ -130,7 +129,7 @@ func equip(id: int, kind: String, value: String) -> void:
 	if kind=="pet" and Network.players[id].zone=="loja_pets" and CATALOG.near_merchant(Network.players[id].position) and value in ["fish","parrot"] and p.owned.has(value):
 		p.pet=value
 		Network.players[id].pet=value
-	elif kind=="outfit" and ((COSMETICS.NAMES.has(value) and SHOP.item(value).is_empty()) or (SHOP.item(value).get("shop","")=="cosmetics" and p.owned.has(value))) and (Network.players[id].zone=="provador" or (Network.players[id].zone=="loja_cosmeticos" and CATALOG.near_merchant(Network.players[id].position))):
+	elif kind=="outfit" and (value in ["none","scarf_red","scarf_blue"] or (SHOP.item(value).get("shop","")=="cosmetics" and p.owned.has(value))) and (Network.players[id].zone=="provador" or (Network.players[id].zone=="loja_cosmeticos" and CATALOG.near_merchant(Network.players[id].position))):
 		p.outfit=value
 		Network.players[id].outfit=value
 	else: return
