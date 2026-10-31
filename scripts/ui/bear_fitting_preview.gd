@@ -25,6 +25,4 @@ func _draw() -> void:
 		draw_texture_rect(load("res://assets/cenario/comercial/produtos_exemplo/cartola.png"), Rect2(73,-1,110,78), false)
 	elif item_id == "laco_rosa":
 		draw_texture_rect(load("res://assets/cenario/comercial/produtos_exemplo/laco_rosa.png"), Rect2(157,24,61,49), false)
-	elif item_id == "camiseta":
-		draw_texture_rect(load("res://assets/ui/lojas/camiseta-vestida.svg"), Rect2(0,0,256,256), false)
 	draw_set_transform(Vector2.ZERO)

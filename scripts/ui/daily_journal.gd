@@ -11,6 +11,8 @@ const QUESTS := [
 var coins := 0
 var owned: Array=[]
 var equipped := "none"
+var pet := "fish"
+var pet_acc := "none"
 var badges: Array=[]
 var progress: Dictionary={}
 var claimed: Array=[]
@@ -21,21 +23,29 @@ func _ready() -> void:
 	_sync()
 func _sync() -> void:
 	var p: Dictionary=Network.players.get(multiplayer.get_unique_id(),{}).get("progress",{})
+	# roster_changed chega 20 vezes por segundo. Só avisa a interface quando o
+	# progresso muda; antes, os botões da loja eram recriados a cada snapshot e
+	# perdiam cliques.
+	var next_signature:=str(p)
+	if next_signature==signature: return
+	var first_sync:=signature.is_empty() or signature==str({})
+	signature=next_signature
 	var old: Array=badges.duplicate()
-	coins=p.get("coins",0)
+	coins=int(p.get("coins",0))
 	owned=p.get("owned",["fish"])
 	equipped=p.get("outfit","none")
+	pet=p.get("pet","fish")
+	pet_acc=p.get("pet_acc","none")
 	badges=p.get("badges",[])
 	progress=p.get("daily",{})
 	claimed=[]
 	for i in p.get("daily_awarded",[]):
 		if i>=0 and i<QUESTS.size(): claimed.append(QUESTS[i].id)
-	if old!=badges and not badges.is_empty(): badge_unlocked.emit()
+	# Ao entrar na sala, selos antigos não são anunciados como novos.
+	if not first_sync and badges.any(func(b): return not old.has(b)): badge_unlocked.emit()
 	changed.emit()
 func item(id: String) -> Dictionary:
 	return preload("res://scripts/core/shop_catalog.gd").item(id)
-func visit(_shop: String) -> void: pass
-func try_item(_id: String) -> void: pass
 func buy(id: String) -> String:
 	var product:=item(id)
 	if product.is_empty(): return "Peça não encontrada."
@@ -45,7 +55,9 @@ func buy(id: String) -> String:
 	return ""
 func equip(id: String) -> bool:
 	if id not in owned and id!="none": return false
-	Network.interact("pet" if item(id).get("shop","")=="pet" else "outfit",id)
+	var product:=item(id)
+	var shop: String=product.get("shop","")
+	Network.interact("pet_acc" if product.get("kind","")=="accessory" else ("pet" if shop=="pet" else "outfit"),id)
 	return true
 func remaining() -> int:
 	return 86400-posmod(int(Time.get_unix_time_from_system()),86400)

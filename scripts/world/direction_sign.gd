@@ -7,14 +7,21 @@ const TEXTURES := {
 	"language": preload("res://assets/cenario/placas/placa_language.svg")
 }
 const CAPTIONS := {"commerce": ["Área", "comercial"], "math": ["Bosque da", "Sabedoria"], "science": ["Observatório", ""], "language": ["Porto", "Glacial"]}
+## Centro horizontal do texto em cada placa: a ponta da seta ocupa um dos lados da tábua.
+const TEXT_CENTER := {"commerce": 10.0, "math": 5.0, "science": -6.0, "language": 10.0}
+const FONTS := preload("res://scripts/ui/game_fonts.gd")
+const MAX_TEXT_WIDTH := 88.0
 var destination := "math"
 func _ready() -> void:
 	z_index = int(position.y)
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 func _draw() -> void:
 	draw_texture_rect(TEXTURES[destination], Rect2(-75,-150,150,160), false)
-	var font := ThemeDB.fallback_font
-	for line in range(2):
-		var caption: String = CAPTIONS[destination][line]
-		var width := font.get_string_size(caption,HORIZONTAL_ALIGNMENT_LEFT,-1,13).x
-		draw_string(font,Vector2(-width/2,(-88 if CAPTIONS[destination][1].is_empty() else -96+line*16)),caption,HORIZONTAL_ALIGNMENT_LEFT,-1,13,Color("3b2513"))
+	var lines: Array = CAPTIONS[destination].filter(func(line): return not line.is_empty())
+	var font := FONTS.title()
+	for index in range(lines.size()):
+		# Reduz o corpo só se a palavra não couber na tábua.
+		var size := 16
+		while size > 11 and font.get_string_size(lines[index],HORIZONTAL_ALIGNMENT_LEFT,-1,size).x > MAX_TEXT_WIDTH: size -= 1
+		var baseline := (-84.0 if lines.size() == 1 else -91.0 + index * 15.0) + (size - 16) * 0.35
+		FONTS.engraved(self,lines[index],TEXT_CENTER[destination],baseline,size)

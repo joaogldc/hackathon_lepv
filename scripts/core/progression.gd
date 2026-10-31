@@ -3,7 +3,11 @@ extends Node
 signal changed
 const CATALOG := preload("res://scripts/world/world_catalog.gd")
 const SHOP := preload("res://scripts/core/shop_catalog.gd")
+const PET_ACCESSORIES := preload("res://scripts/player/pet_accessories.gd")
 const WIN_COINS := 25
+## Só para testes: ao rodar pelo editor, o saldo de cada perfil sobe até este
+## valor ao entrar na sala. Jogos exportados não recebem nada. Use 0 para desligar.
+const MOEDAS_TESTE := 1000
 const STORY := [
 	["Conheça o Bosque da Sabedoria","visit_math",1,30,"math"],
 	["Entre no dojo","visit_dojo",1,30,"math"],
@@ -53,7 +57,7 @@ func day_number() -> int:
 	return int(Time.get_unix_time_from_system()/86400.0)
 
 func fresh() -> Dictionary:
-	return {"stats":{},"story":0,"xp":0,"coins":0,"owned":["fish"],"badges":[],"daily_day":-1,"daily":{},"daily_regions":[],"daily_awarded":[],"last_daily":-999,"streak":0,"best_streak":0,"pet":"fish","outfit":"none","wins":0,"losses":0,"draws":0}
+	return {"stats":{},"story":0,"xp":0,"coins":0,"owned":["fish"],"badges":[],"daily_day":-1,"daily":{},"daily_regions":[],"daily_awarded":[],"last_daily":-999,"streak":0,"best_streak":0,"pet":"fish","pet_acc":"none","outfit":"none","wins":0,"losses":0,"draws":0}
 
 func attach(id: int, token: String) -> void:
 	if token.length()!=64 or not token.is_valid_hex_number(false): token=Crypto.new().generate_random_bytes(32).hex_encode()
@@ -64,10 +68,12 @@ func attach(id: int, token: String) -> void:
 	var p: Dictionary=profiles[key]
 	for field in fresh():
 		if not p.has(field): p[field]=fresh()[field]
-	for equipped_item in [p.pet,p.outfit]:
+	for equipped_item in [p.pet,p.pet_acc,p.outfit]:
 		if not SHOP.item(equipped_item).is_empty() and not p.owned.has(equipped_item): p.owned.append(equipped_item)
+	if MOEDAS_TESTE>0 and OS.has_feature("editor") and int(p.coins)<MOEDAS_TESTE: p.coins=MOEDAS_TESTE
 	_roll_day(p,day_number())
 	Network.players[id].pet=p.pet
+	Network.players[id].pet_acc=p.pet_acc
 	Network.players[id].outfit=p.outfit
 	record(id,"visit_lobby")
 
@@ -126,9 +132,14 @@ func duel_result(id: int, result: String, completed: bool) -> int:
 func equip(id: int, kind: String, value: String) -> void:
 	if not player_keys.has(id) or not Network.players.has(id): return
 	var p: Dictionary=profiles[player_keys[id]]
-	if kind=="pet" and Network.players[id].zone=="loja_pets" and CATALOG.near_merchant(Network.players[id].position) and value in ["fish","parrot"] and p.owned.has(value):
+	var in_pet_shop: bool=Network.players[id].zone=="loja_pets" and CATALOG.near_merchant(Network.players[id].position)
+	var product: Dictionary=SHOP.item(value)
+	if kind=="pet" and in_pet_shop and product.get("shop","")=="pet" and not SHOP.is_accessory(product) and p.owned.has(value):
 		p.pet=value
 		Network.players[id].pet=value
+	elif kind=="pet_acc" and in_pet_shop and (value=="none" or (SHOP.is_accessory(product) and p.owned.has(value) and PET_ACCESSORIES.supports(p.pet,product.accessory))):
+		p.pet_acc=value
+		Network.players[id].pet_acc=value
 	elif kind=="outfit" and (value in ["none","scarf_red","scarf_blue"] or (SHOP.item(value).get("shop","")=="cosmetics" and p.owned.has(value))) and (Network.players[id].zone=="provador" or (Network.players[id].zone=="loja_cosmeticos" and CATALOG.near_merchant(Network.players[id].position))):
 		p.outfit=value
 		Network.players[id].outfit=value
@@ -145,9 +156,13 @@ func buy(id: int, value: String) -> void:
 	if action!=product.shop: return
 	var p: Dictionary=profiles[player_keys[id]]
 	if p.owned.has(value) or int(p.coins)<int(product.price): return
+	if SHOP.is_accessory(product) and not PET_ACCESSORIES.supports(p.pet,product.accessory): return
 	p.coins-=int(product.price)
 	p.owned.append(value)
-	if product.shop=="pet":
+	if SHOP.is_accessory(product):
+		p.pet_acc=value
+		player.pet_acc=value
+	elif product.shop=="pet":
 		p.pet=value
 		player.pet=value
 	else:
@@ -159,7 +174,7 @@ func buy(id: int, value: String) -> void:
 func _publish(id: int) -> void:
 	if not Network.players.has(id) or not player_keys.has(id): return
 	var p: Dictionary=profiles[player_keys[id]]
-	Network.players[id].progress={"story":p.story,"xp":p.xp,"coins":p.coins,"level":1+int(p.xp)/100,"stats":p.stats.duplicate(),"daily":p.daily.duplicate(),"daily_awarded":p.daily_awarded.duplicate(),"daily_day":p.daily_day,"streak":p.streak,"best_streak":p.best_streak,"wins":p.wins,"losses":p.losses,"draws":p.draws,"pet":p.pet,"outfit":p.outfit,"owned":p.owned.duplicate(),"badges":p.badges.duplicate()}
+	Network.players[id].progress={"story":p.story,"xp":p.xp,"coins":p.coins,"level":1+int(p.xp)/100,"stats":p.stats.duplicate(),"daily":p.daily.duplicate(),"daily_awarded":p.daily_awarded.duplicate(),"daily_day":p.daily_day,"streak":p.streak,"best_streak":p.best_streak,"wins":p.wins,"losses":p.losses,"draws":p.draws,"pet":p.pet,"pet_acc":p.pet_acc,"outfit":p.outfit,"owned":p.owned.duplicate(),"badges":p.badges.duplicate()}
 	Network.roster_changed.emit()
 
 func _save() -> void:

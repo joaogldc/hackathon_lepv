@@ -13,8 +13,23 @@ const ITEMS := [
 	{"id":"fish", "name":"Peixe voador", "shop":"pet", "price":0, "art":"fish", "desc":"Seu primeiro companheiro de aventuras."},
 	{"id":"parrot", "name":"Papagaio", "shop":"pet", "price":140, "art":"parrot", "desc":"Um amigo alegre para explorar a ilha."},
 	{"id":"cartola", "name":"Cartola elegante", "shop":"cosmetics", "price":100, "art":"cartola", "desc":"Um toque de elegância para o seu urso."},
-	{"id":"laco_rosa", "name":"Laço rosa", "shop":"cosmetics", "price":80, "art":"laco_rosa", "desc":"Um detalhe alegre para combinar com você."}
+	{"id":"laco_rosa", "name":"Laço rosa", "shop":"cosmetics", "price":80, "art":"laco_rosa", "desc":"Um detalhe alegre para combinar com você."},
+	{"id":"pet_bigode", "name":"Bigode distinto", "shop":"pet", "kind":"accessory", "accessory":"bigode", "price":60, "art":"bigode", "desc":"Um bigode charmoso para um pet cheio de classe."},
+	{"id":"pet_oculos", "name":"Óculos escuros", "shop":"pet", "kind":"accessory", "accessory":"oculos", "price":80, "art":"oculos", "desc":"Para o pet que acorda pronto para o sol."},
+	{"id":"pet_tapa_olho", "name":"Tapa-olho de pirata", "shop":"pet", "kind":"accessory", "accessory":"tapa_olho", "price":80, "art":"tapa_olho", "desc":"Só para a arara: aventura em alto-mar!"},
+	{"id":"pet_laco", "name":"Laço de fita", "shop":"pet", "kind":"accessory", "accessory":"laco", "price":70, "art":"laco", "desc":"Um laço alegre para os dias de festa."},
+	{"id":"pet_festa", "name":"Chapéu de festa", "shop":"pet", "kind":"accessory", "accessory":"festa", "price":70, "art":"festa", "desc":"Todo dia é dia de comemorar."},
+	{"id":"pet_helice", "name":"Boné de hélice", "shop":"pet", "kind":"accessory", "accessory":"helice", "price":90, "art":"helice", "desc":"A hélice gira e o pet fica ainda mais animado."},
+	{"id":"pet_quepe", "name":"Quepe de capitão", "shop":"pet", "kind":"accessory", "accessory":"quepe", "price":90, "art":"quepe", "desc":"Quem comanda o navio é o seu pet."},
+	{"id":"pet_capacete", "name":"Capacete espacial", "shop":"pet", "kind":"accessory", "accessory":"capacete", "price":120, "art":"capacete", "desc":"Pronto para explorar o Observatório."},
+	{"id":"pet_cartola", "name":"Cartola de gala", "shop":"pet", "kind":"accessory", "accessory":"cartola", "price":100, "art":"cartola", "desc":"Elegância para os passeios da ilha."},
+	{"id":"pet_terninho", "name":"Terninho de gala", "shop":"pet", "kind":"accessory", "accessory":"terninho", "price":110, "art":"terninho", "desc":"Gravata borboleta e camisa branca."},
+	{"id":"pet_coroa", "name":"Coroa real", "shop":"pet", "kind":"accessory", "accessory":"coroa", "price":150, "art":"coroa", "desc":"O pet mais majestoso do reino."}
 ]
+
+## Acessórios de pet são vendidos na loja de pets, mas não são pets.
+static func is_accessory(product: Dictionary) -> bool:
+	return product.get("kind","")=="accessory"
 
 static func item(id: String) -> Dictionary:
 	for product in ITEMS:

@@ -3,7 +3,6 @@ const ISLAND_MAP := preload("res://scripts/world/world_map.gd")
 signal daily_requested
 signal map_requested
 signal travel_requested(destination: String)
-signal quests_requested
 signal pet_emotes_requested
 var passport: PanelContainer
 var visited: Dictionary={}
@@ -90,7 +89,7 @@ func _button(text: String,rect: Rect2,action: Callable) -> void:
 	button.add_theme_stylebox_override("hover",style)
 	button.pressed.connect(action)
 	widgets.add_child(button)
-func _result(result: Dictionary) -> void:
+func _result(_result_data: Dictionary) -> void:
 	_update()
 func _update() -> void:
 	var id:=multiplayer.get_unique_id()

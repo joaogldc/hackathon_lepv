@@ -2,6 +2,7 @@ extends Node2D
 ## Optional Inkscape exports: assets/characters/brown/{front,back,left,right}.png.
 const PET := preload("res://scripts/player/pet_companion.gd")
 const COSMETICS := preload("res://scripts/player/cosmetics.gd")
+const FONTS := preload("res://scripts/ui/game_fonts.gd")
 var pet: Node2D
 var direction := "front"
 var nickname := "Urso"
@@ -10,6 +11,7 @@ var local_player := false
 var sitting := false
 var seat_height := 20.0
 var pet_kind := "fish"
+var pet_acc := "none"
 var outfit := "none"
 var pet_emote := ""
 const SIT_FRONT := preload("res://assets/sprites/urso/frames/S_sit.png")
@@ -44,7 +46,7 @@ func _process(delta: float) -> void:
 		animation_time = 0.0
 	animation_time += delta
 	position = position.lerp(target, 1.0 - exp(-18.0 * delta))
-	pet.configure(direction,moving,pet_kind,pet_emote)
+	pet.configure(direction,moving,pet_kind,pet_emote,pet_acc)
 	pet.position=Vector2(0,-seat_height if sitting else 0)
 	z_index = int(position.y)
 	queue_redraw()
@@ -84,12 +86,9 @@ func _draw() -> void:
 				draw_circle(Vector2(11 + offset, -50), 3, Color("342c2a"))
 	draw_set_transform(Vector2.ZERO)
 	COSMETICS.paint(self,outfit,direction,Vector2(0,-seat_height if sitting else 0),1.0,animation_time,moving,sitting)
-	var font := ThemeDB.fallback_font
-	var width := font.get_string_size(nickname, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x
 	var nick_y:=-68.0-seat_height if sitting else -68.0
 	nick_y-=24 if outfit=="cartola" else (8 if outfit=="laco_rosa" else 0)
 	# Keep labels readable when the dressing-room character is enlarged.
 	draw_set_transform(Vector2.ZERO,0,Vector2(1.0/scale.x,1.0/scale.y))
 	nick_y*=scale.y
-	draw_string_outline(font,Vector2(-width/2,nick_y),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,5,Color("142535"))
-	draw_string(font,Vector2(-width/2,nick_y),nickname,HORIZONTAL_ALIGNMENT_LEFT,-1,16,Color("ffe15c"))
+	FONTS.nameplate(self,nickname,0.0,nick_y,17)

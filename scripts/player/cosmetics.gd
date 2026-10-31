@@ -3,7 +3,6 @@ const CLOTHING := preload("res://scripts/player/clothing_assets.gd")
 const SHOP := preload("res://scripts/core/shop_catalog.gd")
 const HAT := preload("res://assets/cenario/comercial/produtos_exemplo/cartola.png")
 const BOW := preload("res://assets/cenario/comercial/produtos_exemplo/laco_rosa.png")
-const NAMES := {"none":"Sem acessório","cartola":"Cartola","laco_rosa":"Laço rosa","scarf_red":"Lenço vermelho","scarf_blue":"Lenço azul"}
 static func paint(canvas: CanvasItem, outfit: String, direction: String, origin:=Vector2.ZERO, size:=1.0, clock:=0.0, moving:=false, sitting:=false) -> void:
 	var product: Dictionary=SHOP.item(outfit)
 	if product.has("garment"):

@@ -12,6 +12,9 @@ const GAME_IDS := ["math", "language", "science"]
 const WORLD_ZONES := ["lobby", "commerce", "math", "language", "loja_pets", "loja_cosmeticos", "provador"]
 const BAMBOO_EXIT := {"title": "Voltar ao lobby", "position": Vector2(576, 610)}
 const EXIT := {"title": "Voltar ao lobby", "position": Vector2(576, 575), "color": Color("c7dab2")}
+## Ponta do cais de gelo, logo antes da prancha do navio no Porto Glacial.
+const SHIP_ENTRY := Vector2(722, 476)
+const SHIP_ENTRY_RADIUS := 30.0
 
 func portal(id: String, zone := "lobby") -> Dictionary:
 	return (BAMBOO_EXIT if zone == "math" else EXIT) if id == "lobby" else PORTALS[id]
@@ -44,7 +47,7 @@ func exit_at(point: Vector2, zone: String) -> String:
 			if point.distance_to(Vector2(309,432))<30: return "loja_pets"
 			if point.distance_to(Vector2(843,432))<30: return "loja_cosmeticos"
 		if zone=="language":
-			if point.distance_to(Vector2(710,500))<32: return "ship"
+			if point.distance_to(SHIP_ENTRY)<SHIP_ENTRY_RADIUS: return "ship"
 	elif zone in ["loja_pets","loja_cosmeticos","provador"]:
 		if point.y>=602 and absf(point.x-576)<90: return "loja_cosmeticos" if zone=="provador" else "commerce"
 		if zone=="loja_cosmeticos" and point.distance_to(Vector2(865,432))<28: return "provador"

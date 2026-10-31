@@ -268,7 +268,7 @@ func _interact(id: int,action: String,value: String) -> void:
 			intents[id]={"vector":Vector2.ZERO,"age":0.0}
 	elif action=="buy":
 		Progress.buy(id,value)
-	elif action in ["pet","outfit"]:
+	elif action in ["pet","pet_acc","outfit"]:
 		Progress.equip(id,action,value)
 	elif action=="pet_emote" and p.zone in Minigames.WORLD_ZONES and PET_EMOTES.IDS.has(value):
 		var now:=Time.get_ticks_msec()
