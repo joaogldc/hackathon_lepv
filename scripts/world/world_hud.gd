@@ -1,4 +1,5 @@
 extends Control
+const ISLAND_MAP := preload("res://scripts/world/world_map.gd")
 signal daily_requested
 signal map_requested
 signal travel_requested(destination: String)
@@ -125,7 +126,7 @@ func _redraw_hud() -> void:
 	var style := mini.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
 	style.set_corner_radius_all(52)
 	mini.add_theme_stylebox_override("panel",style)
-	var image := _picture("res://assets/cenario/praca/chao.png",Rect2(1155,43,106,94))
+	var image := _picture("res://assets/ui/mapa/ilha-ursos-3d.png",Rect2(1155,43,106,94))
 	image.stretch_mode = TextureRect.STRETCH_SCALE
 	var material := ShaderMaterial.new()
 	material.shader = load("res://assets/ui/clube/circulo.gdshader")
@@ -251,7 +252,7 @@ func _process(delta: float) -> void:
 	var profile: Dictionary = Network.players.get(multiplayer.get_unique_id(),{})
 	if profile.is_empty(): return
 	if is_instance_valid(mini_dot):
-		mini_dot.position = Vector2(1155,43)+Vector2(clampf(profile.position.x/1152,0.12,0.88),clampf(profile.position.y/720,0.12,0.88))*82
+		mini_dot.position = Vector2(1155,43) + ISLAND_MAP.centro_regiao(profile.zone) * Vector2(106,94) - Vector2(6,6)
 	if is_instance_valid(bubble):
 		_bubble_left -= delta
 		bubble.position = profile.position-Vector2(110,150)
