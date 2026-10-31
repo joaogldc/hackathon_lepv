@@ -13,6 +13,7 @@ var seat_height := 20.0
 var pet_kind := "fish"
 var pet_acc := "none"
 var outfit := "none"
+var outfits: Dictionary = {}
 var pet_emote := ""
 const SIT_FRONT := preload("res://assets/sprites/urso/frames/S_sit.png")
 const SIT_BACK := preload("res://assets/sprites/urso/frames/N_sit.png")
@@ -85,9 +86,11 @@ func _draw() -> void:
 			if direction != "left":
 				draw_circle(Vector2(11 + offset, -50), 3, Color("342c2a"))
 	draw_set_transform(Vector2.ZERO)
-	COSMETICS.paint(self,outfit,direction,Vector2(0,-seat_height if sitting else 0),1.0,animation_time,moving,sitting)
+	for equipped in ([outfit] if outfits.is_empty() else [outfits.get("body","none"),outfits.get("neck","none"),outfits.get("head","none")]):
+		COSMETICS.paint(self,equipped,direction,Vector2(0,-seat_height if sitting else 0),1.0,animation_time,moving,sitting)
 	var nick_y:=-68.0-seat_height if sitting else -68.0
-	nick_y-=24 if outfit=="cartola" else (8 if outfit=="laco_rosa" else 0)
+	var head: String=outfits.get("head",outfit)
+	nick_y-=24 if head=="cartola" else (8 if head=="laco_rosa" else 0)
 	# Keep labels readable when the dressing-room character is enlarged.
 	draw_set_transform(Vector2.ZERO,0,Vector2(1.0/scale.x,1.0/scale.y))
 	nick_y*=scale.y

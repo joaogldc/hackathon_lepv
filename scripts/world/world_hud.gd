@@ -142,12 +142,10 @@ func _redraw_hud() -> void:
 	var style := mini.get_theme_stylebox("panel").duplicate() as StyleBoxFlat
 	style.set_corner_radius_all(52)
 	mini.add_theme_stylebox_override("panel",style)
-	var image := _picture("res://assets/ui/mapa/ilha-ursos-3d.png",Rect2(1155,43,106,94))
-	image.stretch_mode = TextureRect.STRETCH_SCALE
-	var material := ShaderMaterial.new()
-	material.shader = load("res://assets/ui/clube/circulo.gdshader")
-	image.material = material
-	mini_dot = _box(Rect2(1196,84,12,12),Color("259dcb"))
+	var mini_local := preload("res://scripts/ui/local_minimap.gd").new()
+	mini_local.position=Vector2(1155,43)
+	mini_local.size=Vector2(106,94)
+	widgets.add_child(mini_local)
 	_button("Mapa (M)",Rect2(1145,148,114,33),func(): map_requested.emit())
 	_box(Rect2(175,625,930,80),Color("259dcb"))
 	_round_action("smile","Pet [B]",212,func(): pet_emotes_requested.emit())

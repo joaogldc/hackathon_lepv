@@ -23,6 +23,9 @@ var _clock := 0.0
 var _profile_state := ""
 
 func _ready() -> void:
+	theme=Theme.new()
+	theme.default_font=preload("res://assets/fonts/Lato-Regular.ttf")
+	theme.default_font_size=19
 	if not DailyJournal.equipped.is_empty(): selected = DailyJournal.equipped
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -241,7 +244,7 @@ func _catalog() -> void:
 	_text(choice.desc,Rect2(300,483,732,49),18)
 	var is_owned: bool = selected in DailyJournal.owned
 	var accessory: bool = choice.get("kind","") == "accessory"
-	var in_use: bool = selected == (DailyJournal.pet_acc if accessory else (DailyJournal.pet if page == "pet" else DailyJournal.equipped))
+	var in_use: bool = (selected in DailyJournal.outfits.values()) if page=="cosmetics" else selected == (DailyJournal.pet_acc if accessory else DailyJournal.pet)
 	var main_caption: String = "Em uso ✓" if in_use else ("Equipar" if is_owned else ("Comprar pet • %d moedas" if page == "pet" and not accessory else "Comprar • %d moedas") % choice.price)
 	_button(main_caption,Rect2(300,540,332,44),func():
 		if is_owned:

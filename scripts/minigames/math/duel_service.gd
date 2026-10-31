@@ -237,10 +237,11 @@ func _publish(m: Dictionary) -> void:
 	public.pets=m.ids.map(func(id): return Network.players.get(id,{}).get("pet","fish"))
 	public.pet_accs=m.ids.map(func(id): return Network.players.get(id,{}).get("pet_acc","none"))
 	public.outfits=m.ids.map(func(id): return Network.players.get(id,{}).get("outfit","none"))
+	public.outfit_slots=m.ids.map(func(id): return Network.players.get(id,{}).get("outfits",{}).duplicate())
 	public.spectators = []
 	for id in watchers:
 		if watchers[id].match_id == m.match_id and Network.players.has(id):
-			public.spectators.append({"id": id, "name": Network.players[id].nickname, "seat": watchers[id].seat,"pet":Network.players[id].get("pet","fish"),"outfit":Network.players[id].get("outfit","none")})
+			public.spectators.append({"id": id, "name": Network.players[id].nickname, "seat": watchers[id].seat,"pet":Network.players[id].get("pet","fish"),"outfit":Network.players[id].get("outfit","none"),"outfit_slots":Network.players[id].get("outfits",{}).duplicate()})
 	for id in m.ids:
 		if membership.has(id) and membership[id] == m.match_id:
 			public.spectator = false

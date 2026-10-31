@@ -70,7 +70,7 @@ func _draw() -> void:
 	var flip:=facing in ["left","front_left","back_left"]
 	draw_set_transform(center,0.0,Vector2(-1 if flip else 1,1))
 	# 0,25 px por pixel do peixe; a arara (288 px de largura) cabe na mesma largura de 32 px.
-	var size:=texture.get_size()*(32.0/288.0 if parrot else 0.25)
+	var size:=texture.get_size()*(42.0/288.0 if parrot else 0.328125)
 	var rect:=Rect2(-size/2.0+(Vector2(0,-4) if emote else Vector2.ZERO),size)
 	draw_texture_rect(texture,rect,false)
 	if accessory!="none" and not frame.is_empty():

@@ -57,7 +57,7 @@ func day_number() -> int:
 	return int(Time.get_unix_time_from_system()/86400.0)
 
 func fresh() -> Dictionary:
-	return {"stats":{},"story":0,"xp":0,"coins":0,"owned":["fish"],"badges":[],"daily_day":-1,"daily":{},"daily_regions":[],"daily_awarded":[],"last_daily":-999,"streak":0,"best_streak":0,"pet":"fish","pet_acc":"none","outfit":"none","wins":0,"losses":0,"draws":0}
+	return {"stats":{},"story":0,"xp":0,"coins":0,"owned":["fish"],"badges":[],"daily_day":-1,"daily":{},"daily_regions":[],"daily_awarded":[],"last_daily":-999,"streak":0,"best_streak":0,"pet":"fish","pet_acc":"none","outfit":"none","outfits":{},"wins":0,"losses":0,"draws":0}
 
 func attach(id: int, token: String) -> void:
 	if token.length()!=64 or not token.is_valid_hex_number(false): token=Crypto.new().generate_random_bytes(32).hex_encode()
@@ -68,13 +68,15 @@ func attach(id: int, token: String) -> void:
 	var p: Dictionary=profiles[key]
 	for field in fresh():
 		if not p.has(field): p[field]=fresh()[field]
-	for equipped_item in [p.pet,p.pet_acc,p.outfit]:
+	if p.outfits.is_empty() and p.outfit!="none": p.outfits[SHOP.body_slot(p.outfit)]=p.outfit
+	for equipped_item in [p.pet,p.pet_acc,p.outfit]+p.outfits.values():
 		if not SHOP.item(equipped_item).is_empty() and not p.owned.has(equipped_item): p.owned.append(equipped_item)
 	if MOEDAS_TESTE>0 and OS.has_feature("editor") and int(p.coins)<MOEDAS_TESTE: p.coins=MOEDAS_TESTE
 	_roll_day(p,day_number())
 	Network.players[id].pet=p.pet
 	Network.players[id].pet_acc=p.pet_acc
 	Network.players[id].outfit=p.outfit
+	Network.players[id].outfits=p.outfits.duplicate()
 	record(id,"visit_lobby")
 
 func _roll_day(p: Dictionary, day: int) -> void:
@@ -141,8 +143,7 @@ func equip(id: int, kind: String, value: String) -> void:
 		p.pet_acc=value
 		Network.players[id].pet_acc=value
 	elif kind=="outfit" and (value in ["none","scarf_red","scarf_blue"] or (SHOP.item(value).get("shop","")=="cosmetics" and p.owned.has(value))) and (Network.players[id].zone=="provador" or (Network.players[id].zone=="loja_cosmeticos" and CATALOG.near_merchant(Network.players[id].position))):
-		p.outfit=value
-		Network.players[id].outfit=value
+		_wear(p,Network.players[id],value)
 	else: return
 	_publish(id)
 	_save()
@@ -166,15 +167,14 @@ func buy(id: int, value: String) -> void:
 		p.pet=value
 		player.pet=value
 	else:
-		p.outfit=value
-		player.outfit=value
+		_wear(p,player,value)
 	_publish(id)
 	_save()
 
 func _publish(id: int) -> void:
 	if not Network.players.has(id) or not player_keys.has(id): return
 	var p: Dictionary=profiles[player_keys[id]]
-	Network.players[id].progress={"story":p.story,"xp":p.xp,"coins":p.coins,"level":1+int(p.xp)/100,"stats":p.stats.duplicate(),"daily":p.daily.duplicate(),"daily_awarded":p.daily_awarded.duplicate(),"daily_day":p.daily_day,"streak":p.streak,"best_streak":p.best_streak,"wins":p.wins,"losses":p.losses,"draws":p.draws,"pet":p.pet,"pet_acc":p.pet_acc,"outfit":p.outfit,"owned":p.owned.duplicate(),"badges":p.badges.duplicate()}
+	Network.players[id].progress={"story":p.story,"xp":p.xp,"coins":p.coins,"level":1+int(p.xp)/100,"stats":p.stats.duplicate(),"daily":p.daily.duplicate(),"daily_awarded":p.daily_awarded.duplicate(),"daily_day":p.daily_day,"streak":p.streak,"best_streak":p.best_streak,"wins":p.wins,"losses":p.losses,"draws":p.draws,"pet":p.pet,"pet_acc":p.pet_acc,"outfit":p.outfit,"outfits":p.outfits.duplicate(),"owned":p.owned.duplicate(),"badges":p.badges.duplicate()}
 	Network.roster_changed.emit()
 
 func _save() -> void:
@@ -205,3 +205,10 @@ func _process(delta: float) -> void:
 			_roll_day(p,day_number())
 			_publish(id)
 			_save()
+
+func _wear(profile: Dictionary, player: Dictionary, value: String) -> void:
+	if value=="none": profile.outfits.clear()
+	else: profile.outfits[SHOP.body_slot(value)]=value
+	profile.outfit=value
+	player.outfit=value
+	player.outfits=profile.outfits.duplicate()

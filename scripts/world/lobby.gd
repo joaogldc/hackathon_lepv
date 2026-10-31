@@ -95,6 +95,8 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	var recompensa_aberta := recompensa_moedas.visible or recompensa_xp.visible
+	if current_zone=="ship" and is_instance_valid(game_view):
+		game_view.permitir_movimento=not is_instance_valid(map_view) and not is_instance_valid(quests) and not recompensa_aberta
 	var movement := Vector2.ZERO
 	var focused := get_viewport().gui_get_focus_owner()
 	if current_zone in Minigames.WORLD_ZONES and not focused is LineEdit and not is_instance_valid(map_view) and not is_instance_valid(quests) and not (is_instance_valid(action_dialog) and action_dialog.visible) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()):
@@ -114,7 +116,7 @@ func _process(_delta: float) -> void:
 		nearby_portal = Minigames.exit_at(Network.players[id].position,current_zone)
 	if nearby_portal.is_empty():
 		exit_armed = true
-	elif exit_armed and not is_instance_valid(map_view) and not is_instance_valid(quests) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()):
+	elif exit_armed and current_zone!="provador" and not is_instance_valid(map_view) and not is_instance_valid(quests) and not recompensa_aberta and not (is_instance_valid(commerce_ui) and commerce_ui.is_open()):
 		exit_armed = false
 		Network.request_zone(nearby_portal)
 
@@ -257,7 +259,9 @@ func _set_zone(zone: String) -> void:
 	if zone in Minigames.WORLD_ZONES:
 		get_viewport().gui_release_focus()
 		return
-	if zone in ["ship","cave","science"]:
+	if zone=="ship":
+		game_view=load("res://scenes/world/navio_deque.tscn").instantiate()
+	elif zone in ["cave","science"]:
 		game_view=load("res://scripts/minigames/learning_room.gd").new()
 		game_view.zone=zone
 	else:
@@ -305,6 +309,7 @@ func _sync_players() -> void:
 		bears[id].pet_kind=state.get("pet","fish")
 		bears[id].pet_acc=state.get("pet_acc","none")
 		bears[id].outfit=state.get("outfit","none")
+		bears[id].outfits=state.get("outfits",{})
 		bears[id].scale=Vector2.ONE*CATALOG.character_scale(state.zone)
 		bears[id].pet_emote=state.get("pet_emote","")
 		bears[id].visible = state.zone == current_zone and current_zone in Minigames.WORLD_ZONES
@@ -444,13 +449,18 @@ func _hint() -> String:
 	if current_zone in ["loja_pets","loja_cosmeticos"]:
 		if CATALOG.near_merchant(p.position): return "E: conversar com o comerciante  •  Q: história e diárias"
 		return "Aproxime-se do comerciante para escolher "+("seu pet" if current_zone=="loja_pets" else "um acessório")
-	if current_zone=="provador": return "E: experimentar acessórios  •  Q: história e diárias"
+	if current_zone=="provador":
+		return "E: sair do provador" if Minigames.exit_at(p.position,current_zone)!="" else "E: experimentar acessórios  •  Q: história e diárias"
 	if current_zone=="language":
 		if p.position.distance_to(Vector2(275,411))<75: return "E: investigar o mamute"
 		if p.position.distance_to(Vector2(885,574))<75: return "E: investigar o fóssil"
 	return "Q: história e missões diárias" if current_zone in Minigames.WORLD_ZONES else ""
 
 func _interact_nearby() -> void:
+	var local: Dictionary=Network.players.get(multiplayer.get_unique_id(),{})
+	if current_zone=="provador" and not local.is_empty() and Minigames.exit_at(local.position,current_zone)!="":
+		Network.request_zone("loja_cosmeticos")
+		return
 	if is_instance_valid(action_dialog): action_dialog.queue_free()
 	var point: Vector2=Network.players.get(multiplayer.get_unique_id(),{}).get("position",Vector2.ZERO)
 	var shop_action: String=Minigames.shop_action(current_zone,point)

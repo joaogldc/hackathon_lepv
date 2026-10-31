@@ -13,16 +13,9 @@ func _draw() -> void:
 	var origin := (size - Vector2.ONE * side) / 2
 	draw_set_transform(origin, 0, Vector2.ONE * side / 256.0)
 	draw_texture_rect(BEAR, Rect2(0,0,256,256), false)
-	var product := DailyJournal.item(item_id)
-	if product.has("garment"):
-		var kind: String = product.garment
-		for layer in (["cor","detalhe"] if kind in ["terno","chapeu"] else ["cor"]):
-			var frames: SpriteFrames = CLOTHING.layer(kind+"_"+layer)
-			if not frames: continue
-			var frame := frames.get_frame_texture("idle_S",0)
-			draw_texture_rect(frame,Rect2(0,0,256,256),false,Color(product.color) if layer == "cor" else Color.WHITE)
-	elif item_id == "cartola":
-		draw_texture_rect(load("res://assets/cenario/comercial/produtos_exemplo/cartola.png"), Rect2(73,-1,110,78), false)
-	elif item_id == "laco_rosa":
-		draw_texture_rect(load("res://assets/cenario/comercial/produtos_exemplo/laco_rosa.png"), Rect2(157,24,61,49), false)
 	draw_set_transform(Vector2.ZERO)
+	var combination: Dictionary=DailyJournal.outfits.duplicate()
+	if not item_id.is_empty() and item_id!="none":
+		combination[preload("res://scripts/core/shop_catalog.gd").body_slot(item_id)]=item_id
+	for slot in ["body","neck","head"]:
+		preload("res://scripts/player/cosmetics.gd").paint(self,combination.get(slot,"none"),"front",origin+Vector2(side/2,side),side/(96*0.7))

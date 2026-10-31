@@ -11,6 +11,7 @@ const QUESTS := [
 var coins := 0
 var owned: Array=[]
 var equipped := "none"
+var outfits: Dictionary = {}
 var pet := "fish"
 var pet_acc := "none"
 var badges: Array=[]
@@ -34,6 +35,7 @@ func _sync() -> void:
 	coins=int(p.get("coins",0))
 	owned=p.get("owned",["fish"])
 	equipped=p.get("outfit","none")
+	outfits=p.get("outfits",{})
 	pet=p.get("pet","fish")
 	pet_acc=p.get("pet_acc","none")
 	badges=p.get("badges",[])

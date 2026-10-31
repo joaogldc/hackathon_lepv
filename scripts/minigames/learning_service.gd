@@ -39,6 +39,11 @@ func _command(id: int,action: String,index: int,revision: int) -> void:
 	if not Network.players.has(id): return
 	var zone: String=Network.players[id].zone
 	if zone not in ["ship","cave","science"]: return
+	if action=="cancel":
+		sessions.erase(id)
+		if id==1: _receive({})
+		else: _receive.rpc_id(id,{})
+		return
 	if action=="start":
 		if sessions.has(id) and sessions[id].phase=="question": return
 		var questions: Array=(SCIENCE if zone=="science" else READING).duplicate(true)

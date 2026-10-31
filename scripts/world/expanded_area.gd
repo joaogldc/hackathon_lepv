@@ -72,6 +72,7 @@ func _process(_delta: float) -> void:
 	reflection.direction={"back":"front","front":"back","back_left":"front_left","back_right":"front_right","front_left":"back_left","front_right":"back_right"}.get(player.direction,player.direction)
 	reflection.sitting=player.get("sitting",false)
 	reflection.outfit=player.get("outfit","none")
+	reflection.outfits=player.get("outfits",{})
 	reflection.pet.visible=false
 
 func _draw() -> void:

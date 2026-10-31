@@ -49,7 +49,9 @@ func exit_at(point: Vector2, zone: String) -> String:
 		if zone=="language":
 			if point.distance_to(SHIP_ENTRY)<SHIP_ENTRY_RADIUS: return "ship"
 	elif zone in ["loja_pets","loja_cosmeticos","provador"]:
-		if point.y>=602 and absf(point.x-576)<90: return "loja_cosmeticos" if zone=="provador" else "commerce"
+		if zone=="provador":
+			if point.y>=623 and absf(point.x-576)<48: return "loja_cosmeticos"
+		elif point.y>=602 and absf(point.x-576)<90: return "commerce"
 		if zone=="loja_cosmeticos" and point.distance_to(Vector2(865,432))<28: return "provador"
 	return ""
 

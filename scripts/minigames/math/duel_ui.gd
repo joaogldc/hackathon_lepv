@@ -172,6 +172,7 @@ func _refresh() -> void:
 		fighter_pets[side].configure("right" if side==0 else "left",false,v.get("pets",["fish","fish"])[side],"",v.get("pet_accs",["none","none"])[side])
 		fighter_cosmetics[side].visible=occupied
 		fighter_cosmetics[side].outfit=v.get("outfits",["none","none"])[side]
+		fighter_cosmetics[side].outfits=v.get("outfit_slots",[{},{}])[side]
 		fighter_cosmetics[side].queue_redraw()
 	_hud_panel(Rect2(430,24,292,74),TURN_PANEL)
 	var heading: String={"idle":"Dojo do Bambu","waiting":"Procurando rival","watch_wait":"Plateia","resolve":"Resultado","finished":"Fim do duelo"}.get(phase,"Sua defesa" if mine!=v.get("attacker",-1) else "Seu ataque")
@@ -243,7 +244,9 @@ func _draw() -> void:
 			if person.seat==seat:
 				draw_texture_rect(PARROT_BACK if person.get("pet","fish")=="parrot" else PET_BACK,Rect2(point+Vector2(24,-78),Vector2(28,28)),false)
 				draw_texture_rect(SITTING,Rect2(point-Vector2(40,80),Vector2(80,80)),false)
-				COSMETICS.paint(self,person.get("outfit","none"),"back",point,80.0/67.2,0.0,false,true)
+				var worn: Dictionary=person.get("outfit_slots",{})
+				for equipped in ([person.get("outfit","none")] if worn.is_empty() else [worn.get("body","none"),worn.get("neck","none"),worn.get("head","none")]):
+					COSMETICS.paint(self,equipped,"back",point,80.0/67.2,0.0,false,true)
 				var label_y:=-108 if person.get("outfit","")=="cartola" else (-92 if person.get("outfit","")=="laco_rosa" else -84)
 				FONTS.nameplate(self,person.name,point.x,point.y+label_y,15)
 

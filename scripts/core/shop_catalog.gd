@@ -31,6 +31,13 @@ const ITEMS := [
 static func is_accessory(product: Dictionary) -> bool:
 	return product.get("kind","")=="accessory"
 
+static func body_slot(id: String) -> String:
+	var product := item(id)
+	var garment: String = product.get("garment", "")
+	if garment in ["camisa","terno"]: return "body"
+	if id in ["scarf_red","scarf_blue"]: return "neck"
+	return "head"
+
 static func item(id: String) -> Dictionary:
 	for product in ITEMS:
 		if product.id==id: return product

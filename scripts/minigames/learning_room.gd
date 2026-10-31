@@ -1,6 +1,7 @@
 extends Control
 signal finished(result: Dictionary)
 var zone:="science"
+var texto_retorno: String = ""
 var panel: VBoxContainer
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -74,7 +75,9 @@ func _refresh() -> void:
 	else:
 		_label("%d/3 acertos\n%s" % [v.score,"Expedição concluída!" if v.score>=2 else "Tente novamente: são necessários dois acertos."],27)
 		_button("Jogar novamente",func(): Learning.act("start"))
-	_button("Voltar ao porto" if zone!="science" else "Voltar à praça",func(): finished.emit({}))
+	_button(texto_retorno if not texto_retorno.is_empty() else ("Voltar ao porto" if zone!="science" else "Voltar à praça"),func(): finished.emit({}))
 	get_viewport().gui_release_focus()
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"): finished.emit({})
+	if event.is_action_pressed("ui_cancel"):
+		get_viewport().set_input_as_handled()
+		finished.emit({})
