@@ -16,11 +16,11 @@ const STORY := [
 	["Descubra o Porto Glacial","visit_language",1,30,"language"],
 	["Investigue o mamute congelado","discover_mammoth",1,40,"language"],
 	["Investigue o lago com fóssil","discover_fossil",1,40,"language"],
-	["Conclua a leitura no navio","reading_complete",1,60,"language"],
+	["Conclua a Corrida Glacial com dois acertos","reading_complete",1,60,"language"],
 	["Visite o Observatório","visit_science",1,30,"science"],
 	["Responda uma pergunta de ciências","science_correct",1,40,"science"],
 	["Acerte três perguntas de ciências","science_correct",3,40,"science"],
-	["Conclua o desafio do Observatório","science_complete",1,60,"science"]
+	["Conclua o Foguete de Madeira com dois acertos","science_complete",1,60,"science"]
 ]
 const DAILY := [["Explore três regiões","regions",3,20],["Acerte cinco perguntas","answers",5,30],["Conclua um duelo","duels",1,30]]
 var profiles: Dictionary={}
@@ -128,6 +128,16 @@ func duel_result(id: int, result: String, completed: bool) -> int:
 		_publish(id)
 		_save()
 	return coins
+
+func arcade_result(id: int, kind: String, collected: int, completed: bool, correct: int) -> void:
+	if not multiplayer.is_server() or not player_keys.has(id): return
+	var p: Dictionary = profiles[player_keys[id]]
+	p.coins = int(p.get("coins", 0)) + maxi(0, collected) + (10 if completed else 0)
+	record(id, "race_complete" if kind == "race" else "rocket_complete", 1 if completed else 0)
+	if completed and correct >= 2:
+		record(id, "reading_complete" if kind == "race" else "science_complete")
+	_publish(id)
+	_save()
 
 func equip(id: int, kind: String, value: String) -> void:
 	if not player_keys.has(id) or not Network.players.has(id): return

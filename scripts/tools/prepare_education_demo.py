@@ -160,6 +160,36 @@ science = [
 for grade,title,skill,page,intro,rows in science:
     lesson(grade,'science',title,skill,page,intro,[q(prompt,correct,a,b,why,'Compare o fenômeno com a explicação da trilha.') for prompt,correct,a,b,why in rows])
 
+# Fourth authored distractor for grades 4–9; shared by practice and arcade.
+fourth = {
+ 'math_4': ['7', '6', '25'],
+ 'math_5': ['80', '30', '100'],
+ 'math_6': ['4,15 m', '6,40', '10,50'],
+ 'math_7': ['3', '14', '6'],
+ 'math_8': ['8', '11', '12'],
+ 'math_9': ['8', 'f(x) = 2x + 2', 'Sim: basta que as entradas sejam números inteiros'],
+ 'math_5_fracoes': ['3/5', '5/8', 'Não se pode comparar frações com denominadores diferentes'],
+ 'math_8_dados': ['3', '4', '15'],
+ 'portuguese_4': ['Cora estava secando uma toalha ao sol', 'Já tinha terminado a leitura do livro', 'Desatenção com o que havia no caminho'],
+ 'portuguese_5': ['Gelada', 'Certeza', 'Começou uma viagem diferente'],
+ 'portuguese_6': ['Esse horário é ótimo para toda a turma', 'A ponte é mais agradável à tarde', 'Concluir que é falso sem consultar os dados'],
+ 'portuguese_7': ['Reduzir a quantidade de bancos', 'O gosto do autor por desenhos', 'Organizar os livros pelo tamanho da capa resolve qualquer busca'],
+ 'portuguese_8': ['O prédio precisa ser pintado', 'Repetir a proposta sem explicar como atender à equipe', 'Aceitar qualquer dado sem verificar sua origem'],
+ 'portuguese_9': ['Uma comparação acompanhada de fontes verificáveis', 'O horário em que o leitor costuma acordar', 'Apresenta dados que provam ser a única solução'],
+ 'science_4': ['O sapo e o gafanhoto, juntos', 'Do capim, sem consumir outros seres vivos', 'Calor produzido pelo solo'],
+ 'science_5': ['Condensação do líquido em vapor', 'Solidificação de todo o vapor em gelo', 'Evaporação das gotas antes de alcançarem o solo'],
+ 'science_6': ['Mistura com uma fase para cada grão de sal dissolvido', 'Substância pura porque os líquidos ficam no mesmo copo', 'A igualdade de tamanho dos grãos e das moléculas'],
+ 'science_7': ['A intensificação elimina a retenção de calor na atmosfera', 'Utilizar uma bicicleta sem motor', 'Retirar a vegetação para evitar a absorção de luz solar'],
+ 'science_8': ['Movimento das pás em energia elétrica para alimentar a tomada', 'Conversão da energia elétrica apenas em luz', 'O aquecimento prova que não houve transformação de energia'],
+ 'science_9': ['São substituídas por moléculas de oxigênio', 'As moléculas do vapor têm sempre tamanho maior que as do líquido', 'As partículas passam a se mover menos, mesmo com a temperatura subindo'],
+}
+for entry in lessons:
+    if entry['grade'] < 4:
+        continue
+    for item, distractor in zip(entry['questions'], fourth[entry['id']]):
+        assert distractor not in item['answers']
+        item['answers'].append(distractor)
+
 output=ROOT/'resources/education/bncc_lessons.gd'
 output.parent.mkdir(parents=True,exist_ok=True)
 output.write_text('extends RefCounted\n## Questões autorais de demonstração; referências indicam recortes da BNCC.\nconst LESSONS := '+json.dumps(lessons,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')

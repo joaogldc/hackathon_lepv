@@ -115,7 +115,7 @@ func _home() -> void:
 	var years:=OptionButton.new()
 	for year in range(1,10): years.add_item(str(year)+"º ano",year)
 	years.select(grade-1)
-	years.item_selected.connect(func(index: int): grade=index+1; _home())
+	years.item_selected.connect(func(index: int): grade=index+1; preload("res://scripts/education/question_deck.gd").save_grade(grade); _home())
 	selectors.add_child(years)
 	var subjects:=OptionButton.new()
 	for key in SUBJECTS: subjects.add_item(SUBJECTS[key])

@@ -107,7 +107,7 @@ func _process(_delta: float) -> void:
 	join_button.disabled = Network.active
 	var has_profile := Network.players.has(multiplayer.get_unique_id())
 	login_panel.visible = not has_profile
-	world_hud.visible = has_profile
+	world_hud.visible = has_profile and current_zone in Minigames.WORLD_ZONES
 	nearby_portal = ""
 	var id := multiplayer.get_unique_id()
 	interaction_hint.text=_hint()
@@ -268,7 +268,11 @@ func _set_zone(zone: String) -> void:
 	if zone in Minigames.WORLD_ZONES:
 		get_viewport().gui_release_focus()
 		return
-	if zone in ["ship","cave","science"]:
+	if zone == "ship":
+		game_view = load("res://scenes/world/navio_deque.tscn").instantiate()
+	elif zone == "science":
+		game_view = load("res://scenes/minigames/science/foguete_madeira.tscn").instantiate()
+	elif zone == "cave":
 		game_view=load("res://scripts/minigames/learning_room.gd").new()
 		game_view.zone=zone
 	else:

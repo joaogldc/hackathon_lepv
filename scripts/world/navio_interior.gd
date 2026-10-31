@@ -77,6 +77,25 @@ func _ready() -> void:
 	_configurar_texto(fala,17)
 	add_child(fala)
 	queue_redraw()
+	if modo_botes: bote_selecionado.connect(_abrir_corrida)
+
+func _abrir_corrida(_indice: int) -> void:
+	if has_node("CorridaGlacial"): return
+	var corrida: Control = load("res://scenes/minigames/language/corrida_glacial.tscn").instantiate()
+	# A sibling avoids applying the ship's viewport scale a second time.
+	get_parent().add_child(corrida)
+	hide()
+	set_process(false)
+	set_process_unhandled_key_input(false)
+	corrida.finished.connect(func(_result: Dictionary):
+		corrida.queue_free()
+		show()
+		set_process(true)
+		set_process_unhandled_key_input(true)
+	)
+	tree_exiting.connect(func():
+		if is_instance_valid(corrida): corrida.queue_free()
+	, CONNECT_ONE_SHOT)
 
 func _configurar_texto(rotulo: Label, tamanho: int) -> void:
 	rotulo.add_theme_font_size_override("font_size",tamanho)

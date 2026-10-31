@@ -167,7 +167,8 @@ const LESSONS := [
         "answers": [
           "8",
           "6",
-          "9"
+          "9",
+          "7"
         ],
         "correct": 0,
         "why": "48 ÷ 6 = 8, pois 6 × 8 = 48.",
@@ -179,7 +180,8 @@ const LESSONS := [
         "answers": [
           "8",
           "12",
-          "9"
+          "9",
+          "6"
         ],
         "correct": 0,
         "why": "96 ÷ 12 = 8 caixas. Aqui procuramos quantos grupos de doze cabem.",
@@ -191,7 +193,8 @@ const LESSONS := [
         "answers": [
           "15",
           "10",
-          "20"
+          "20",
+          "25"
         ],
         "correct": 0,
         "why": "75 ÷ 5 = 15: cinco grupos de quinze totalizam 75.",
@@ -217,7 +220,8 @@ const LESSONS := [
         "answers": [
           "40",
           "50",
-          "160"
+          "160",
+          "80"
         ],
         "correct": 0,
         "why": "50% significa metade: 80 ÷ 2 = 40.",
@@ -229,7 +233,8 @@ const LESSONS := [
         "answers": [
           "10",
           "25",
-          "20"
+          "20",
+          "30"
         ],
         "correct": 0,
         "why": "25% é um quarto. Divida quarenta em quatro partes iguais: 10.",
@@ -241,7 +246,8 @@ const LESSONS := [
         "answers": [
           "90",
           "10",
-          "110"
+          "110",
+          "100"
         ],
         "correct": 0,
         "why": "10% de 100 são 10. O desconto reduz o preço: 100 − 10 = 90.",
@@ -267,7 +273,8 @@ const LESSONS := [
         "answers": [
           "4,25 m",
           "3,25 m",
-          "4,75 m"
+          "4,75 m",
+          "4,15 m"
         ],
         "correct": 0,
         "why": "Escreva 2,50 + 1,75 = 4,25 metros.",
@@ -279,7 +286,8 @@ const LESSONS := [
         "answers": [
           "7,40",
           "8,60",
-          "32,60"
+          "32,60",
+          "6,40"
         ],
         "correct": 0,
         "why": "20,00 − 12,60 = 7,40. A compra mais o troco recompõe vinte.",
@@ -291,7 +299,8 @@ const LESSONS := [
         "answers": [
           "14,00",
           "7,50",
-          "12,00"
+          "12,00",
+          "10,50"
         ],
         "correct": 0,
         "why": "3,50 × 4 = 14,00. São quatro parcelas de 3,50.",
@@ -317,7 +326,8 @@ const LESSONS := [
         "answers": [
           "5",
           "15",
-          "8"
+          "8",
+          "3"
         ],
         "correct": 0,
         "why": "Retire 5: 3x = 15. Divida por 3: x = 5. Confira 3 × 5 + 5 = 20.",
@@ -329,7 +339,8 @@ const LESSONS := [
         "answers": [
           "7",
           "3",
-          "5"
+          "5",
+          "14"
         ],
         "correct": 0,
         "why": "Some 4 aos dois lados: 2x = 14. Divida por 2: x = 7.",
@@ -341,7 +352,8 @@ const LESSONS := [
         "answers": [
           "8",
           "12",
-          "10"
+          "10",
+          "6"
         ],
         "correct": 0,
         "why": "3x + 6 = 30; 3x = 24; x = 8 moedas.",
@@ -367,7 +379,8 @@ const LESSONS := [
         "answers": [
           "11",
           "14",
-          "9"
+          "9",
+          "8"
         ],
         "correct": 0,
         "why": "Substitua x por 4: 2 × 4 + 3 = 11.",
@@ -379,7 +392,8 @@ const LESSONS := [
         "answers": [
           "7",
           "1",
-          "5"
+          "5",
+          "11"
         ],
         "correct": 0,
         "why": "3² − 2 = 9 − 2 = 7. Elevar ao quadrado não é multiplicar por dois.",
@@ -391,7 +405,8 @@ const LESSONS := [
         "answers": [
           "8",
           "9",
-          "4"
+          "4",
+          "12"
         ],
         "correct": 0,
         "why": "Primeiro 5 − 1 = 4; depois 2 × 4 = 8.",
@@ -417,7 +432,8 @@ const LESSONS := [
         "answers": [
           "17",
           "12",
-          "20"
+          "20",
+          "8"
         ],
         "correct": 0,
         "why": "Substitua n por 4: 3 × 4 + 5 = 17.",
@@ -429,7 +445,8 @@ const LESSONS := [
         "answers": [
           "f(x) = 3x + 1",
           "f(x) = x + 3",
-          "f(x) = 4x"
+          "f(x) = 4x",
+          "f(x) = 2x + 2"
         ],
         "correct": 0,
         "why": "3 × 1 + 1 = 4; 3 × 2 + 1 = 7; 3 × 3 + 1 = 10.",
@@ -441,7 +458,8 @@ const LESSONS := [
         "answers": [
           "Não: uma entrada tem duas saídas",
           "Sim: toda tabela define função",
-          "Sim: as saídas são positivas"
+          "Sim: as saídas são positivas",
+          "Sim: basta que as entradas sejam números inteiros"
         ],
         "correct": 0,
         "why": "Uma função precisa dar uma única saída para cada entrada. Esse registro viola a condição.",
@@ -517,7 +535,8 @@ const LESSONS := [
         "answers": [
           "2/4",
           "1/4",
-          "2/3"
+          "2/3",
+          "3/5"
         ],
         "correct": 0,
         "why": "Multiplicar numerador e denominador de 1/2 por dois dá 2/4.",
@@ -529,7 +548,8 @@ const LESSONS := [
         "answers": [
           "6/8",
           "3/8",
-          "4/6"
+          "4/6",
+          "5/8"
         ],
         "correct": 0,
         "why": "Multiplique os dois termos por dois: 3/4 = 6/8.",
@@ -541,7 +561,8 @@ const LESSONS := [
         "answers": [
           "Comeram a mesma quantidade",
           "Lia comeu mais",
-          "Ivo comeu mais"
+          "Ivo comeu mais",
+          "Não se pode comparar frações com denominadores diferentes"
         ],
         "correct": 0,
         "why": "Dividindo os dois termos de 2/6 por dois, obtemos 1/3.",
@@ -567,7 +588,8 @@ const LESSONS := [
         "answers": [
           "4",
           "6",
-          "12"
+          "12",
+          "3"
         ],
         "correct": 0,
         "why": "A soma é 12; há três valores; 12 ÷ 3 = 4.",
@@ -579,7 +601,8 @@ const LESSONS := [
         "answers": [
           "2",
           "5",
-          "1"
+          "1",
+          "4"
         ],
         "correct": 0,
         "why": "O valor dois aparece duas vezes; os demais aparecem uma.",
@@ -591,7 +614,8 @@ const LESSONS := [
         "answers": [
           "5",
           "3",
-          "7"
+          "7",
+          "15"
         ],
         "correct": 0,
         "why": "A ordem é 3, 5, 7. O elemento central é 5.",
@@ -767,7 +791,8 @@ const LESSONS := [
         "answers": [
           "Estava chovendo",
           "Estava nevando dentro do dojo",
-          "Cora acabara de nadar"
+          "Cora acabara de nadar",
+          "Cora estava secando uma toalha ao sol"
         ],
         "correct": 0,
         "why": "Guarda-chuva molhado e gotas na janela sustentam a inferência de chuva.",
@@ -779,7 +804,8 @@ const LESSONS := [
         "answers": [
           "Queria encontrar o livro",
           "Queria esconder o livro",
-          "Não sabia o que era uma prateleira"
+          "Não sabia o que era uma prateleira",
+          "Já tinha terminado a leitura do livro"
         ],
         "correct": 0,
         "why": "A busca e o sorriso ligam o alívio ao encontro do livro.",
@@ -791,7 +817,8 @@ const LESSONS := [
         "answers": [
           "Cuidado ao atravessar",
           "Pressa para correr",
-          "Vontade de pular na água"
+          "Vontade de pular na água",
+          "Desatenção com o que havia no caminho"
         ],
         "correct": 0,
         "why": "Passo mais lento e uso do corrimão indicam cuidado.",
@@ -817,7 +844,8 @@ const LESSONS := [
         "answers": [
           "Pouca",
           "Abundante",
-          "Colorida"
+          "Colorida",
+          "Gelada"
         ],
         "correct": 0,
         "why": "Restava muito pouco explica o sentido de escassa.",
@@ -829,7 +857,8 @@ const LESSONS := [
         "answers": [
           "Cuidado",
           "Distração",
-          "Barulho"
+          "Barulho",
+          "Certeza"
         ],
         "correct": 0,
         "why": "Observar as tábuas antes de avançar é agir com cuidado.",
@@ -841,7 +870,8 @@ const LESSONS := [
         "answers": [
           "Continuou novamente",
           "Cancelou para sempre",
-          "Esqueceu o caminho"
+          "Esqueceu o caminho",
+          "Começou uma viagem diferente"
         ],
         "correct": 0,
         "why": "O passeio havia parado; retomar é dar continuidade a ele.",
@@ -867,7 +897,8 @@ const LESSONS := [
         "answers": [
           "Esse é o melhor horário",
           "A biblioteca abre às 8h",
-          "O aviso está escrito"
+          "O aviso está escrito",
+          "Esse horário é ótimo para toda a turma"
         ],
         "correct": 0,
         "why": "Melhor é uma avaliação pessoal; o horário pode ser conferido.",
@@ -879,7 +910,8 @@ const LESSONS := [
         "answers": [
           "A ponte mede 12 metros",
           "É a mais bonita",
-          "Ivo gosta da ponte"
+          "Ivo gosta da ponte",
+          "A ponte é mais agradável à tarde"
         ],
         "correct": 0,
         "why": "O comprimento pode ser medido. A beleza envolve julgamento.",
@@ -891,7 +923,8 @@ const LESSONS := [
         "answers": [
           "Consultar o registro dos empréstimos",
           "Acreditar porque há um número",
-          "Decidir pela cor da postagem"
+          "Decidir pela cor da postagem",
+          "Concluir que é falso sem consultar os dados"
         ],
         "correct": 0,
         "why": "Um número não comprova a afirmação: é preciso conferir a fonte.",
@@ -917,7 +950,8 @@ const LESSONS := [
         "answers": [
           "Instalar mais bancos",
           "Trocar o nome do barco",
-          "Proibir a espera"
+          "Proibir a espera",
+          "Reduzir a quantidade de bancos"
         ],
         "correct": 0,
         "why": "A proposta é mais bancos; a necessidade de sentar é o argumento.",
@@ -929,7 +963,8 @@ const LESSONS := [
         "answers": [
           "A disponibilidade dessas famílias",
           "A cor das estantes",
-          "O tamanho do título"
+          "O tamanho do título",
+          "O gosto do autor por desenhos"
         ],
         "correct": 0,
         "why": "A disponibilidade está diretamente relacionada à abertura aos sábados.",
@@ -941,7 +976,8 @@ const LESSONS := [
         "answers": [
           "Assuntos semelhantes reunidos ajudam a localizar um tema",
           "Toda proposta da turma é perfeita",
-          "A ponte é de madeira"
+          "A ponte é de madeira",
+          "Organizar os livros pelo tamanho da capa resolve qualquer busca"
         ],
         "correct": 0,
         "why": "O primeiro argumento explica como a organização facilita a busca.",
@@ -967,7 +1003,8 @@ const LESSONS := [
         "answers": [
           "A equipe disponível pode não ser suficiente",
           "Livros não têm utilidade",
-          "Ivo não gosta de ler"
+          "Ivo não gosta de ler",
+          "O prédio precisa ser pintado"
         ],
         "correct": 0,
         "why": "A objeção trata da viabilidade da proposta, não do valor dos livros.",
@@ -979,7 +1016,8 @@ const LESSONS := [
         "answers": [
           "Avaliar um dia noturno com equipe e escala definidas",
           "Dizer que Lia não entende nada",
-          "Ignorar a equipe e mudar de assunto"
+          "Ignorar a equipe e mudar de assunto",
+          "Repetir a proposta sem explicar como atender à equipe"
         ],
         "correct": 0,
         "why": "A resposta apresenta uma alternativa para a limitação mencionada.",
@@ -991,7 +1029,8 @@ const LESSONS := [
         "answers": [
           "Comparar razões e dados de cada proposta",
           "Escolher quem fala mais alto",
-          "Descartar toda discordância"
+          "Descartar toda discordância",
+          "Aceitar qualquer dado sem verificar sua origem"
         ],
         "correct": 0,
         "why": "Comparar razões e dados permite sustentar uma posição e reconhecer limites.",
@@ -1017,7 +1056,8 @@ const LESSONS := [
         "answers": [
           "Uma promessa absoluta sem evidência apresentada",
           "Um resultado demonstrado no texto",
-          "Uma descrição neutra de tamanho"
+          "Uma descrição neutra de tamanho",
+          "Uma comparação acompanhada de fontes verificáveis"
         ],
         "correct": 0,
         "why": "Único, garante e para todos ampliam a promessa sem demonstrá-la.",
@@ -1029,7 +1069,8 @@ const LESSONS := [
         "answers": [
           "Quem são as fontes e em que evidências se apoiam",
           "A cor preferida do leitor",
-          "O número de letras do título"
+          "O número de letras do título",
+          "O horário em que o leitor costuma acordar"
         ],
         "correct": 0,
         "why": "A menção genérica a especialistas não permite conferir a fundamentação.",
@@ -1041,7 +1082,8 @@ const LESSONS := [
         "answers": [
           "Usa palavras intensificadoras para valorizar a proposta",
           "Apresenta somente medidas verificadas",
-          "Elimina toda interpretação"
+          "Elimina toda interpretação",
+          "Apresenta dados que provam ser a única solução"
         ],
         "correct": 0,
         "why": "Revolução, perfeita e salvará intensificam o apelo e orientam a avaliação.",
@@ -1217,7 +1259,8 @@ const LESSONS := [
         "answers": [
           "Capim",
           "Gafanhoto",
-          "Sapo"
+          "Sapo",
+          "O sapo e o gafanhoto, juntos"
         ],
         "correct": 0,
         "why": "O capim produz seu alimento por fotossíntese.",
@@ -1229,7 +1272,8 @@ const LESSONS := [
         "answers": [
           "Do gafanhoto",
           "Diretamente do Sol como alimento",
-          "De pedras"
+          "De pedras",
+          "Do capim, sem consumir outros seres vivos"
         ],
         "correct": 0,
         "why": "A seta do gafanhoto para o sapo indica essa relação alimentar.",
@@ -1241,7 +1285,8 @@ const LESSONS := [
         "answers": [
           "Luz do Sol",
           "Som do sapo",
-          "Movimento das pedras"
+          "Movimento das pedras",
+          "Calor produzido pelo solo"
         ],
         "correct": 0,
         "why": "A energia solar participa da produção de alimento pelo capim.",
@@ -1267,7 +1312,8 @@ const LESSONS := [
         "answers": [
           "Evaporação",
           "Congelamento",
-          "Transformação da água em areia"
+          "Transformação da água em areia",
+          "Condensação do líquido em vapor"
         ],
         "correct": 0,
         "why": "Na evaporação, parte da água líquida passa ao estado gasoso.",
@@ -1279,7 +1325,8 @@ const LESSONS := [
         "answers": [
           "Condensação",
           "Fusão",
-          "Desaparecimento da matéria"
+          "Desaparecimento da matéria",
+          "Solidificação de todo o vapor em gelo"
         ],
         "correct": 0,
         "why": "Condensação é a passagem do estado gasoso para o líquido.",
@@ -1291,7 +1338,8 @@ const LESSONS := [
         "answers": [
           "Precipitação",
           "Aumento do tamanho das pedras",
-          "Produção de sal"
+          "Produção de sal",
+          "Evaporação das gotas antes de alcançarem o solo"
         ],
         "correct": 0,
         "why": "A precipitação faz parte da circulação da água entre atmosfera e superfície.",
@@ -1317,7 +1365,8 @@ const LESSONS := [
         "answers": [
           "Mistura homogênea",
           "Mistura heterogênea com duas fases",
-          "Substância pura por ter aparência uniforme"
+          "Substância pura por ter aparência uniforme",
+          "Mistura com uma fase para cada grão de sal dissolvido"
         ],
         "correct": 0,
         "why": "É uma mistura homogênea: aparência uniforme não significa substância pura.",
@@ -1329,7 +1378,8 @@ const LESSONS := [
         "answers": [
           "Mistura heterogênea",
           "Mistura homogênea",
-          "Material sem componentes"
+          "Material sem componentes",
+          "Substância pura porque os líquidos ficam no mesmo copo"
         ],
         "correct": 0,
         "why": "As duas camadas correspondem a fases diferentes.",
@@ -1341,7 +1391,8 @@ const LESSONS := [
         "answers": [
           "A presença de fases distinguíveis",
           "O simples fato de haver água",
-          "A cor do copo"
+          "A cor do copo",
+          "A igualdade de tamanho dos grãos e das moléculas"
         ],
         "correct": 0,
         "why": "O critério usado é a presença de fases distinguíveis nas condições observadas.",
@@ -1367,7 +1418,8 @@ const LESSONS := [
         "answers": [
           "O processo é natural, mas atividades humanas podem ampliá-lo",
           "Todo efeito estufa foi criado por máquinas",
-          "Eliminar toda a atmosfera manteria o mesmo clima"
+          "Eliminar toda a atmosfera manteria o mesmo clima",
+          "A intensificação elimina a retenção de calor na atmosfera"
         ],
         "correct": 0,
         "why": "O processo natural e seu aumento por atividades humanas não são a mesma coisa.",
@@ -1379,7 +1431,8 @@ const LESSONS := [
         "answers": [
           "Queimar combustíveis fósseis",
           "Usar a luz do dia para ler",
-          "Caminhar até um lugar próximo"
+          "Caminhar até um lugar próximo",
+          "Utilizar uma bicicleta sem motor"
         ],
         "correct": 0,
         "why": "A queima de combustíveis fósseis libera dióxido de carbono.",
@@ -1391,7 +1444,8 @@ const LESSONS := [
         "answers": [
           "Reduzir emissões e conservar a vegetação",
           "Aumentar queimadas",
-          "Queimar mais combustível para criar nuvens"
+          "Queimar mais combustível para criar nuvens",
+          "Retirar a vegetação para evitar a absorção de luz solar"
         ],
         "correct": 0,
         "why": "Reduzir emissões e conservar a vegetação atua sobre causas relacionadas ao problema.",
@@ -1417,7 +1471,8 @@ const LESSONS := [
         "answers": [
           "Elétrica em movimento",
           "Som em alimento",
-          "Luz em combustível"
+          "Luz em combustível",
+          "Movimento das pás em energia elétrica para alimentar a tomada"
         ],
         "correct": 0,
         "why": "O motor usa energia elétrica para movimentar as pás.",
@@ -1429,7 +1484,8 @@ const LESSONS := [
         "answers": [
           "Aquecimento a partir de energia elétrica",
           "Produção de gelo",
-          "Transformação do tecido em eletricidade"
+          "Transformação do tecido em eletricidade",
+          "Conversão da energia elétrica apenas em luz"
         ],
         "correct": 0,
         "why": "O ferro transforma energia elétrica em energia térmica para aquecer.",
@@ -1441,7 +1497,8 @@ const LESSONS := [
         "answers": [
           "Pode haver mais de uma transformação de energia",
           "Toda energia vira apenas luz",
-          "A energia elétrica deixa de existir sem transformação"
+          "A energia elétrica deixa de existir sem transformação",
+          "O aquecimento prova que não houve transformação de energia"
         ],
         "correct": 0,
         "why": "Uma parte da energia aparece como luz e outra como aquecimento.",
@@ -1467,7 +1524,8 @@ const LESSONS := [
         "answers": [
           "Continuam sendo moléculas de água",
           "Viram moléculas de ferro",
-          "Deixam de existir"
+          "Deixam de existir",
+          "São substituídas por moléculas de oxigênio"
         ],
         "correct": 0,
         "why": "Na fusão muda a organização das moléculas, não a identidade da substância.",
@@ -1479,7 +1537,8 @@ const LESSONS := [
         "answers": [
           "No vapor, as moléculas ficam, em média, mais afastadas",
           "No vapor não existem moléculas",
-          "No líquido todas as moléculas ficam imóveis"
+          "No líquido todas as moléculas ficam imóveis",
+          "As moléculas do vapor têm sempre tamanho maior que as do líquido"
         ],
         "correct": 0,
         "why": "O estado gasoso apresenta, em média, maior separação entre as moléculas.",
@@ -1491,7 +1550,8 @@ const LESSONS := [
         "answers": [
           "Fica mais intenso",
           "Cessa completamente",
-          "Transforma todas as partículas em luz"
+          "Transforma todas as partículas em luz",
+          "As partículas passam a se mover menos, mesmo com a temperatura subindo"
         ],
         "correct": 0,
         "why": "O aquecimento está associado ao aumento da agitação das partículas, antes da mudança de estado.",
