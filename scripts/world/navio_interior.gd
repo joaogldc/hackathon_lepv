@@ -1,14 +1,22 @@
 extends Control
 signal finished(result: Dictionary)
+signal bote_selecionado(indice: int)
 @export var nome_sala: String = "Salão Ursatlântico"
 @export var velocidade: float = 170.0
 @export var permitir_movimento: bool = true
-const FUNDO := preload("res://assets/cenario/navio_glacial/salao-ursatlantico.png")
+@export var textura_fundo: Texture2D = preload("res://assets/cenario/navio_glacial/salao-ursatlantico.png")
+@export var modo_botes: bool = false
+@export var area_caminhavel: Rect2 = Rect2(240,436,672,189)
 const URSO := preload("res://scenes/player/bear.tscn")
 const PONTOS := [
 	{"ponto": Vector2(260,465), "nome": "Piano", "fala": "Concerto em dó... de mel. O pianista aceita gorjetas em biscoitos."},
 	{"ponto": Vector2(576,445), "nome": "Iceberg VIP", "fala": "Primeira classe para o iceberg. Favor não servir gelo deste balde."},
 	{"ponto": Vector2(898,465), "nome": "Chá de pato", "fala": "Chá das cinco. O pato chegou às quatro para garantir a banheira."}
+]
+const BOTES := [
+	{"ponto":Vector2(285,450), "marcador":"BoteBombordo", "nome":"Bote de bombordo", "bote":1, "fala":"Bote 1 a postos. O pato se autoproclamou capitão; alguém precisa conferir a rota."},
+	{"ponto":Vector2(867,450), "marcador":"BoteBoreste", "nome":"Bote de boreste", "bote":2, "fala":"Bote 2 preparado. Tem remos, coletes e espaço para uma boa aventura."},
+	{"ponto":Vector2(430,570), "marcador":"MelEmergencia", "nome":"Mantimentos de emergência", "fala":"Kit de emergência: remos, coletes e mel. Prioridades do capitão."}
 ]
 var jogador: Node2D
 var dica: Label
@@ -82,14 +90,15 @@ func _process(delta: float) -> void:
 		movimento = Vector2(
 			float(Input.is_physical_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_RIGHT)) - float(Input.is_physical_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_LEFT)),
 			float(Input.is_physical_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_DOWN)) - float(Input.is_physical_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_UP))).limit_length()
-	jogador.target = (jogador.target + movimento * velocidade * delta).clamp(Vector2(240,436),Vector2(912,625))
+	jogador.target = (jogador.target + movimento * velocidade * delta).clamp(area_caminhavel.position,area_caminhavel.end)
 	if movimento.length_squared() > 0:
 		jogador.direction = ("right" if movimento.x > 0 else "left") if absf(movimento.x) > absf(movimento.y) else ("front" if movimento.y > 0 else "back")
 	proximo = -1
-	for indice in range(PONTOS.size()):
-		if jogador.position.distance_to(PONTOS[indice].ponto) < 86:
+	var pontos := _pontos()
+	for indice in range(pontos.size()):
+		if jogador.position.distance_to(pontos[indice].ponto) < 86:
 			proximo = indice
-	dica.text = "[E] " + PONTOS[proximo].nome if proximo >= 0 else "Explore o salão e aproxime-se dos objetos."
+	dica.text = "[E] " + pontos[proximo].nome if proximo >= 0 else ("Aproxime-se dos botes para interagir." if modo_botes else "Explore o salão e aproxime-se dos objetos.")
 	tempo_fala = maxf(0,tempo_fala - delta)
 	if tempo_fala <= 0: fala.text = ""
 
@@ -98,9 +107,23 @@ func _unhandled_key_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		_sair()
 	elif event is InputEventKey and event.pressed and not event.echo and event.physical_keycode == KEY_E and proximo >= 0 and permitir_movimento:
-		fala.text = PONTOS[proximo].fala
-		tempo_fala = 7.0
+		_interagir()
 		get_viewport().set_input_as_handled()
+
+func _pontos() -> Array:
+	var pontos: Array = (BOTES if modo_botes else PONTOS).duplicate(true)
+	if modo_botes:
+		for ponto in pontos:
+			var marcador := get_node_or_null(ponto.marcador) as Marker2D
+			if marcador: ponto.ponto = marcador.position
+	return pontos
+
+func _interagir() -> void:
+	if proximo < 0: return
+	var ponto: Dictionary = _pontos()[proximo]
+	fala.text = ponto.fala
+	tempo_fala = 7.0
+	if ponto.has("bote"): bote_selecionado.emit(ponto.bote)
 
 func _sair() -> void:
 	if finished.get_connections().is_empty(): get_tree().quit()
@@ -117,4 +140,4 @@ func _ajustar() -> void:
 	position = (viewport - size * proporcao) / 2
 
 func _draw() -> void:
-	draw_texture_rect(FUNDO,Rect2(0,36,1152,648),false)
+	draw_texture_rect(textura_fundo,Rect2(0,36,1152,648),false)

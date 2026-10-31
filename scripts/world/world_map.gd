@@ -1,98 +1,154 @@
 extends Control
-## Island destinations, independent of walking coordinates in each area.
+## A arte não contém textos: destinos, indicação atual e cliques são controles.
 signal destination_selected(destination: String)
 signal close_requested
+@export var imagem_mapa: Texture2D = preload("res://assets/ui/mapa/ilha-ursos-3d.png")
+@export var zone: String = "lobby"
 const DESTINATIONS := {
-	"commerce": {"label": "Vila das lojas", "detail": "Cosméticos e pets", "rect": Rect2(465, 211, 222, 65)},
-	"math": {"label": "Bosque da Sabedoria", "detail": "Duelo matemático", "rect": Rect2(213, 343, 222, 65)},
-	"science": {"label": "Observatório", "detail": "Minijogo de ciências", "rect": Rect2(718, 343, 222, 65)},
-	"language": {"label": "Porto Glacial", "detail": "Minijogo de português", "rect": Rect2(465, 523, 222, 65)},
-	"lobby": {"label": "Praça dos encontros", "detail": "Lobby", "rect": Rect2(465, 363, 222, 65)}
+	"commerce": {"label":"Vila das lojas", "detail":"Cosméticos e pets", "rect":Rect2(0.35,0.025,0.35,0.27)},
+	"math": {"label":"Bosque da Sabedoria", "detail":"Dojo do Bambu", "rect":Rect2(0.055,0.17,0.285,0.31)},
+	"science": {"label":"Observatório", "detail":"Foguete de tronco", "rect":Rect2(0.735,0.10,0.235,0.38)},
+	"language": {"label":"Porto Glacial", "detail":"Navio e botes", "rect":Rect2(0.30,0.565,0.59,0.36)},
+	"lobby": {"label":"Praça dos encontros", "detail":"Encontre os outros ursos", "rect":Rect2(0.39,0.315,0.265,0.27)}
 }
-var zone := "lobby"
+var mapa_rect := Rect2()
+var cabecalho: Panel
+var titulo: Label
+var fechar: Button
+var legenda: Label
+var chips: Dictionary = {}
+var _animacoes: Dictionary = {}
+
+static func regiao_principal(destino: String) -> String:
+	if destino == "dojo": return "math"
+	if destino in ["ship","cave"]: return "language"
+	if destino in ["pet_shop","cosmetics_shop","fitting_room","loja_pets","loja_cosmeticos","provador"]: return "commerce"
+	return destino
+
+static func centro_regiao(destino: String) -> Vector2:
+	var regiao := regiao_principal(destino)
+	return DESTINATIONS.get(regiao,DESTINATIONS.lobby).rect.get_center()
 
 func _ready() -> void:
 	var id := multiplayer.get_unique_id()
-	if Network.players.has(id):
-		zone = Network.players[id].zone
+	if Network.players.has(id): zone = Network.players[id].zone
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	var close := Button.new()
-	close.text = "Fechar [M / Esc]"
-	close.position = Vector2(852, 89)
-	close.size = Vector2(160, 38)
-	close.pressed.connect(func(): close_requested.emit())
-	add_child(close)
-	for destination in DESTINATIONS:
-		var info: Dictionary = DESTINATIONS[destination]
-		var button := Button.new()
-		button.name = destination
-		button.position = info.rect.position
-		button.size = info.rect.size
-		button.text = info.label + "\n" + ("Você está aqui" if destination == zone else info.detail)
-		button.disabled = destination == zone
-		button.add_theme_font_size_override("font_size", 17)
-		button.pressed.connect(_choose.bind(destination))
-		add_child(button)
+	cabecalho = Panel.new()
+	cabecalho.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cabecalho.add_theme_stylebox_override("panel",_estilo(Color("fff5dc"),Color("513d2b"),16))
+	add_child(cabecalho)
+	titulo = Label.new()
+	titulo.text = "ILHA DOS URSOS"
+	titulo.add_theme_color_override("font_color",Color("513d2b"))
+	titulo.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(titulo)
+	fechar = Button.new()
+	fechar.text = "Fechar [M / Esc]"
+	fechar.add_theme_stylebox_override("normal",_estilo(Color("259dcb"),Color("175c79"),10))
+	fechar.add_theme_stylebox_override("hover",_estilo(Color("38b3dd"),Color("175c79"),10))
+	fechar.add_theme_color_override("font_color",Color.WHITE)
+	fechar.pressed.connect(_pedir_fechar)
+	add_child(fechar)
+	legenda = Label.new()
+	legenda.text = "Escolha uma região para viajar"
+	legenda.add_theme_color_override("font_color",Color("fff5dc"))
+	legenda.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	legenda.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(legenda)
+	for destino in DESTINATIONS:
+		var info: Dictionary = DESTINATIONS[destino]
+		var botao := Button.new()
+		botao.name = destino
+		botao.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		botao.add_theme_stylebox_override("normal",StyleBoxEmpty.new())
+		botao.add_theme_stylebox_override("disabled",StyleBoxEmpty.new())
+		botao.add_theme_stylebox_override("hover",StyleBoxEmpty.new())
+		botao.add_theme_stylebox_override("pressed",StyleBoxEmpty.new())
+		botao.add_theme_stylebox_override("focus",StyleBoxEmpty.new())
+		var nesta_regiao: bool = destino == regiao_principal(zone)
+		botao.disabled = destino == zone
+		botao.pressed.connect(_choose.bind(destino))
+		botao.mouse_entered.connect(_destacar.bind(destino,true))
+		botao.mouse_exited.connect(_destacar.bind(destino,false))
+		botao.focus_entered.connect(_destacar.bind(destino,true))
+		botao.focus_exited.connect(_destacar.bind(destino,false))
+		add_child(botao)
+		var chip := PanelContainer.new()
+		chip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		chip.add_theme_stylebox_override("panel",_estilo(Color("d9edc7") if nesta_regiao else Color("fff5dc"),Color("513d2b"),12))
+		botao.add_child(chip)
+		var texto := Label.new()
+		var detalhe: String = ("● Você está aqui" if botao.disabled else "Sair para esta região") if nesta_regiao else str(info.detail)
+		texto.text = info.label + "\n" + detalhe
+		texto.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		texto.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		texto.add_theme_color_override("font_color",Color("513d2b"))
+		texto.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		chip.add_child(texto)
+		chips[destino] = chip
+	resized.connect(_organizar)
+	_organizar()
 
-func _choose(destination: String) -> void:
-	if destination != zone:
-		destination_selected.emit(destination)
+func _estilo(cor: Color, borda: Color, raio: int) -> StyleBoxFlat:
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = cor
+	estilo.border_color = borda
+	estilo.set_border_width_all(2)
+	estilo.set_corner_radius_all(raio)
+	return estilo
 
-func _gui_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		var point := get_local_mouse_position()
-		var destination := ""
-		if Rect2(472, 170, 208, 125).has_point(point):
-			destination = "commerce"
-		elif Rect2(210, 295, 230, 180).has_point(point):
-			destination = "math"
-		elif Rect2(710, 295, 240, 180).has_point(point):
-			destination = "science"
-		elif Rect2(465, 485, 222, 112).has_point(point):
-			destination = "language"
-		elif Rect2(445, 305, 255, 175).has_point(point):
-			destination = "lobby"
-		if not destination.is_empty():
-			_choose(destination)
-		accept_event()
+func _organizar() -> void:
+	if not is_instance_valid(cabecalho): return
+	var margem := 16.0
+	var disponivel := Vector2(maxf(200,size.x-32),maxf(130,size.y-108))
+	var fator := minf(disponivel.x/imagem_mapa.get_width(),disponivel.y/imagem_mapa.get_height())
+	var tamanho := imagem_mapa.get_size() * fator
+	mapa_rect = Rect2(Vector2((size.x-tamanho.x)/2,70+(disponivel.y-tamanho.y)/2),tamanho)
+	var escala_ui := clampf(size.x/1152.0,0.65,1.2)
+	cabecalho.position = Vector2(margem,10)
+	cabecalho.size = Vector2(size.x-32,50)
+	titulo.position = Vector2(30,19)
+	titulo.size = Vector2(size.x-220,34)
+	titulo.add_theme_font_size_override("font_size",roundi(25*escala_ui))
+	fechar.position = Vector2(size.x-184,17)
+	fechar.size = Vector2(154,36)
+	legenda.position = Vector2(0,size.y-30)
+	legenda.size = Vector2(size.x,25)
+	legenda.add_theme_font_size_override("font_size",roundi(16*escala_ui))
+	for destino in DESTINATIONS:
+		var info: Dictionary = DESTINATIONS[destino]
+		var botao := get_node(NodePath(destino)) as Button
+		botao.position = mapa_rect.position + info.rect.position * mapa_rect.size
+		botao.size = info.rect.size * mapa_rect.size
+		var chip: PanelContainer = chips[destino]
+		chip.size = Vector2(205,48) * escala_ui
+		chip.position = Vector2((botao.size.x-chip.size.x)/2,botao.size.y-chip.size.y)
+		chip.pivot_offset = chip.size/2
+		(chip.get_child(0) as Label).add_theme_font_size_override("font_size",roundi(14*escala_ui))
+	queue_redraw()
 
-func _text(point: Vector2, value: String, font_size := 17, color := Color("fff2d9")) -> void:
-	draw_string(ThemeDB.fallback_font, point, value, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, color)
+func _choose(destino: String) -> void:
+	if destino != zone: destination_selected.emit(destino)
 
-func _tree(point: Vector2) -> void:
-	draw_rect(Rect2(point + Vector2(-4, 0), Vector2(8, 20)), Color("735437"))
-	draw_circle(point + Vector2(0, -8), 22, Color("356849"))
-	draw_circle(point + Vector2(-7, -16), 14, Color("4a8456"))
+func _destacar(destino: String, ativo: bool) -> void:
+	ativo = ativo or (get_node(NodePath(destino)) as Button).has_focus()
+	var cor := Color("d9edc7") if destino == regiao_principal(zone) else Color("fff5dc")
+	(chips[destino] as PanelContainer).add_theme_stylebox_override("panel",_estilo(cor,Color("e8b338") if ativo else Color("513d2b"),12))
+	if _animacoes.has(destino) and _animacoes[destino].is_valid(): _animacoes[destino].kill()
+	var animacao := create_tween()
+	_animacoes[destino] = animacao
+	animacao.tween_property(chips[destino],"scale",Vector2.ONE * (1.04 if ativo else 1.0),0.12)
+
+func _pedir_fechar() -> void:
+	if close_requested.get_connections().is_empty(): get_tree().quit()
+	else: close_requested.emit()
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.physical_keycode in [KEY_M,KEY_ESCAPE]:
+		get_viewport().set_input_as_handled()
+		_pedir_fechar()
 
 func _draw() -> void:
-	draw_rect(Rect2(Vector2.ZERO, size), Color(0.02, 0.06, 0.07, 0.85))
-	var panel := StyleBoxFlat.new()
-	panel.bg_color = Color("153a49")
-	panel.set_corner_radius_all(20)
-	draw_style_box(panel, Rect2(120, 70, 912, 598))
-	_text(Vector2(151, 112), "ILHA DOS URSOS", 29)
-	_text(Vector2(151, 145), "Escolha uma região para viajar diretamente até ela.", 18)
-	for point in [Vector2(176, 242), Vector2(964, 530), Vector2(248, 584), Vector2(923, 216)]:
-		draw_arc(point, 34, 0.2, 2.7, 24, Color("3d7180"), 3, true)
-	var coast := PackedVector2Array([Vector2(182, 312), Vector2(286, 245), Vector2(423, 231), Vector2(478, 169), Vector2(665, 170), Vector2(722, 235), Vector2(870, 253), Vector2(969, 334), Vector2(981, 446), Vector2(856, 506), Vector2(739, 527), Vector2(675, 609), Vector2(476, 617), Vector2(408, 530), Vector2(261, 502), Vector2(175, 422)])
-	draw_colored_polygon(coast, Color("e2cc91"))
-	var land := PackedVector2Array([Vector2(197, 321), Vector2(290, 263), Vector2(436, 250), Vector2(487, 187), Vector2(653, 187), Vector2(710, 253), Vector2(864, 271), Vector2(951, 342), Vector2(961, 433), Vector2(846, 489), Vector2(723, 511), Vector2(664, 592), Vector2(486, 598), Vector2(419, 514), Vector2(269, 483), Vector2(194, 414)])
-	draw_colored_polygon(land, Color("8eae71"))
-	draw_colored_polygon(PackedVector2Array([Vector2(197, 321), Vector2(290, 263), Vector2(436, 250), Vector2(466, 312), Vector2(447, 463), Vector2(419, 514), Vector2(269, 483), Vector2(194, 414)]), Color("749c58"))
-	draw_colored_polygon(PackedVector2Array([Vector2(710, 253), Vector2(864, 271), Vector2(951, 342), Vector2(961, 433), Vector2(846, 489), Vector2(723, 511), Vector2(692, 448), Vector2(691, 313)]), Color("507951"))
-	draw_colored_polygon(PackedVector2Array([Vector2(419, 514), Vector2(481, 466), Vector2(663, 466), Vector2(723, 511), Vector2(664, 592), Vector2(486, 598)]), Color("cbe9ed"))
-	draw_rect(Rect2(515, 266, 120, 245), Color("d9c18a"))
-	draw_rect(Rect2(425, 351, 292, 71), Color("d9c18a"))
-	for point in [Vector2(264, 310), Vector2(304, 312), Vector2(352, 302), Vector2(393, 318), Vector2(268, 450), Vector2(333, 462), Vector2(392, 450)]:
-		for offset in [-8, 8]:
-			draw_line(point + Vector2(offset, 12), point + Vector2(offset, -25), Color("315e3a"), 5, true)
-			draw_line(point + Vector2(offset, -12), point + Vector2(offset + 10, -20), Color("c0d68b"), 3, true)
-	for point in [Vector2(751, 301), Vector2(812, 304), Vector2(885, 320), Vector2(754, 453), Vector2(817, 463), Vector2(897, 442)]:
-		_tree(point)
-	for point in [Vector2(494, 494), Vector2(644, 491), Vector2(465, 557), Vector2(685, 551)]:
-		draw_colored_polygon(PackedVector2Array([point + Vector2(-13, 7), point + Vector2(-4, -16), point + Vector2(5, -21), point + Vector2(16, 8)]), Color("f3fdff"))
-	for point in [Vector2(504, 206), Vector2(640, 206)]:
-		draw_rect(Rect2(point - Vector2(15, 8), Vector2(30, 24)), Color("c58e65"))
-		draw_colored_polygon(PackedVector2Array([point + Vector2(-20, -8), point + Vector2(0, -24), point + Vector2(20, -8)]), Color("825b51"))
-	_text(Vector2(150, 643), "M / Esc: fechar o mapa     •     WASD / setas: caminhar dentro de cada área", 17)
+	draw_rect(Rect2(Vector2.ZERO,size),Color(0.025,0.09,0.13,0.97))
+	if imagem_mapa and mapa_rect.has_area(): draw_texture_rect(imagem_mapa,mapa_rect,false)

@@ -2,6 +2,8 @@
 
 # 🐻 Mundo dos Ursos — Hackathon LEPV
 
+**Abrir em outro PC:** [guia de importação e execução](docs/ABRIR_EM_OUTRO_PC.md).
+
 > Mundo social online 2D em que aprender gera conquistas, moedas e novas formas de se expressar entre amigos.
 
 **Status:** protótipo jogável com praça, comércio e interiores, Bosque da Sabedoria, Porto Glacial, rede WebSocket, duelo matemático 1x1, espectadores, pets, história e missões diárias. Os sistemas descritos mais abaixo também incluem funcionalidades planejadas.

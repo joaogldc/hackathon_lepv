@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://scenes/world/navio_interior.tscn" id="1"]
+[ext_resource type="Texture2D" path="res://assets/cenario/navio_glacial/deque-botes.png" id="2"]
+[node name="DequeGlacial" instance=ExtResource("1")]
+nome_sala = "Deque Glacial"
+textura_fundo = ExtResource("2")
+modo_botes = true
+area_caminhavel = Rect2(230,365,692,220)
+
+[node name="BoteBombordo" type="Marker2D" parent="."]
+position = Vector2(265,405)
+
+[node name="BoteBoreste" type="Marker2D" parent="."]
+position = Vector2(887,405)
+
+[node name="MelEmergencia" type="Marker2D" parent="."]
+position = Vector2(664,380)
