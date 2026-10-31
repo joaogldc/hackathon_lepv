@@ -2,6 +2,7 @@ extends Control
 signal story_requested
 ## Catálogo, provador e diário. Estado local de UI em DailyJournal.
 const PREVIEW := preload("res://scripts/ui/bear_fitting_preview.gd")
+const PET_ACCESSORIES := preload("res://scripts/player/pet_accessories.gd")
 const INK := Color("513d2b")
 const CREAM := Color("fff5dc")
 const BLUE := Color("259dcb")
@@ -12,6 +13,8 @@ var canvas: Control
 var page := ""
 var selected := "camisa_azul"
 var catalog_page := 0
+## Na loja de pets: "pet" (companheiros) ou "accessory" (acessórios).
+var pet_tab := "pet"
 var pending := ""
 var notice := ""
 var timer_label: Label
@@ -58,15 +61,14 @@ func open_page(destination: String) -> void:
 	if destination != "daily":
 		if profile.is_empty() or Minigames.shop_action(profile.zone,profile.position) != destination: return
 	catalog_page = 0
+	pet_tab = "pet"
 	page = destination
 	pending = ""
 	notice = ""
 	if destination in ["pet", "cosmetics"]:
-		DailyJournal.visit(destination)
 		selected = "fish" if destination == "pet" else "camisa_azul"
-	if destination == "fitting":
-		if DailyJournal.item(selected).get("shop", "") != "cosmetics": selected = "camisa_azul"
-		DailyJournal.try_item(selected)
+	if destination == "fitting" and DailyJournal.item(selected).get("shop", "") != "cosmetics":
+		selected = "camisa_azul"
 	_refresh()
 
 func close_window() -> void:
@@ -158,9 +160,10 @@ func _image(path: String, rect: Rect2, parent: Node = null) -> TextureRect:
 	return image
 
 func _art(product: Dictionary) -> String:
+	if product.get("kind","") == "accessory": return PET_ACCESSORIES.icon(DailyJournal.pet,product.accessory)
 	if product.id in ["fish","parrot"]: return "res://assets/pets/"+("flying_fish" if product.id=="fish" else "parrot")+"/front.png"
 	if product.has("garment"): return "res://assets/sprites/urso/roupas/icones/"+product.art+".png"
-	return "res://assets/ui/lojas/camiseta.svg" if product.art == "camiseta" else PRODUCT_PATH + product.art + ".png"
+	return PRODUCT_PATH + product.art + ".png"
 
 func _refresh() -> void:
 	if not is_instance_valid(canvas): return
@@ -169,7 +172,6 @@ func _refresh() -> void:
 		child.queue_free()
 	timer_label = null
 	_last_action = ""
-	var profile: Dictionary = Network.players.get(multiplayer.get_unique_id(), {})
 	if page.is_empty(): return
 	var shade := ColorRect.new()
 	shade.color = Color(0.07,0.16,0.17,0.76)
@@ -200,15 +202,31 @@ func _refresh() -> void:
 	if not notice.is_empty(): _text(notice,Rect2(295,594,750,35),16)
 	if not pending.is_empty(): _confirmation()
 
-func _widget() -> void:
-	pass
+## Produtos visíveis na aba atual. Acessórios só aparecem se existir arte para o pet em uso.
+func _in_tab(product: Dictionary) -> bool:
+	if product.shop != page: return false
+	if page != "pet": return true
+	var accessory: bool = product.get("kind","") == "accessory"
+	if accessory != (pet_tab == "accessory"): return false
+	return not accessory or PET_ACCESSORIES.supports(DailyJournal.pet,product.accessory)
 
-func _directory() -> void:
-	pass
+func _switch_tab(tab: String) -> void:
+	pet_tab = tab
+	catalog_page = 0
+	notice = ""
+	var visible_products: Array = DailyJournal.ITEMS.filter(_in_tab)
+	var ids: Array = visible_products.map(func(p): return p.id)
+	var current: String = DailyJournal.pet if tab == "pet" else DailyJournal.pet_acc
+	selected = current if current in ids else (ids[0] if not ids.is_empty() else "")
+	_refresh()
 
 func _catalog() -> void:
-	_text("Escolha seu novo companheiro" if page == "pet" else "Escolha uma peça da coleção",Rect2(298,184,730,34),24)
-	var products: Array = DailyJournal.ITEMS.filter(func(p): return p.shop == page)
+	if page == "pet":
+		_button("Companheiros",Rect2(298,184,200,38),func(): _switch_tab("pet"),GOLD if pet_tab == "pet" else CREAM)
+		_button("Acessórios",Rect2(508,184,200,38),func(): _switch_tab("accessory"),GOLD if pet_tab == "accessory" else CREAM)
+	else:
+		_text("Escolha uma peça da coleção",Rect2(298,184,730,34),24)
+	var products: Array = DailyJournal.ITEMS.filter(_in_tab)
 	products = _paginate(products)
 	for i in range(products.size()):
 		var product: Dictionary = products[i]
@@ -219,12 +237,23 @@ func _catalog() -> void:
 		var caption: String = "Na coleção ✓" if product.id in DailyJournal.owned else str(product.price)+" moedas"
 		_button(caption,Rect2(x+14,418,206,40),func(): selected = product.id; notice = ""; _refresh(),GREEN if product.id in DailyJournal.owned else GOLD)
 	var choice := DailyJournal.item(selected)
-	if choice.get("shop", "") != page: return
+	if choice.is_empty() or not _in_tab(choice): return
 	_text(choice.desc,Rect2(300,483,732,49),18)
-	_button("Equipar" if selected in DailyJournal.owned else ("Comprar pet • %d moedas" if page == "pet" else "Comprar • %d moedas") % choice.price,Rect2(300,540,332,44),func():
-		if selected in DailyJournal.owned: DailyJournal.equip(selected); notice="Escolha equipada!"
+	var is_owned: bool = selected in DailyJournal.owned
+	var accessory: bool = choice.get("kind","") == "accessory"
+	var in_use: bool = selected == (DailyJournal.pet_acc if accessory else (DailyJournal.pet if page == "pet" else DailyJournal.equipped))
+	var main_caption: String = "Em uso ✓" if in_use else ("Equipar" if is_owned else ("Comprar pet • %d moedas" if page == "pet" and not accessory else "Comprar • %d moedas") % choice.price)
+	_button(main_caption,Rect2(300,540,332,44),func():
+		if is_owned:
+			DailyJournal.equip(selected)
+			notice = "Escolha equipada!"
 		else: pending = selected
-		_refresh(),BLUE)
+		_refresh(),GREEN if in_use else BLUE,in_use)
+	if accessory:
+		_button("Tirar acessório",Rect2(647,540,230,44),func():
+			Network.interact("pet_acc","none")
+			notice = "Acessório guardado."
+			_refresh(),CREAM,DailyJournal.pet_acc == "none")
 	if page == "cosmetics":
 		_text("Para experimentar, visite o provador da loja.",Rect2(647,536,385,50),17)
 
@@ -244,7 +273,7 @@ func _fitting() -> void:
 		var product: Dictionary = products[i]
 		var y := 246 + i*85
 		_image(_art(product),Rect2(649,y,67,63))
-		_button(product.name + (" ✓" if selected == product.id else ""),Rect2(731,y+5,306,53),func(): selected = product.id; DailyJournal.try_item(selected); _refresh(),GOLD if selected == product.id else CREAM)
+		_button(product.name + (" ✓" if selected == product.id else ""),Rect2(731,y+5,306,53),func(): selected = product.id; _refresh(),GOLD if selected == product.id else CREAM)
 	var choice := DailyJournal.item(selected)
 	if choice.is_empty(): return
 	var owned: bool = selected in DailyJournal.owned
@@ -281,7 +310,6 @@ func _daily() -> void:
 		track.add_theme_stylebox_override("fill",_style(Color("689b60"),Color("689b60"),5))
 		canvas.add_child(track)
 		_text("%d/%d" % [count,quest.goal],Rect2(478,y+58,55,30),15)
-		var id: String = quest.id
 		_button("XP recebido ✓" if claimed else "+%d XP" % quest.reward,Rect2(552,y+56,220,32),func(): pass,GOLD,true)
 	_box(Rect2(806,265,235,300),Color("f8e7be"))
 	var unlocked: bool = "first_daily_win" in DailyJournal.badges
@@ -348,7 +376,7 @@ func _context() -> void:
 	_last_action = action
 	if is_instance_valid(context_button): context_button.queue_free()
 	if not action.is_empty():
-		var captions := {"pet":"Comprar pet [E]", "cosmetics":"Comprar cosméticos [E]", "fitting":"Experimentar roupas [E]"}
+		var captions := {"pet":"Pets e acessórios [E]", "cosmetics":"Comprar cosméticos [E]", "fitting":"Experimentar roupas [E]"}
 		context_button = _button(captions[action],Rect2(405,130,342,40),func(): open_page(action),GOLD)
 
 func _paginate(products: Array) -> Array:

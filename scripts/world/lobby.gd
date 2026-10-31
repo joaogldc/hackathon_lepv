@@ -27,19 +27,18 @@ var bears: Dictionary = {}
 var name_field: LineEdit
 var address_field: LineEdit
 var status_label: Label
-var count_label: Label
 var host_button: Button
 var join_button: Button
 var hud: CanvasLayer
 var game_layer: CanvasLayer
 var game_view: Control
-var portal_button: Button
 var current_zone := "lobby"
 var nearby_portal := ""
 var result_dialog: AcceptDialog
 var transition_tween: Tween
 var exit_armed := false
 var map_view: Control
+var student_dashboard: Control
 var signs: Array[Node2D] = []
 @onready var recompensa_moedas: CanvasLayer = $RecompensaMoedas
 @onready var recompensa_xp: CanvasLayer = $RecompensaXP
@@ -109,10 +108,8 @@ func _process(_delta: float) -> void:
 	var has_profile := Network.players.has(multiplayer.get_unique_id())
 	login_panel.visible = not has_profile
 	world_hud.visible = has_profile
-	count_label.visible = false
 	nearby_portal = ""
 	var id := multiplayer.get_unique_id()
-	portal_button.visible = false
 	interaction_hint.text=_hint()
 	if current_zone in Minigames.WORLD_ZONES and Network.players.has(id):
 		nearby_portal = Minigames.exit_at(Network.players[id].position,current_zone)
@@ -134,6 +131,17 @@ func _input(event: InputEvent) -> void:
 		return
 	if recompensa_moedas.visible or recompensa_xp.visible:
 		return
+	if event is InputEventKey and event.pressed and not event.echo:
+		var dashboard_key: int = event.keycode if event.keycode else event.physical_keycode
+		if is_instance_valid(student_dashboard) and student_dashboard.visible:
+			if dashboard_key == KEY_R or dashboard_key == KEY_ESCAPE:
+				_close_student_dashboard()
+			get_viewport().set_input_as_handled()
+			return
+		if dashboard_key == KEY_R and Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
+			_toggle_student_dashboard()
+			get_viewport().set_input_as_handled()
+			return
 	if is_instance_valid(commerce_ui) and Network.active and not get_viewport().gui_get_focus_owner() is LineEdit:
 		if not is_instance_valid(quests) and commerce_ui.handle_key(event):
 			_close_map()
@@ -181,9 +189,24 @@ func _input(event: InputEvent) -> void:
 				get_viewport().set_input_as_handled()
 				return
 
-func _unhandled_key_input(event: InputEvent) -> void:
-	if is_instance_valid(map_view):
+func _toggle_student_dashboard() -> void:
+	if not Network.active or not Network.players.has(multiplayer.get_unique_id()):
 		return
+	if is_instance_valid(student_dashboard):
+		_close_student_dashboard()
+		return
+	_close_map()
+	_close_quests()
+	if is_instance_valid(commerce_ui):
+		commerce_ui.close_window()
+	student_dashboard = load("res://scenes/ui/dashboard/student_dashboard.tscn").instantiate() as Control
+	game_layer.add_child(student_dashboard)
+
+func _close_student_dashboard() -> void:
+	if is_instance_valid(student_dashboard):
+		student_dashboard.queue_free()
+		student_dashboard = null
+	get_viewport().gui_release_focus()
 
 func _toggle_map() -> void:
 	if not Network.active or not Network.players.has(multiplayer.get_unique_id()):
@@ -206,11 +229,6 @@ func _close_map() -> void:
 		map_view.queue_free()
 		map_view = null
 	get_viewport().gui_release_focus()
-
-func _enter_portal() -> void:
-	if not nearby_portal.is_empty():
-		Network.request_zone(nearby_portal)
-		get_viewport().gui_release_focus()
 
 func _set_zone(zone: String) -> void:
 	if zone == current_zone:
@@ -267,6 +285,7 @@ func _sync_players() -> void:
 	if not Network.active:
 		_close_map()
 		_close_quests()
+		_close_student_dashboard()
 		xp_pendente=false
 		recompensa_moedas.fechar()
 		recompensa_xp.reiniciar_sessao()
@@ -275,7 +294,6 @@ func _sync_players() -> void:
 	if Network.players.has(local_id):
 		zone = Network.players[local_id].zone
 	_set_zone(zone)
-	var in_plaza := 0
 	for id in bears.keys():
 		if not Network.players.has(id):
 			bears[id].queue_free()
@@ -296,13 +314,11 @@ func _sync_players() -> void:
 		bears[id].local_player = id == multiplayer.get_unique_id()
 		bears[id].sitting=state.get("sitting",false)
 		bears[id].pet_kind=state.get("pet","fish")
+		bears[id].pet_acc=state.get("pet_acc","none")
 		bears[id].outfit=state.get("outfit","none")
 		bears[id].scale=Vector2.ONE*CATALOG.character_scale(state.zone)
 		bears[id].pet_emote=state.get("pet_emote","")
 		bears[id].visible = state.zone == current_zone and current_zone in Minigames.WORLD_ZONES
-		if state.zone == current_zone:
-			in_plaza += 1
-	count_label.text = "%d nesta área • %d online" % [in_plaza, Network.players.size()]
 
 func _build_ui() -> void:
 	var layer := CanvasLayer.new()
@@ -313,7 +329,6 @@ func _build_ui() -> void:
 	world_hud.visible = false
 	world_hud.map_requested.connect(_toggle_map)
 	world_hud.travel_requested.connect(_travel_from_map)
-	world_hud.quests_requested.connect(_toggle_quests)
 	world_hud.daily_requested.connect(func(): _close_quests(); _close_map(); commerce_ui.open_page("daily"))
 	world_hud.pet_emotes_requested.connect(_toggle_pet_emotes)
 	world_hud.education_requested.connect(_toggle_education)
@@ -364,23 +379,6 @@ func _build_ui() -> void:
 	status_label = Label.new()
 	status_label.text = "Crie uma sala ou entre usando o endereço do anfitrião."
 	box.add_child(status_label)
-	count_label = Label.new()
-	count_label.position = Vector2(40, 652)
-	count_label.text = "0 na praça • 0 online"
-	layer.add_child(count_label)
-	var help := Label.new()
-	help.text = "WASD / setas: andar  •  Passe nas setas para sair  •  M: mapa da ilha"
-	help.position = Vector2(390, 652)
-	help.visible = false
-	layer.add_child(help)
-	portal_button = _button(layer, "Entrar no portal  [E]", _enter_portal)
-	portal_button.position = Vector2(375, 680)
-	portal_button.size = Vector2(410, 32)
-	portal_button.visible = false
-	var map_button := _button(layer, "Mapa [M]", _toggle_map)
-	map_button.visible = false
-	map_button.position = Vector2(980, 130)
-	map_button.size = Vector2(125, 36)
 
 func _button(parent: Node, caption: String, action: Callable) -> Button:
 	var button := Button.new()
@@ -410,12 +408,6 @@ func _draw() -> void:
 		elif id == "science":
 			angle = -PI / 2
 		load("res://scripts/world/ground_arrow.gd").paint(self,point,angle)
-
-func _ground_style() -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = Color("60866a")
-	style.set_corner_radius_all(32)
-	return style
 
 func _show_result(result: Dictionary) -> void:
 	var mine: int = result.ids.find(multiplayer.get_unique_id())
@@ -473,60 +465,27 @@ func _hint() -> String:
 
 func _interact_nearby() -> void:
 	if is_instance_valid(action_dialog): action_dialog.queue_free()
-	var options: Dictionary={}
-	var title:=""
-	var text:=""
-	var kind:=""
-	var player: Dictionary=Network.players.get(multiplayer.get_unique_id(),{})
-	var shop_action: String=Minigames.shop_action(current_zone,player.get("position",Vector2.ZERO))
+	var point: Vector2=Network.players.get(multiplayer.get_unique_id(),{}).get("position",Vector2.ZERO)
+	var shop_action: String=Minigames.shop_action(current_zone,point)
 	if not shop_action.is_empty():
 		commerce_ui.open_page(shop_action)
 		return
-	if current_zone=="language":
-		var point: Vector2=Network.players.get(multiplayer.get_unique_id(),{}).get("position",Vector2.ZERO)
-		if point.distance_to(Vector2(275,411))<75:
-			title="Mamute congelado"
-			text="Mamutes eram parentes dos elefantes. Algumas espécies tinham pelos espessos, que ajudavam a conservar o calor."
-			Network.interact("discover","mammoth")
-		elif point.distance_to(Vector2(885,574))<75:
-			title="Lago com fóssil"
-			text="Fósseis são restos ou vestígios de seres vivos preservados. Eles ajudam a investigar como era a vida no passado. A figura no lago é uma representação artística."
-			Network.interact("discover","fossil")
+	if current_zone!="language": return
+	var title:=""
+	var text:=""
+	if point.distance_to(Vector2(275,411))<75:
+		title="Mamute congelado"
+		text="Mamutes eram parentes dos elefantes. Algumas espécies tinham pelos espessos, que ajudavam a conservar o calor."
+		Network.interact("discover","mammoth")
+	elif point.distance_to(Vector2(885,574))<75:
+		title="Lago com fóssil"
+		text="Fósseis são restos ou vestígios de seres vivos preservados. Eles ajudam a investigar como era a vida no passado. A figura no lago é uma representação artística."
+		Network.interact("discover","fossil")
 	if title.is_empty(): return
 	action_dialog=AcceptDialog.new()
 	action_dialog.title=title
 	action_dialog.dialog_text=text
 	add_child(action_dialog)
-	if not options.is_empty():
-		action_dialog.dialog_text=""
-		action_dialog.get_label().hide()
-		var content:=VBoxContainer.new()
-		content.add_theme_constant_override("separation",18)
-		action_dialog.add_child(content)
-		var description:=Label.new()
-		description.text=text
-		description.custom_minimum_size.x=580
-		description.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
-		description.add_theme_font_size_override("font_size",18)
-		content.add_child(description)
-		var row:=GridContainer.new()
-		row.columns=3
-		row.add_theme_constant_override("separation",12)
-		row.add_theme_constant_override("h_separation",12)
-		row.add_theme_constant_override("v_separation",12)
-		content.add_child(row)
-		for caption in options:
-			var value: String=options[caption]
-			var button:=Button.new()
-			button.text=caption
-			button.custom_minimum_size=Vector2(150,46)
-			var style:=StyleBoxFlat.new()
-			style.bg_color=Color("299bd1")
-			style.set_corner_radius_all(10)
-			button.add_theme_stylebox_override("normal",style)
-			button.add_theme_stylebox_override("hover",style)
-			button.pressed.connect(func(): Network.interact(kind,value); action_dialog.hide(); get_viewport().gui_release_focus())
-			row.add_child(button)
 	action_dialog.popup_centered(Vector2i(640,260))
 
 func _toggle_pet_emotes() -> void:

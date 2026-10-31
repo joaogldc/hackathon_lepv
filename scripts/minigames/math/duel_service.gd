@@ -235,6 +235,7 @@ func _publish(m: Dictionary) -> void:
 	public.erase("explanation")
 	public.erase("rewarded")
 	public.pets=m.ids.map(func(id): return Network.players.get(id,{}).get("pet","fish"))
+	public.pet_accs=m.ids.map(func(id): return Network.players.get(id,{}).get("pet_acc","none"))
 	public.outfits=m.ids.map(func(id): return Network.players.get(id,{}).get("outfit","none"))
 	public.spectators = []
 	for id in watchers:

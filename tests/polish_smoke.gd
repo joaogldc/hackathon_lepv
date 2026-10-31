@@ -36,7 +36,7 @@ func _ready() -> void:
 	assert(CATALOG.collision("provador",Vector2(170,530)),"Curtains must block the wall area")
 	assert(not CATALOG.collision("provador",Vector2(576,580)))
 	assert(Minigames.exit_at(Vector2(559,362),"language")=="","Cave has no entry")
-	assert(Minigames.exit_at(Vector2(710,500),"language")=="ship")
+	assert(Minigames.exit_at(Minigames.SHIP_ENTRY,"language")=="ship")
 	var quest_map:=preload("res://scripts/world/discovery_map.gd").new()
 	add_child(quest_map)
 	for button in quest_map.content.get_children():

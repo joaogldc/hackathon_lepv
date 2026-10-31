@@ -78,6 +78,9 @@ func _draw() -> void:
 	draw_texture_rect(ground,Rect2(24,204,1104,436),false)
 	load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(576,608),0.0)
 	if zone=="language":
-		load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(710,490),-PI/2-0.35,0.8)
+		# Seta no gelo, antes do cais, apontando para o pé da prancha do navio.
+		var gangway := Vector2(778,457)
+		var arrow_at := Minigames.SHIP_ENTRY+Vector2(-32,6)
+		load("res://scripts/world/ground_arrow.gd").paint(self,arrow_at,(gangway-arrow_at).angle()-PI/2,0.8)
 	elif zone=="loja_cosmeticos":
 		load("res://scripts/world/ground_arrow.gd").paint(self,Vector2(865,432),PI)

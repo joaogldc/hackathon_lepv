@@ -49,6 +49,28 @@ func _ready() -> void:
  assert(p.pet=="fish")
  Network.interact("pet","parrot")
  assert(p.pet=="parrot")
+ # Acessórios de pet: compra, equipar, restrição por espécie e local.
+ var coins_acc: int=p.coins
+ Network.interact("buy","pet_tapa_olho")
+ assert(p.pet_acc=="pet_tapa_olho" and p.coins==coins_acc-80 and p.owned.has("pet_tapa_olho"))
+ Network.interact("buy","pet_tapa_olho")
+ assert(p.coins==coins_acc-80,"Acessório já comprado não cobra de novo")
+ Network.interact("pet_acc","pet_coroa")
+ assert(p.pet_acc=="pet_tapa_olho","Acessório não comprado não pode ser equipado")
+ Network.interact("pet_acc","none")
+ assert(p.pet_acc=="none")
+ Network.interact("pet","fish")
+ Network.interact("pet_acc","pet_tapa_olho")
+ assert(p.pet_acc=="none","Tapa-olho só existe para a arara")
+ Network.interact("buy","pet_tapa_olho")
+ Network.interact("buy","pet_coroa")
+ assert(p.pet_acc=="pet_coroa" and p.owned.has("pet_coroa"))
+ Network.players[1].zone="lobby"
+ Network.interact("pet_acc","none")
+ assert(p.pet_acc=="pet_coroa","Troca de acessório fora da loja deve ser rejeitada")
+ Network.players[1].zone="loja_pets"
+ Network.interact("pet","parrot")
+ assert(p.pet=="parrot")
  var saved=JSON.parse_string(FileAccess.get_file_as_string(Progress.storage_path))
  assert(saved[Progress.player_keys[1]].owned.has("terno_vinho"))
  assert(saved[Progress.player_keys[1]].pet=="parrot")

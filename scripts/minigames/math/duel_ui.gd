@@ -10,6 +10,7 @@ var selected_slot := -1
 var selected_answer := -1
 var selection_revision := -1
 const PET := preload("res://scripts/player/pet_companion.gd")
+const FONTS := preload("res://scripts/ui/game_fonts.gd")
 const PET_BACK := preload("res://assets/pets/flying_fish/back_1.png")
 const PARROT_BACK := preload("res://assets/pets/parrot/back_1.png")
 var fighter_pets: Array[Node2D]=[]
@@ -20,6 +21,8 @@ const ROOM := preload("res://assets/cenario/dojo_sala/fundo_dojo_sala.png")
 const DESK := preload("res://assets/cenario/dojo_sala/mesa_baixa.png")
 const SITTING := preload("res://assets/sprites/urso/frames/N_sit.png")
 const SEATS := [Vector2(252,476),Vector2(900,476),Vector2(211,580),Vector2(940,580),Vector2(169,684),Vector2(983,684),Vector2(450,476),Vector2(702,476)]
+## Espectador sentado entre a câmera e a mesa (atrás da mesa, olhando o quadro).
+const SPECTATOR_OFFSET := Vector2(0,34)
 const INK := Color("513d2b")
 const CREAM := Color("fff5dc")
 const PLAYER_PANEL := preload("res://assets/ui/cartas/painel-jogador.svg")
@@ -166,7 +169,7 @@ func _refresh() -> void:
 		_label("%d/5" % energy if occupied else "—",Rect2(x+198,62,50,28),16)
 		fighters[side].visible=occupied
 		fighter_pets[side].visible=occupied
-		fighter_pets[side].configure("right" if side==0 else "left",false,v.get("pets",["fish","fish"])[side])
+		fighter_pets[side].configure("right" if side==0 else "left",false,v.get("pets",["fish","fish"])[side],"",v.get("pet_accs",["none","none"])[side])
 		fighter_cosmetics[side].visible=occupied
 		fighter_cosmetics[side].outfit=v.get("outfits",["none","none"])[side]
 		fighter_cosmetics[side].queue_redraw()
@@ -231,16 +234,18 @@ func _draw() -> void:
 	draw_texture_rect(ROOM,Rect2(0,0,1152,720),false)
 	var audience: Array=Duel.view.get("spectators",[])
 	for seat in range(8):
-		var point: Vector2=SEATS[seat]
+		var desk_point: Vector2=SEATS[seat]
+		# A mesa vem primeiro: o espectador senta atrás dela, de costas para a câmera,
+		# olhando para o quadro, e fica desenhado por cima da borda da mesa.
+		draw_texture_rect(DESK,Rect2(desk_point-Vector2(72,26),Vector2(144,66)),false)
+		var point: Vector2=desk_point+SPECTATOR_OFFSET
 		for person in audience:
 			if person.seat==seat:
 				draw_texture_rect(PARROT_BACK if person.get("pet","fish")=="parrot" else PET_BACK,Rect2(point+Vector2(24,-78),Vector2(28,28)),false)
 				draw_texture_rect(SITTING,Rect2(point-Vector2(40,80),Vector2(80,80)),false)
 				COSMETICS.paint(self,person.get("outfit","none"),"back",point,80.0/67.2,0.0,false,true)
 				var label_y:=-108 if person.get("outfit","")=="cartola" else (-92 if person.get("outfit","")=="laco_rosa" else -84)
-				draw_string_outline(ThemeDB.fallback_font,point+Vector2(-30,label_y),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,4,Color("142535"))
-				draw_string(ThemeDB.fallback_font,point+Vector2(-30,label_y),person.name,HORIZONTAL_ALIGNMENT_LEFT,-1,14,Color("ffe15c"))
-		draw_texture_rect(DESK,Rect2(point-Vector2(72,26),Vector2(144,66)),false)
+				FONTS.nameplate(self,person.name,point.x,point.y+label_y,15)
 
 func _process(delta: float) -> void:
 	remaining=maxf(0,remaining-delta)
