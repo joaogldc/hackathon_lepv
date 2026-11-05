@@ -131,6 +131,15 @@ func duel_result(id: int, result: String, completed: bool) -> int:
 		_save()
 	return coins
 
+func arcade_result(id: int, kind: String, collected: int, completed: bool, correct: int) -> void:
+	if not multiplayer.is_server() or not player_keys.has(id): return
+	var p: Dictionary = profiles[player_keys[id]]
+	p.coins = int(p.get("coins", 0)) + maxi(0, collected) + (10 if completed else 0)
+	if completed and correct >= 2:
+		record(id, "reading_complete" if kind == "race" else "science_complete")
+	_publish(id)
+	_save()
+
 func equip(id: int, kind: String, value: String) -> void:
 	if not player_keys.has(id) or not Network.players.has(id): return
 	var p: Dictionary=profiles[player_keys[id]]

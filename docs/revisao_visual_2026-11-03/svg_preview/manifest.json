@@ -1,0 +1,607 @@
+{
+  "artwork/MundoDosUrsos3/assets/cenario/bosque/fonte/bosque_cena.svg": {
+    "height": 720,
+    "preview": "58577fa6413108a36eaa.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/bosque/fonte/bosque_sprites.svg": {
+    "height": 720,
+    "preview": "29efec8e8115b53f7835.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/comercial/fonte/area_comercial_cena.svg": {
+    "height": 720,
+    "preview": "9d2552a229b1d46d2023.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/comercial/fonte/comercial_sprites.svg": {
+    "height": 720,
+    "preview": "3ed4b95202a8d473f4de.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/comercial/produtos_exemplo/fonte/produtos_exemplo.svg": {
+    "height": 128,
+    "preview": "296037534be23a9c39ad.png",
+    "width": 128
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/dojo_sala/fonte/dojo_sala_cena.svg": {
+    "height": 720,
+    "preview": "337e2c5227683549211b.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/dojo_sala/fonte/dojo_sala_sprites.svg": {
+    "height": 720,
+    "preview": "7f990e27873a7dae3223.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/fonte/loja_cosmeticos_cena.svg": {
+    "height": 720,
+    "preview": "0ec952ddf6576470b256.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/fonte/loja_cosmeticos_sprites.svg": {
+    "height": 720,
+    "preview": "1867221bfa5cab2bf516.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/loja_pets/fonte/loja_pets_cena.svg": {
+    "height": 720,
+    "preview": "66c810d06b412688d832.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/loja_pets/fonte/loja_pets_sprites.svg": {
+    "height": 720,
+    "preview": "04ab30b68a6468a8c6d7.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/placas/fonte/placas.svg": {
+    "height": 320,
+    "preview": "92f1af61b237c8fa65f4.png",
+    "width": 300
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/praca/fonte/praca_cena.svg": {
+    "height": 720,
+    "preview": "8728773ec6731f714d52.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/praca/fonte/praca_sprites.svg": {
+    "height": 720,
+    "preview": "57dbbc521cc339fbeaad.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/provador/fonte/provador_cena.svg": {
+    "height": 720,
+    "preview": "850b1b1bb44b125ca103.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/cenario/provador/fonte/provador_sprites.svg": {
+    "height": 720,
+    "preview": "447668d7963607975f54.png",
+    "width": 1280
+  },
+  "artwork/MundoDosUrsos3/assets/sprites/urso/fonte/urso_frames_paginas.svg": {
+    "height": 256,
+    "preview": "b6dab01f9fb3d022ec98.png",
+    "width": 256
+  },
+  "artwork/MundoDosUrsos3/assets/sprites/urso/fonte/urso_spritesheet.svg": {
+    "height": 1792,
+    "preview": "5aab667304a852a6ade2.png",
+    "width": 2048
+  },
+  "artwork/roupas-recebidas/fonte/camisa_azul.svg": {
+    "height": 128,
+    "preview": "a07df8cff031a99b6f80.png",
+    "width": 128
+  },
+  "artwork/roupas-recebidas/fonte/camisa_verde.svg": {
+    "height": 128,
+    "preview": "1e0cd394a2a1e08ea443.png",
+    "width": 128
+  },
+  "artwork/roupas-recebidas/fonte/camisa_vermelha.svg": {
+    "height": 128,
+    "preview": "08fb7c02ceead2ee64e9.png",
+    "width": 128
+  },
+  "artwork/roupas-recebidas/fonte/chapeu_palha.svg": {
+    "height": 128,
+    "preview": "c3257d7a703864940dba.png",
+    "width": 128
+  },
+  "artwork/roupas-recebidas/fonte/chapeu_preto.svg": {
+    "height": 128,
+    "preview": "ccbd918e5eec0feb6849.png",
+    "width": 128
+  },
+  "artwork/roupas-recebidas/fonte/terno_azul_marinho.svg": {
+    "height": 128,
+    "preview": "86dd905b453ad82d342f.png",
+    "width": 128
+  },
+  "artwork/roupas-recebidas/fonte/terno_cinza.svg": {
+    "height": 128,
+    "preview": "d267d3a2aef231780f70.png",
+    "width": 128
+  },
+  "artwork/roupas-recebidas/fonte/terno_vinho.svg": {
+    "height": 128,
+    "preview": "ca36b9cfc1403311012c.png",
+    "width": 128
+  },
+  "artwork/roupas-recebidas/fonte/touca_amarela.svg": {
+    "height": 128,
+    "preview": "903338d5b34db9b7ca50.png",
+    "width": 128
+  },
+  "artwork/roupas-recebidas/fonte/touca_vermelha.svg": {
+    "height": 128,
+    "preview": "99b7b22d52800ceb6ea8.png",
+    "width": 128
+  },
+  "artwork/roupas-recebidas/fonte/urso_com_camisa.svg": {
+    "height": 1792,
+    "preview": "49d5f6657d88587ecbae.png",
+    "width": 2048
+  },
+  "artwork/roupas-recebidas/fonte/urso_com_chapeu.svg": {
+    "height": 1792,
+    "preview": "4707df7cf84bb8d545cf.png",
+    "width": 2048
+  },
+  "artwork/roupas-recebidas/fonte/urso_com_terno.svg": {
+    "height": 1792,
+    "preview": "db6313c9a85800b01773.png",
+    "width": 2048
+  },
+  "artwork/roupas-recebidas/fonte/urso_com_touca.svg": {
+    "height": 1792,
+    "preview": "cfe463daeb5bd598eea5.png",
+    "width": 2048
+  },
+  "assets/cenario/bosque/fonte/bosque_cena.svg": {
+    "height": 720,
+    "preview": "c150b560e4da69d2ccce.png",
+    "width": 1280
+  },
+  "assets/cenario/bosque/fonte/bosque_sprites.svg": {
+    "height": 720,
+    "preview": "a22124097becd277ad03.png",
+    "width": 1280
+  },
+  "assets/cenario/comercial/fonte/area_comercial_cena.svg": {
+    "height": 720,
+    "preview": "f9cc3b08f000e944ab3b.png",
+    "width": 1280
+  },
+  "assets/cenario/comercial/fonte/comercial_sprites.svg": {
+    "height": 720,
+    "preview": "d2d25ee89787da2a5f5f.png",
+    "width": 1280
+  },
+  "assets/cenario/comercial/produtos_exemplo/fonte/produtos_exemplo.svg": {
+    "height": 128,
+    "preview": "c871d9aa14ab943bf3a2.png",
+    "width": 128
+  },
+  "assets/cenario/dojo_sala/fonte/dojo_sala_cena.svg": {
+    "height": 720,
+    "preview": "671c0122d56704c4a0de.png",
+    "width": 1280
+  },
+  "assets/cenario/dojo_sala/fonte/dojo_sala_sprites.svg": {
+    "height": 720,
+    "preview": "8c2d02194a750deecddc.png",
+    "width": 1280
+  },
+  "assets/cenario/loja_cosmeticos/fonte/loja_cosmeticos_cena.svg": {
+    "height": 720,
+    "preview": "14938b2ed938e048114f.png",
+    "width": 1280
+  },
+  "assets/cenario/loja_cosmeticos/fonte/loja_cosmeticos_sprites.svg": {
+    "height": 720,
+    "preview": "a44953bbdb98c2d1a084.png",
+    "width": 1280
+  },
+  "assets/cenario/loja_pets/fonte/loja_pets_cena.svg": {
+    "height": 720,
+    "preview": "4aeb954fb35af0b63544.png",
+    "width": 1280
+  },
+  "assets/cenario/loja_pets/fonte/loja_pets_sprites.svg": {
+    "height": 720,
+    "preview": "47b8ac2afba29b79d022.png",
+    "width": 1280
+  },
+  "assets/cenario/placas/fonte/placas.svg": {
+    "height": 320,
+    "preview": "973754dafc622b018295.png",
+    "width": 300
+  },
+  "assets/cenario/placas/placa_commerce.svg": {
+    "height": 320,
+    "preview": "f6dcf91ad1ffddc284be.png",
+    "width": 300
+  },
+  "assets/cenario/placas/placa_language.svg": {
+    "height": 320,
+    "preview": "14a2629890747ce04b84.png",
+    "width": 300
+  },
+  "assets/cenario/placas/placa_math.svg": {
+    "height": 320,
+    "preview": "fe62b19a98232bf188ce.png",
+    "width": 300
+  },
+  "assets/cenario/placas/placa_science.svg": {
+    "height": 320,
+    "preview": "82cbc3711e0fce4510f9.png",
+    "width": 300
+  },
+  "assets/cenario/praca/fonte/praca.svg": {
+    "height": 720,
+    "preview": "db98e2fa391962694b62.png",
+    "width": 1280
+  },
+  "assets/cenario/praca/fonte/praca_cena.svg": {
+    "height": 720,
+    "preview": "44cf5b054ba32518b967.png",
+    "width": 1280
+  },
+  "assets/cenario/praca/fonte/praca_sprites.svg": {
+    "height": 720,
+    "preview": "4a9ef037a7941d11db31.png",
+    "width": 1280
+  },
+  "assets/cenario/provador/fonte/provador_cena.svg": {
+    "height": 720,
+    "preview": "a47d679c98b26f1cde1c.png",
+    "width": 1280
+  },
+  "assets/cenario/provador/fonte/provador_sprites.svg": {
+    "height": 720,
+    "preview": "007bb421586ece1396c3.png",
+    "width": 1280
+  },
+  "assets/pets/acessorios/fonte/acessorios_pet.svg": {
+    "height": 128,
+    "preview": "88cf5965a1e90d11c433.png",
+    "width": 128
+  },
+  "assets/pets/acessorios_arara/fonte/acessorios_arara.svg": {
+    "height": 256,
+    "preview": "0bd1fc1b0bba4bfadaf6.png",
+    "width": 288
+  },
+  "assets/sprites/urso/fonte/urso_frames_paginas.svg": {
+    "height": 256,
+    "preview": "e9a4180adb5f07efe0ee.png",
+    "width": 256
+  },
+  "assets/sprites/urso/fonte/urso_sprites.svg": {
+    "height": 1536,
+    "preview": "3a0b1ea9234db26e7460.png",
+    "width": 1536
+  },
+  "assets/sprites/urso/fonte/urso_spritesheet.svg": {
+    "height": 1792,
+    "preview": "5e88d6bba3ebe45d19f4.png",
+    "width": 2048
+  },
+  "assets/sprites/urso/roupas/fonte/camisa_azul.svg": {
+    "height": 128,
+    "preview": "94386c537a9de3f041c9.png",
+    "width": 128
+  },
+  "assets/sprites/urso/roupas/fonte/camisa_cor_sobreposicao.svg": {
+    "height": 1792,
+    "preview": "e8de616ae51ee8767713.png",
+    "width": 2048
+  },
+  "assets/sprites/urso/roupas/fonte/camisa_verde.svg": {
+    "height": 128,
+    "preview": "a913581e9cbdb6fb7fa4.png",
+    "width": 128
+  },
+  "assets/sprites/urso/roupas/fonte/camisa_vermelha.svg": {
+    "height": 128,
+    "preview": "21eeeac63479cae32ce0.png",
+    "width": 128
+  },
+  "assets/sprites/urso/roupas/fonte/chapeu_cor_sobreposicao.svg": {
+    "height": 1792,
+    "preview": "4bee1d607ecac3f19c4f.png",
+    "width": 2048
+  },
+  "assets/sprites/urso/roupas/fonte/chapeu_detalhe_sobreposicao.svg": {
+    "height": 1792,
+    "preview": "cdffe1e1e81aec4d60d0.png",
+    "width": 2048
+  },
+  "assets/sprites/urso/roupas/fonte/chapeu_palha.svg": {
+    "height": 128,
+    "preview": "cfcb981acb0d210ddcf2.png",
+    "width": 128
+  },
+  "assets/sprites/urso/roupas/fonte/chapeu_preto.svg": {
+    "height": 128,
+    "preview": "81cffea3c661b0bdb671.png",
+    "width": 128
+  },
+  "assets/sprites/urso/roupas/fonte/terno_azul_marinho.svg": {
+    "height": 128,
+    "preview": "7b63f01ca3724c8f2574.png",
+    "width": 128
+  },
+  "assets/sprites/urso/roupas/fonte/terno_cinza.svg": {
+    "height": 128,
+    "preview": "5a3ebd058216e29ccf23.png",
+    "width": 128
+  },
+  "assets/sprites/urso/roupas/fonte/terno_cor_sobreposicao.svg": {
+    "height": 1792,
+    "preview": "cec7075a671f5ecca67f.png",
+    "width": 2048
+  },
+  "assets/sprites/urso/roupas/fonte/terno_detalhe_sobreposicao.svg": {
+    "height": 1792,
+    "preview": "a215777e3ddb23fb95f4.png",
+    "width": 2048
+  },
+  "assets/sprites/urso/roupas/fonte/terno_vinho.svg": {
+    "height": 128,
+    "preview": "f7646180526158590bb6.png",
+    "width": 128
+  },
+  "assets/sprites/urso/roupas/fonte/touca_amarela.svg": {
+    "height": 128,
+    "preview": "5d0d867b4ac3bdd9bc69.png",
+    "width": 128
+  },
+  "assets/sprites/urso/roupas/fonte/touca_cor_sobreposicao.svg": {
+    "height": 1792,
+    "preview": "5339b4473ef7f91c857f.png",
+    "width": 2048
+  },
+  "assets/sprites/urso/roupas/fonte/touca_vermelha.svg": {
+    "height": 128,
+    "preview": "fec74fe1d0551b0ecaa5.png",
+    "width": 128
+  },
+  "assets/sprites/urso/roupas/fonte/urso_com_camisa.svg": {
+    "height": 1792,
+    "preview": "c8cc5e768464de34c0f3.png",
+    "width": 2048
+  },
+  "assets/sprites/urso/roupas/fonte/urso_com_chapeu.svg": {
+    "height": 1792,
+    "preview": "18fe2ce1f2d22b4acaf5.png",
+    "width": 2048
+  },
+  "assets/sprites/urso/roupas/fonte/urso_com_terno.svg": {
+    "height": 1792,
+    "preview": "93c87b33bc6b3c66fd50.png",
+    "width": 2048
+  },
+  "assets/sprites/urso/roupas/fonte/urso_com_touca.svg": {
+    "height": 1792,
+    "preview": "69dc96cd3f6d76a33454.png",
+    "width": 2048
+  },
+  "assets/ui/cartas/carta-dificil.svg": {
+    "height": 192,
+    "preview": "67915c3f67a42e02156e.png",
+    "width": 160
+  },
+  "assets/ui/cartas/carta-facil.svg": {
+    "height": 192,
+    "preview": "a81d3e038e6a8e3106b6.png",
+    "width": 160
+  },
+  "assets/ui/cartas/carta-medio.svg": {
+    "height": 192,
+    "preview": "701dcd4d7915009a5d06.png",
+    "width": 160
+  },
+  "assets/ui/cartas/carta-selecionada.svg": {
+    "height": 192,
+    "preview": "2837ff234b3ea4ad1416.png",
+    "width": 160
+  },
+  "assets/ui/cartas/carta-usada.svg": {
+    "height": 192,
+    "preview": "5048cf9b44e1092b0fbf.png",
+    "width": 160
+  },
+  "assets/ui/cartas/cartas-atlas.svg": {
+    "height": 192,
+    "preview": "13af5431aa21b3c25a1c.png",
+    "width": 800
+  },
+  "assets/ui/cartas/hud-cartas.svg": {
+    "height": 720,
+    "preview": "06d25e5e727155e0107c.png",
+    "width": 1280
+  },
+  "assets/ui/cartas/painel-jogador.svg": {
+    "height": 79,
+    "preview": "1b4b374489a63493695c.png",
+    "width": 290
+  },
+  "assets/ui/cartas/painel-turno.svg": {
+    "height": 79,
+    "preview": "550233f17fd34d6c13e2.png",
+    "width": 324
+  },
+  "assets/ui/clube/icone-arrow.svg": {
+    "height": 64,
+    "preview": "ba6eae50a3ba313ebb1b.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-bag.svg": {
+    "height": 64,
+    "preview": "aa44dfd921bb9bdfc00d.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-bolt.svg": {
+    "height": 64,
+    "preview": "92863b38c20639578c69.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-book.svg": {
+    "height": 64,
+    "preview": "08c624fd3eb0e3eb4243.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-chat.svg": {
+    "height": 64,
+    "preview": "6b114f33003c542a71b7.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-clock.svg": {
+    "height": 64,
+    "preview": "fecc272e434d7e09284f.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-close.svg": {
+    "height": 64,
+    "preview": "96540455f452fbc5d454.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-coin.svg": {
+    "height": 64,
+    "preview": "e02d729ed39e945ba964.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-friends.svg": {
+    "height": 64,
+    "preview": "e583961a3e3242a97eae.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-language.svg": {
+    "height": 64,
+    "preview": "bcc65fee4ff885774ce4.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-map.svg": {
+    "height": 64,
+    "preview": "3703bd9358a4661d6d61.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-math.svg": {
+    "height": 64,
+    "preview": "492f09590c85ec9971ff.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-quest.svg": {
+    "height": 64,
+    "preview": "123b013003def23cb8de.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-science.svg": {
+    "height": 64,
+    "preview": "612a56eace091a68a97d.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-settings.svg": {
+    "height": 64,
+    "preview": "402517cca8c03172d539.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-shield.svg": {
+    "height": 64,
+    "preview": "74afd171ae1ea27b6cee.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-smile.svg": {
+    "height": 64,
+    "preview": "c076e8f87647dbbe44f9.png",
+    "width": 64
+  },
+  "assets/ui/clube/icone-star.svg": {
+    "height": 64,
+    "preview": "68f89a1be1ee04d559d0.png",
+    "width": 64
+  },
+  "assets/ui/clube/referencia-hud-principal.svg": {
+    "height": 720,
+    "preview": "77a6a8e8234b3d248b72.png",
+    "width": 1280
+  },
+  "assets/ui/lojas/camiseta-vestida.svg": {
+    "height": 256,
+    "preview": "685c8f57420d0098a989.png",
+    "width": 256
+  },
+  "assets/ui/lojas/camiseta.svg": {
+    "height": 256,
+    "preview": "e3145520186fe08038ca.png",
+    "width": 256
+  },
+  "assets/ui/lojas/selo-primeira-vitoria.svg": {
+    "height": 256,
+    "preview": "6f704627591767e2f851.png",
+    "width": 256
+  },
+  "assets/ui/recompensas/bolsa.svg": {
+    "height": 130,
+    "preview": "757631c4ffbfb9a7783b.png",
+    "width": 140
+  },
+  "assets/ui/recompensas/brilho.svg": {
+    "height": 40,
+    "preview": "a0855c306c135be57cc0.png",
+    "width": 40
+  },
+  "assets/ui/recompensas/gota_mel.svg": {
+    "height": 64,
+    "preview": "84510533cf02bae7353a.png",
+    "width": 48
+  },
+  "assets/ui/recompensas/mel_contorno.svg": {
+    "height": 150,
+    "preview": "f7b6d42b0cb77478ab72.png",
+    "width": 120
+  },
+  "assets/ui/recompensas/mel_fundo.svg": {
+    "height": 150,
+    "preview": "03680c98c85ce8238d3d.png",
+    "width": 120
+  },
+  "assets/ui/recompensas/mel_liquido.svg": {
+    "height": 150,
+    "preview": "148f3ae99c9d499bb1b2.png",
+    "width": 120
+  },
+  "assets/ui/recompensas/moeda.svg": {
+    "height": 96,
+    "preview": "dffea8eefccd124f6527.png",
+    "width": 96
+  },
+  "docs/hud/revisao-02/01-mundo-minimapa.svg": {
+    "height": 720,
+    "preview": "32910dd2797f450d16e6.png",
+    "width": 1280
+  },
+  "docs/hud/revisao-02/02-passaporte.svg": {
+    "height": 720,
+    "preview": "f91e39c03dbc3dbd7890.png",
+    "width": 1280
+  },
+  "docs/hud/revisao-02/03-cartas-escolha.svg": {
+    "height": 720,
+    "preview": "0acc227f29693db775ff.png",
+    "width": 1280
+  },
+  "docs/hud/revisao-02/04-cartas-resposta.svg": {
+    "height": 720,
+    "preview": "6447090fc13d88b60466.png",
+    "width": 1280
+  },
+  "docs/hud/revisao-02/05-cartas-resultado.svg": {
+    "height": 720,
+    "preview": "eaf8071d3b3033a19ec3.png",
+    "width": 1280
+  }
+}

@@ -35,17 +35,19 @@ func _ready() -> void:
 	deck.jogador.target=deck.jogador.position
 	deck._process(0)
 	await get_tree().process_frame
-	assert(is_instance_valid(deck.desafio) and Learning.view.get("phase","")=="question")
-	var serial: int=Learning.view.revision
+	assert(is_instance_valid(deck.desafio) and deck.desafio.kind=="race")
+	deck.desafio._start()
+	assert(Arcade.view.get("phase","")=="run")
+	var serial: int=Arcade.view.revision
 	deck._process(0)
-	assert(Learning.view.revision==serial,"Contato não pode reiniciar a pergunta a cada quadro")
+	assert(Arcade.view.revision==serial,"Contato não pode reiniciar a corrida a cada quadro")
 	deck._voltar_deque({})
-	assert(not Learning.sessions.has(1) and player.zone=="ship")
+	assert(not Arcade.sessions.has(1) and player.zone=="ship")
 	deck.jogador.position=deck.get_node("BoteBoreste").position
 	deck.jogador.target=deck.jogador.position
 	deck._process(0)
 	await get_tree().process_frame
-	assert(Learning.view.get("phase","")=="question")
+	assert(is_instance_valid(deck.desafio) and deck.desafio.kind=="race")
 	var minimap:=preload("res://scripts/ui/local_minimap.gd").new()
 	assert(minimap.MARKERS.commerce.size()==3 and minimap.MARKERS.math[0][1]=="×")
 	minimap.free()

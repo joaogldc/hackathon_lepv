@@ -261,7 +261,9 @@ func _set_zone(zone: String) -> void:
 		return
 	if zone=="ship":
 		game_view=load("res://scenes/world/navio_deque.tscn").instantiate()
-	elif zone in ["cave","science"]:
+	elif zone=="science":
+		game_view=load("res://scenes/world/observatorio.tscn").instantiate()
+	elif zone=="cave":
 		game_view=load("res://scripts/minigames/learning_room.gd").new()
 		game_view.zone=zone
 	else:

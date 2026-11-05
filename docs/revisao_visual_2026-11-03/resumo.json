@@ -1,0 +1,1996 @@
+{
+  "total_files": 1576,
+  "unique_hashes": 903,
+  "groups": {
+    "assets": 1136,
+    "artwork": 417,
+    "docs": 23
+  },
+  "extensions": {
+    ".png": 1453,
+    ".svg": 121,
+    ".gif": 2
+  },
+  "bytes": 101012714,
+  "decoded_rgba_mib": 1236.6,
+  "errors": [],
+  "duplicate_groups": [
+    [
+      "assets/cenario/bosque/bambuzal_a.png",
+      "artwork/MundoDosUrsos3/assets/cenario/bosque/bambuzal_a.png"
+    ],
+    [
+      "assets/cenario/bosque/bambuzal_b.png",
+      "artwork/MundoDosUrsos3/assets/cenario/bosque/bambuzal_b.png"
+    ],
+    [
+      "assets/cenario/bosque/cerca_bambu.png",
+      "artwork/MundoDosUrsos3/assets/cenario/bosque/cerca_bambu.png"
+    ],
+    [
+      "assets/cenario/bosque/chao_bosque.png",
+      "artwork/MundoDosUrsos3/assets/cenario/bosque/chao_bosque.png"
+    ],
+    [
+      "assets/cenario/bosque/dojo.png",
+      "artwork/MundoDosUrsos3/assets/cenario/bosque/dojo.png"
+    ],
+    [
+      "assets/cenario/bosque/fonte/bosque_cena.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/bosque/fonte/bosque_cena.svg"
+    ],
+    [
+      "assets/cenario/bosque/fonte/bosque_sprites.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/bosque/fonte/bosque_sprites.svg"
+    ],
+    [
+      "assets/cenario/bosque/lanterna_de_pedra.png",
+      "artwork/MundoDosUrsos3/assets/cenario/bosque/lanterna_de_pedra.png"
+    ],
+    [
+      "assets/cenario/bosque/tsukubai.png",
+      "artwork/MundoDosUrsos3/assets/cenario/bosque/tsukubai.png"
+    ],
+    [
+      "assets/cenario/comercial/cavalete_cosmeticos.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/cavalete_cosmeticos.png"
+    ],
+    [
+      "assets/cenario/comercial/cavalete_pets.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/cavalete_pets.png"
+    ],
+    [
+      "assets/cenario/comercial/chao_comercial.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/chao_comercial.png"
+    ],
+    [
+      "assets/cenario/comercial/floreira.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/floreira.png"
+    ],
+    [
+      "assets/cenario/comercial/fonte/area_comercial_cena.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/fonte/area_comercial_cena.svg"
+    ],
+    [
+      "assets/cenario/comercial/fonte/comercial_sprites.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/fonte/comercial_sprites.svg"
+    ],
+    [
+      "assets/cenario/comercial/food_truck.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/food_truck.png"
+    ],
+    [
+      "assets/cenario/comercial/loja_cosmeticos.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/loja_cosmeticos.png"
+    ],
+    [
+      "assets/cenario/comercial/loja_pets.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/loja_pets.png"
+    ],
+    [
+      "assets/cenario/comercial/mesa_bistro.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/mesa_bistro.png"
+    ],
+    [
+      "assets/cenario/comercial/mesa_bistro_azul.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/mesa_bistro_azul.png"
+    ],
+    [
+      "assets/cenario/comercial/poste_luz.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/poste_luz.png"
+    ],
+    [
+      "assets/cenario/comercial/produtos_exemplo/bacia_de_agua.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/produtos_exemplo/bacia_de_agua.png"
+    ],
+    [
+      "assets/cenario/comercial/produtos_exemplo/cartola.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/produtos_exemplo/cartola.png"
+    ],
+    [
+      "assets/cenario/comercial/produtos_exemplo/fonte/produtos_exemplo.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/produtos_exemplo/fonte/produtos_exemplo.svg"
+    ],
+    [
+      "assets/cenario/comercial/produtos_exemplo/laco_rosa.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/produtos_exemplo/laco_rosa.png"
+    ],
+    [
+      "assets/cenario/comercial/produtos_exemplo/peixe_capacete.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/produtos_exemplo/peixe_capacete.png"
+    ],
+    [
+      "assets/cenario/comercial/vitrine_vidro.png",
+      "artwork/MundoDosUrsos3/assets/cenario/comercial/vitrine_vidro.png"
+    ],
+    [
+      "assets/cenario/dojo_sala/estante_livros.png",
+      "artwork/MundoDosUrsos3/assets/cenario/dojo_sala/estante_livros.png"
+    ],
+    [
+      "assets/cenario/dojo_sala/fonte/dojo_sala_cena.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/dojo_sala/fonte/dojo_sala_cena.svg"
+    ],
+    [
+      "assets/cenario/dojo_sala/fonte/dojo_sala_sprites.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/dojo_sala/fonte/dojo_sala_sprites.svg"
+    ],
+    [
+      "assets/cenario/dojo_sala/fundo_dojo_sala.png",
+      "artwork/MundoDosUrsos3/assets/cenario/dojo_sala/fundo_dojo_sala.png"
+    ],
+    [
+      "assets/cenario/dojo_sala/mesa_baixa.png",
+      "artwork/MundoDosUrsos3/assets/cenario/dojo_sala/mesa_baixa.png"
+    ],
+    [
+      "assets/cenario/dojo_sala/pulpito.png",
+      "artwork/MundoDosUrsos3/assets/cenario/dojo_sala/pulpito.png"
+    ],
+    [
+      "assets/cenario/dojo_sala/taiko.png",
+      "artwork/MundoDosUrsos3/assets/cenario/dojo_sala/taiko.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/cenario/chao-glacial.png",
+      "artwork/porto-glacial-ia/cenario/chao-glacial.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/cenario/porto-glacial-conceito.png",
+      "artwork/porto-glacial-ia/cenario/porto-glacial-conceito.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/cenario/porto-glacial-montado.png",
+      "artwork/porto-glacial-ia/cenario/porto-glacial-montado.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/elementos/arco-gruta-gelo.png",
+      "artwork/porto-glacial-ia/elementos/arco-gruta-gelo.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/elementos/cerca-corda.png",
+      "artwork/porto-glacial-ia/elementos/cerca-corda.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/elementos/cristais-gelo.png",
+      "artwork/porto-glacial-ia/elementos/cristais-gelo.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/elementos/lago-fossil.png",
+      "artwork/porto-glacial-ia/elementos/lago-fossil.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/elementos/mamute-congelado.png",
+      "artwork/porto-glacial-ia/elementos/mamute-congelado.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/elementos/navio-polar.png",
+      "artwork/porto-glacial-ia/elementos/navio-polar.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/elementos/pinheiro-nevado.png",
+      "artwork/porto-glacial-ia/elementos/pinheiro-nevado.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/elementos/poste-lanterna.png",
+      "artwork/porto-glacial-ia/elementos/poste-lanterna.png"
+    ],
+    [
+      "assets/cenario/glacial_ia/elementos/smilodon-congelado.png",
+      "artwork/porto-glacial-ia/elementos/smilodon-congelado.png"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/arara_roupas_1.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/arara_roupas_1.png"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/arara_roupas_2.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/arara_roupas_2.png"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/balcao_cosmeticos.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/balcao_cosmeticos.png"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/espelho_de_pe.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/espelho_de_pe.png"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/fonte/loja_cosmeticos_cena.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/fonte/loja_cosmeticos_cena.svg"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/fonte/loja_cosmeticos_sprites.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/fonte/loja_cosmeticos_sprites.svg"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/fundo_loja_cosmeticos.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/fundo_loja_cosmeticos.png"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/manequim_1.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/manequim_1.png"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/manequim_2.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/manequim_2.png"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/planta_vaso.png",
+      "assets/cenario/loja_pets/planta_vaso.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/planta_vaso.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_pets/planta_vaso.png"
+    ],
+    [
+      "assets/cenario/loja_cosmeticos/pufe.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_cosmeticos/pufe.png"
+    ],
+    [
+      "assets/cenario/loja_pets/aquario_grande.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_pets/aquario_grande.png"
+    ],
+    [
+      "assets/cenario/loja_pets/balcao_pets.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_pets/balcao_pets.png"
+    ],
+    [
+      "assets/cenario/loja_pets/fonte/loja_pets_cena.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_pets/fonte/loja_pets_cena.svg"
+    ],
+    [
+      "assets/cenario/loja_pets/fonte/loja_pets_sprites.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_pets/fonte/loja_pets_sprites.svg"
+    ],
+    [
+      "assets/cenario/loja_pets/fundo_loja_pets.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_pets/fundo_loja_pets.png"
+    ],
+    [
+      "assets/cenario/loja_pets/gondola_bacias.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_pets/gondola_bacias.png"
+    ],
+    [
+      "assets/cenario/loja_pets/pilha_racao.png",
+      "artwork/MundoDosUrsos3/assets/cenario/loja_pets/pilha_racao.png"
+    ],
+    [
+      "assets/cenario/placas/fonte/placas.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/fonte/placas.svg"
+    ],
+    [
+      "assets/cenario/placas/placa_direita_cosmeticos.png",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/placa_direita_cosmeticos.png"
+    ],
+    [
+      "assets/cenario/placas/placa_direita_foguete_ciencias.png",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/placa_direita_foguete_ciencias.png"
+    ],
+    [
+      "assets/cenario/placas/placa_direita_vazia.png",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/placa_direita_vazia.png"
+    ],
+    [
+      "assets/cenario/placas/placa_esquerda_bosque_bambus.png",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/placa_esquerda_bosque_bambus.png"
+    ],
+    [
+      "assets/cenario/placas/placa_esquerda_loja_pets.png",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/placa_esquerda_loja_pets.png"
+    ],
+    [
+      "assets/cenario/placas/placa_esquerda_vazia.png",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/placa_esquerda_vazia.png"
+    ],
+    [
+      "assets/cenario/placas/placa_norte_area_comercial.png",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/placa_norte_area_comercial.png"
+    ],
+    [
+      "assets/cenario/placas/placa_norte_vazia.png",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/placa_norte_vazia.png"
+    ],
+    [
+      "assets/cenario/placas/placa_sul_barco_portugues.png",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/placa_sul_barco_portugues.png"
+    ],
+    [
+      "assets/cenario/placas/placa_sul_vazia.png",
+      "artwork/MundoDosUrsos3/assets/cenario/placas/placa_sul_vazia.png"
+    ],
+    [
+      "assets/cenario/praca/arbusto.png",
+      "artwork/MundoDosUrsos3/assets/cenario/praca/arbusto.png"
+    ],
+    [
+      "assets/cenario/praca/banco.png",
+      "artwork/MundoDosUrsos3/assets/cenario/praca/banco.png"
+    ],
+    [
+      "assets/cenario/praca/chafariz.png",
+      "artwork/MundoDosUrsos3/assets/cenario/praca/chafariz.png"
+    ],
+    [
+      "assets/cenario/praca/chao.png",
+      "artwork/MundoDosUrsos3/assets/cenario/praca/chao.png"
+    ],
+    [
+      "assets/cenario/praca/fonte/praca.svg",
+      "assets/cenario/praca/fonte/praca_cena.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/praca/fonte/praca_cena.svg"
+    ],
+    [
+      "assets/cenario/praca/fonte/praca_sprites.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/praca/fonte/praca_sprites.svg"
+    ],
+    [
+      "assets/cenario/provador/espelho_brilho.png",
+      "artwork/MundoDosUrsos3/assets/cenario/provador/espelho_brilho.png"
+    ],
+    [
+      "assets/cenario/provador/espelho_vidro.png",
+      "artwork/MundoDosUrsos3/assets/cenario/provador/espelho_vidro.png"
+    ],
+    [
+      "assets/cenario/provador/fonte/provador_cena.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/provador/fonte/provador_cena.svg"
+    ],
+    [
+      "assets/cenario/provador/fonte/provador_sprites.svg",
+      "artwork/MundoDosUrsos3/assets/cenario/provador/fonte/provador_sprites.svg"
+    ],
+    [
+      "assets/cenario/provador/fundo_provador.png",
+      "artwork/MundoDosUrsos3/assets/cenario/provador/fundo_provador.png"
+    ],
+    [
+      "assets/cenario/provador/pufe_provador.png",
+      "artwork/MundoDosUrsos3/assets/cenario/provador/pufe_provador.png"
+    ],
+    [
+      "assets/pets/acessorios/bigode/detalhe/side_1.png",
+      "assets/pets/acessorios/bigode/detalhe/side_2.png",
+      "assets/pets/acessorios/bigode/detalhe/side_3.png",
+      "assets/pets/acessorios/bigode/detalhe/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/capacete/detalhe/side_1.png",
+      "assets/pets/acessorios/capacete/detalhe/side_2.png",
+      "assets/pets/acessorios/capacete/detalhe/side_3.png",
+      "assets/pets/acessorios/capacete/detalhe/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/cartola/cor/side_1.png",
+      "assets/pets/acessorios/cartola/cor/side_2.png",
+      "assets/pets/acessorios/cartola/cor/side_3.png",
+      "assets/pets/acessorios/cartola/cor/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/cartola/detalhe/side_1.png",
+      "assets/pets/acessorios/cartola/detalhe/side_2.png",
+      "assets/pets/acessorios/cartola/detalhe/side_3.png",
+      "assets/pets/acessorios/cartola/detalhe/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/coroa/detalhe/side_1.png",
+      "assets/pets/acessorios/coroa/detalhe/side_2.png",
+      "assets/pets/acessorios/coroa/detalhe/side_3.png",
+      "assets/pets/acessorios/coroa/detalhe/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/festa/cor/side_1.png",
+      "assets/pets/acessorios/festa/cor/side_2.png",
+      "assets/pets/acessorios/festa/cor/side_3.png",
+      "assets/pets/acessorios/festa/cor/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/festa/detalhe/side_1.png",
+      "assets/pets/acessorios/festa/detalhe/side_2.png",
+      "assets/pets/acessorios/festa/detalhe/side_3.png",
+      "assets/pets/acessorios/festa/detalhe/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/helice/cor/side_1.png",
+      "assets/pets/acessorios/helice/cor/side_2.png",
+      "assets/pets/acessorios/helice/cor/side_3.png",
+      "assets/pets/acessorios/helice/cor/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/helice/detalhe/side_1.png",
+      "assets/pets/acessorios/helice/detalhe/side_2.png",
+      "assets/pets/acessorios/helice/detalhe/side_3.png",
+      "assets/pets/acessorios/helice/detalhe/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/laco/cor/side_1.png",
+      "assets/pets/acessorios/laco/cor/side_2.png",
+      "assets/pets/acessorios/laco/cor/side_3.png",
+      "assets/pets/acessorios/laco/cor/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/oculos/detalhe/side_1.png",
+      "assets/pets/acessorios/oculos/detalhe/side_2.png",
+      "assets/pets/acessorios/oculos/detalhe/side_3.png",
+      "assets/pets/acessorios/oculos/detalhe/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/quepe/cor/side_1.png",
+      "assets/pets/acessorios/quepe/cor/side_2.png",
+      "assets/pets/acessorios/quepe/cor/side_3.png",
+      "assets/pets/acessorios/quepe/cor/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/quepe/detalhe/side_1.png",
+      "assets/pets/acessorios/quepe/detalhe/side_2.png",
+      "assets/pets/acessorios/quepe/detalhe/side_3.png",
+      "assets/pets/acessorios/quepe/detalhe/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/terninho/cor/side_1.png",
+      "assets/pets/acessorios/terninho/cor/side_2.png",
+      "assets/pets/acessorios/terninho/cor/side_3.png",
+      "assets/pets/acessorios/terninho/cor/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios/terninho/detalhe/side_1.png",
+      "assets/pets/acessorios/terninho/detalhe/side_2.png",
+      "assets/pets/acessorios/terninho/detalhe/side_3.png",
+      "assets/pets/acessorios/terninho/detalhe/side_4.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/bigode/detalhe/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/emocao_brava.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/emocao_duvida.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/emocao_encantada.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/emocao_feliz.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/emocao_suor.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/bigode/detalhe/lado_1.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/lado_10.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/lado_2.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/lado_3.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/lado_4.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/lado_5.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/lado_6.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/lado_7.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/lado_8.png",
+      "assets/pets/acessorios_arara/bigode/detalhe/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/capacete/detalhe/costas_1.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/costas_2.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/costas_3.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/costas_4.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/costas_5.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/costas_6.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/costas_7.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/costas_8.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/capacete/detalhe/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/emocao_brava.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/emocao_duvida.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/emocao_encantada.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/emocao_feliz.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/emocao_suor.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/capacete/detalhe/lado_1.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/lado_10.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/lado_2.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/lado_3.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/lado_4.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/lado_5.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/lado_6.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/lado_7.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/lado_8.png",
+      "assets/pets/acessorios_arara/capacete/detalhe/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/cartola/cor/costas_1.png",
+      "assets/pets/acessorios_arara/cartola/cor/costas_2.png",
+      "assets/pets/acessorios_arara/cartola/cor/costas_3.png",
+      "assets/pets/acessorios_arara/cartola/cor/costas_4.png",
+      "assets/pets/acessorios_arara/cartola/cor/costas_5.png",
+      "assets/pets/acessorios_arara/cartola/cor/costas_6.png",
+      "assets/pets/acessorios_arara/cartola/cor/costas_7.png",
+      "assets/pets/acessorios_arara/cartola/cor/costas_8.png",
+      "assets/pets/acessorios_arara/cartola/cor/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/cartola/cor/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/cartola/cor/emocao_brava.png",
+      "assets/pets/acessorios_arara/cartola/cor/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/cartola/cor/emocao_duvida.png",
+      "assets/pets/acessorios_arara/cartola/cor/emocao_encantada.png",
+      "assets/pets/acessorios_arara/cartola/cor/emocao_feliz.png",
+      "assets/pets/acessorios_arara/cartola/cor/emocao_suor.png",
+      "assets/pets/acessorios_arara/cartola/cor/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/cartola/cor/lado_1.png",
+      "assets/pets/acessorios_arara/cartola/cor/lado_10.png",
+      "assets/pets/acessorios_arara/cartola/cor/lado_2.png",
+      "assets/pets/acessorios_arara/cartola/cor/lado_3.png",
+      "assets/pets/acessorios_arara/cartola/cor/lado_4.png",
+      "assets/pets/acessorios_arara/cartola/cor/lado_5.png",
+      "assets/pets/acessorios_arara/cartola/cor/lado_6.png",
+      "assets/pets/acessorios_arara/cartola/cor/lado_7.png",
+      "assets/pets/acessorios_arara/cartola/cor/lado_8.png",
+      "assets/pets/acessorios_arara/cartola/cor/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/cartola/detalhe/costas_1.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/costas_2.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/costas_3.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/costas_4.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/costas_5.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/costas_6.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/costas_7.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/costas_8.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/cartola/detalhe/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/emocao_brava.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/emocao_duvida.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/emocao_encantada.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/emocao_feliz.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/emocao_suor.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/cartola/detalhe/lado_1.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/lado_10.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/lado_2.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/lado_3.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/lado_4.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/lado_5.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/lado_6.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/lado_7.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/lado_8.png",
+      "assets/pets/acessorios_arara/cartola/detalhe/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/coroa/detalhe/costas_1.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/costas_2.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/costas_3.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/costas_4.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/costas_5.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/costas_6.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/costas_7.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/costas_8.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/coroa/detalhe/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/emocao_brava.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/emocao_duvida.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/emocao_encantada.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/emocao_feliz.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/emocao_suor.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/coroa/detalhe/lado_1.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/lado_10.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/lado_2.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/lado_3.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/lado_4.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/lado_5.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/lado_6.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/lado_7.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/lado_8.png",
+      "assets/pets/acessorios_arara/coroa/detalhe/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/festa/cor/costas_1.png",
+      "assets/pets/acessorios_arara/festa/cor/costas_2.png",
+      "assets/pets/acessorios_arara/festa/cor/costas_3.png",
+      "assets/pets/acessorios_arara/festa/cor/costas_4.png",
+      "assets/pets/acessorios_arara/festa/cor/costas_5.png",
+      "assets/pets/acessorios_arara/festa/cor/costas_6.png",
+      "assets/pets/acessorios_arara/festa/cor/costas_7.png",
+      "assets/pets/acessorios_arara/festa/cor/costas_8.png",
+      "assets/pets/acessorios_arara/festa/cor/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/festa/cor/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/festa/cor/emocao_brava.png",
+      "assets/pets/acessorios_arara/festa/cor/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/festa/cor/emocao_duvida.png",
+      "assets/pets/acessorios_arara/festa/cor/emocao_encantada.png",
+      "assets/pets/acessorios_arara/festa/cor/emocao_feliz.png",
+      "assets/pets/acessorios_arara/festa/cor/emocao_suor.png",
+      "assets/pets/acessorios_arara/festa/cor/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/festa/cor/lado_1.png",
+      "assets/pets/acessorios_arara/festa/cor/lado_10.png",
+      "assets/pets/acessorios_arara/festa/cor/lado_2.png",
+      "assets/pets/acessorios_arara/festa/cor/lado_3.png",
+      "assets/pets/acessorios_arara/festa/cor/lado_4.png",
+      "assets/pets/acessorios_arara/festa/cor/lado_5.png",
+      "assets/pets/acessorios_arara/festa/cor/lado_6.png",
+      "assets/pets/acessorios_arara/festa/cor/lado_7.png",
+      "assets/pets/acessorios_arara/festa/cor/lado_8.png",
+      "assets/pets/acessorios_arara/festa/cor/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/festa/detalhe/costas_1.png",
+      "assets/pets/acessorios_arara/festa/detalhe/costas_2.png",
+      "assets/pets/acessorios_arara/festa/detalhe/costas_3.png",
+      "assets/pets/acessorios_arara/festa/detalhe/costas_4.png",
+      "assets/pets/acessorios_arara/festa/detalhe/costas_5.png",
+      "assets/pets/acessorios_arara/festa/detalhe/costas_6.png",
+      "assets/pets/acessorios_arara/festa/detalhe/costas_7.png",
+      "assets/pets/acessorios_arara/festa/detalhe/costas_8.png",
+      "assets/pets/acessorios_arara/festa/detalhe/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/festa/detalhe/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/festa/detalhe/emocao_brava.png",
+      "assets/pets/acessorios_arara/festa/detalhe/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/festa/detalhe/emocao_duvida.png",
+      "assets/pets/acessorios_arara/festa/detalhe/emocao_encantada.png",
+      "assets/pets/acessorios_arara/festa/detalhe/emocao_feliz.png",
+      "assets/pets/acessorios_arara/festa/detalhe/emocao_suor.png",
+      "assets/pets/acessorios_arara/festa/detalhe/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/festa/detalhe/lado_1.png",
+      "assets/pets/acessorios_arara/festa/detalhe/lado_10.png",
+      "assets/pets/acessorios_arara/festa/detalhe/lado_2.png",
+      "assets/pets/acessorios_arara/festa/detalhe/lado_3.png",
+      "assets/pets/acessorios_arara/festa/detalhe/lado_4.png",
+      "assets/pets/acessorios_arara/festa/detalhe/lado_5.png",
+      "assets/pets/acessorios_arara/festa/detalhe/lado_6.png",
+      "assets/pets/acessorios_arara/festa/detalhe/lado_7.png",
+      "assets/pets/acessorios_arara/festa/detalhe/lado_8.png",
+      "assets/pets/acessorios_arara/festa/detalhe/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/helice/cor/costas_1.png",
+      "assets/pets/acessorios_arara/helice/cor/costas_2.png",
+      "assets/pets/acessorios_arara/helice/cor/costas_3.png",
+      "assets/pets/acessorios_arara/helice/cor/costas_4.png",
+      "assets/pets/acessorios_arara/helice/cor/costas_5.png",
+      "assets/pets/acessorios_arara/helice/cor/costas_6.png",
+      "assets/pets/acessorios_arara/helice/cor/costas_7.png",
+      "assets/pets/acessorios_arara/helice/cor/costas_8.png",
+      "assets/pets/acessorios_arara/helice/cor/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/helice/cor/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/helice/cor/emocao_brava.png",
+      "assets/pets/acessorios_arara/helice/cor/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/helice/cor/emocao_duvida.png",
+      "assets/pets/acessorios_arara/helice/cor/emocao_encantada.png",
+      "assets/pets/acessorios_arara/helice/cor/emocao_feliz.png",
+      "assets/pets/acessorios_arara/helice/cor/emocao_suor.png",
+      "assets/pets/acessorios_arara/helice/cor/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/helice/cor/lado_1.png",
+      "assets/pets/acessorios_arara/helice/cor/lado_10.png",
+      "assets/pets/acessorios_arara/helice/cor/lado_2.png",
+      "assets/pets/acessorios_arara/helice/cor/lado_3.png",
+      "assets/pets/acessorios_arara/helice/cor/lado_4.png",
+      "assets/pets/acessorios_arara/helice/cor/lado_5.png",
+      "assets/pets/acessorios_arara/helice/cor/lado_6.png",
+      "assets/pets/acessorios_arara/helice/cor/lado_7.png",
+      "assets/pets/acessorios_arara/helice/cor/lado_8.png",
+      "assets/pets/acessorios_arara/helice/cor/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/helice/detalhe/costas_1.png",
+      "assets/pets/acessorios_arara/helice/detalhe/costas_2.png",
+      "assets/pets/acessorios_arara/helice/detalhe/costas_3.png",
+      "assets/pets/acessorios_arara/helice/detalhe/costas_4.png",
+      "assets/pets/acessorios_arara/helice/detalhe/costas_5.png",
+      "assets/pets/acessorios_arara/helice/detalhe/costas_6.png",
+      "assets/pets/acessorios_arara/helice/detalhe/costas_7.png",
+      "assets/pets/acessorios_arara/helice/detalhe/costas_8.png",
+      "assets/pets/acessorios_arara/helice/detalhe/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/helice/detalhe/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/helice/detalhe/emocao_brava.png",
+      "assets/pets/acessorios_arara/helice/detalhe/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/helice/detalhe/emocao_duvida.png",
+      "assets/pets/acessorios_arara/helice/detalhe/emocao_encantada.png",
+      "assets/pets/acessorios_arara/helice/detalhe/emocao_feliz.png",
+      "assets/pets/acessorios_arara/helice/detalhe/emocao_suor.png",
+      "assets/pets/acessorios_arara/helice/detalhe/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/helice/detalhe/lado_1.png",
+      "assets/pets/acessorios_arara/helice/detalhe/lado_10.png",
+      "assets/pets/acessorios_arara/helice/detalhe/lado_2.png",
+      "assets/pets/acessorios_arara/helice/detalhe/lado_3.png",
+      "assets/pets/acessorios_arara/helice/detalhe/lado_4.png",
+      "assets/pets/acessorios_arara/helice/detalhe/lado_5.png",
+      "assets/pets/acessorios_arara/helice/detalhe/lado_6.png",
+      "assets/pets/acessorios_arara/helice/detalhe/lado_7.png",
+      "assets/pets/acessorios_arara/helice/detalhe/lado_8.png",
+      "assets/pets/acessorios_arara/helice/detalhe/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/laco/cor/costas_1.png",
+      "assets/pets/acessorios_arara/laco/cor/costas_2.png",
+      "assets/pets/acessorios_arara/laco/cor/costas_3.png",
+      "assets/pets/acessorios_arara/laco/cor/costas_4.png",
+      "assets/pets/acessorios_arara/laco/cor/costas_5.png",
+      "assets/pets/acessorios_arara/laco/cor/costas_6.png",
+      "assets/pets/acessorios_arara/laco/cor/costas_7.png",
+      "assets/pets/acessorios_arara/laco/cor/costas_8.png",
+      "assets/pets/acessorios_arara/laco/cor/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/laco/cor/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/laco/cor/emocao_brava.png",
+      "assets/pets/acessorios_arara/laco/cor/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/laco/cor/emocao_duvida.png",
+      "assets/pets/acessorios_arara/laco/cor/emocao_encantada.png",
+      "assets/pets/acessorios_arara/laco/cor/emocao_feliz.png",
+      "assets/pets/acessorios_arara/laco/cor/emocao_suor.png",
+      "assets/pets/acessorios_arara/laco/cor/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/laco/cor/lado_1.png",
+      "assets/pets/acessorios_arara/laco/cor/lado_10.png",
+      "assets/pets/acessorios_arara/laco/cor/lado_2.png",
+      "assets/pets/acessorios_arara/laco/cor/lado_3.png",
+      "assets/pets/acessorios_arara/laco/cor/lado_4.png",
+      "assets/pets/acessorios_arara/laco/cor/lado_5.png",
+      "assets/pets/acessorios_arara/laco/cor/lado_6.png",
+      "assets/pets/acessorios_arara/laco/cor/lado_7.png",
+      "assets/pets/acessorios_arara/laco/cor/lado_8.png",
+      "assets/pets/acessorios_arara/laco/cor/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/oculos/detalhe/costas_1.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/costas_2.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/costas_3.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/costas_4.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/costas_5.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/costas_6.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/costas_7.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/costas_8.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/oculos/detalhe/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/emocao_brava.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/emocao_duvida.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/emocao_encantada.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/emocao_feliz.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/emocao_suor.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/oculos/detalhe/lado_1.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/lado_10.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/lado_2.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/lado_3.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/lado_4.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/lado_5.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/lado_6.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/lado_7.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/lado_8.png",
+      "assets/pets/acessorios_arara/oculos/detalhe/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/quepe/cor/costas_1.png",
+      "assets/pets/acessorios_arara/quepe/cor/costas_2.png",
+      "assets/pets/acessorios_arara/quepe/cor/costas_3.png",
+      "assets/pets/acessorios_arara/quepe/cor/costas_4.png",
+      "assets/pets/acessorios_arara/quepe/cor/costas_5.png",
+      "assets/pets/acessorios_arara/quepe/cor/costas_6.png",
+      "assets/pets/acessorios_arara/quepe/cor/costas_7.png",
+      "assets/pets/acessorios_arara/quepe/cor/costas_8.png",
+      "assets/pets/acessorios_arara/quepe/cor/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/quepe/cor/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/quepe/cor/emocao_brava.png",
+      "assets/pets/acessorios_arara/quepe/cor/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/quepe/cor/emocao_duvida.png",
+      "assets/pets/acessorios_arara/quepe/cor/emocao_encantada.png",
+      "assets/pets/acessorios_arara/quepe/cor/emocao_feliz.png",
+      "assets/pets/acessorios_arara/quepe/cor/emocao_suor.png",
+      "assets/pets/acessorios_arara/quepe/cor/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/quepe/cor/lado_1.png",
+      "assets/pets/acessorios_arara/quepe/cor/lado_10.png",
+      "assets/pets/acessorios_arara/quepe/cor/lado_2.png",
+      "assets/pets/acessorios_arara/quepe/cor/lado_3.png",
+      "assets/pets/acessorios_arara/quepe/cor/lado_4.png",
+      "assets/pets/acessorios_arara/quepe/cor/lado_5.png",
+      "assets/pets/acessorios_arara/quepe/cor/lado_6.png",
+      "assets/pets/acessorios_arara/quepe/cor/lado_7.png",
+      "assets/pets/acessorios_arara/quepe/cor/lado_8.png",
+      "assets/pets/acessorios_arara/quepe/cor/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/quepe/detalhe/costas_1.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/costas_2.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/costas_3.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/costas_4.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/costas_5.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/costas_6.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/costas_7.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/costas_8.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/quepe/detalhe/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/emocao_brava.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/emocao_duvida.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/emocao_encantada.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/emocao_feliz.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/emocao_suor.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/quepe/detalhe/lado_1.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/lado_10.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/lado_2.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/lado_3.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/lado_4.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/lado_5.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/lado_6.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/lado_7.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/lado_8.png",
+      "assets/pets/acessorios_arara/quepe/detalhe/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/costas_1.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/costas_2.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/costas_3.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/costas_4.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/costas_5.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/costas_6.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/costas_7.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/costas_8.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/emocao_brava.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/emocao_duvida.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/emocao_encantada.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/emocao_feliz.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/emocao_suor.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/lado_1.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/lado_10.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/lado_2.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/lado_3.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/lado_4.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/lado_5.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/lado_6.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/lado_7.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/lado_8.png",
+      "assets/pets/acessorios_arara/tapa_olho/detalhe/lado_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/terninho/detalhe/costas_1.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/costas_2.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/costas_3.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/costas_4.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/costas_5.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/costas_6.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/costas_7.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/costas_8.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/costas_9.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/terninho/detalhe/emocao_apaixonada.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/emocao_brava.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/emocao_dormindo.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/emocao_duvida.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/emocao_encantada.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/emocao_feliz.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/emocao_suor.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/emocao_surpresa.png"
+    ],
+    [
+      "assets/pets/acessorios_arara/terninho/detalhe/lado_1.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/lado_10.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/lado_2.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/lado_3.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/lado_4.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/lado_5.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/lado_6.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/lado_7.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/lado_8.png",
+      "assets/pets/acessorios_arara/terninho/detalhe/lado_9.png"
+    ],
+    [
+      "assets/sprites/urso/fonte/urso_frames_paginas.svg",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/fonte/urso_frames_paginas.svg"
+    ],
+    [
+      "assets/sprites/urso/fonte/urso_spritesheet.svg",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/fonte/urso_spritesheet.svg"
+    ],
+    [
+      "assets/sprites/urso/frames/E_idle_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/E_idle_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/E_idle_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/E_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/E_sit.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/E_sit.png"
+    ],
+    [
+      "assets/sprites/urso/frames/E_walk_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/E_walk_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/E_walk_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/E_walk_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/E_walk_3.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/E_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/frames/E_walk_4.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/E_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/frames/N_idle_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/N_idle_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/N_idle_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/N_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/N_sit.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/N_sit.png"
+    ],
+    [
+      "assets/sprites/urso/frames/N_sit_mao.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/N_sit_mao.png"
+    ],
+    [
+      "assets/sprites/urso/frames/N_walk_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/N_walk_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/N_walk_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/N_walk_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/N_walk_3.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/N_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/frames/N_walk_4.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/N_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/frames/NE_idle_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/NE_idle_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/NE_idle_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/NE_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/NE_walk_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/NE_walk_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/NE_walk_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/NE_walk_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/NE_walk_3.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/NE_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/frames/NE_walk_4.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/NE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/frames/S_idle_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_idle_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/S_idle_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/S_sit.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_sit.png"
+    ],
+    [
+      "assets/sprites/urso/frames/S_walk_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_walk_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/S_walk_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_walk_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/S_walk_3.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/frames/S_walk_4.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/frames/S_wave_1.png",
+      "assets/sprites/urso/frames/S_wave_3.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_wave_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_wave_3.png"
+    ],
+    [
+      "assets/sprites/urso/frames/S_wave_2.png",
+      "assets/sprites/urso/frames/S_wave_4.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_wave_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/S_wave_4.png"
+    ],
+    [
+      "assets/sprites/urso/frames/SE_idle_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/SE_idle_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/SE_idle_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/SE_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/SE_walk_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/SE_walk_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/SE_walk_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/SE_walk_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/SE_walk_3.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/SE_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/frames/SE_walk_4.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/SE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/frames/sentado_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/sentado_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/sentado_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/sentado_2.png"
+    ],
+    [
+      "assets/sprites/urso/frames/sentar_1.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/sentar_1.png"
+    ],
+    [
+      "assets/sprites/urso/frames/sentar_2.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/frames/sentar_2.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/camisa_azul.svg",
+      "artwork/roupas-recebidas/fonte/camisa_azul.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/camisa_verde.svg",
+      "artwork/roupas-recebidas/fonte/camisa_verde.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/camisa_vermelha.svg",
+      "artwork/roupas-recebidas/fonte/camisa_vermelha.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/chapeu_palha.svg",
+      "artwork/roupas-recebidas/fonte/chapeu_palha.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/chapeu_preto.svg",
+      "artwork/roupas-recebidas/fonte/chapeu_preto.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/terno_azul_marinho.svg",
+      "artwork/roupas-recebidas/fonte/terno_azul_marinho.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/terno_cinza.svg",
+      "artwork/roupas-recebidas/fonte/terno_cinza.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/terno_vinho.svg",
+      "artwork/roupas-recebidas/fonte/terno_vinho.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/touca_amarela.svg",
+      "artwork/roupas-recebidas/fonte/touca_amarela.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/touca_vermelha.svg",
+      "artwork/roupas-recebidas/fonte/touca_vermelha.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/urso_com_camisa.svg",
+      "artwork/roupas-recebidas/fonte/urso_com_camisa.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/urso_com_chapeu.svg",
+      "artwork/roupas-recebidas/fonte/urso_com_chapeu.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/urso_com_terno.svg",
+      "artwork/roupas-recebidas/fonte/urso_com_terno.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/fonte/urso_com_touca.svg",
+      "artwork/roupas-recebidas/fonte/urso_com_touca.svg"
+    ],
+    [
+      "assets/sprites/urso/roupas/icones/camisa_azul.png",
+      "artwork/roupas-recebidas/icones/camisa_azul.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/icones/camisa_verde.png",
+      "artwork/roupas-recebidas/icones/camisa_verde.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/icones/camisa_vermelha.png",
+      "artwork/roupas-recebidas/icones/camisa_vermelha.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/icones/chapeu_palha.png",
+      "artwork/roupas-recebidas/icones/chapeu_palha.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/icones/chapeu_preto.png",
+      "artwork/roupas-recebidas/icones/chapeu_preto.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/icones/terno_azul_marinho.png",
+      "artwork/roupas-recebidas/icones/terno_azul_marinho.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/icones/terno_cinza.png",
+      "artwork/roupas-recebidas/icones/terno_cinza.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/icones/terno_vinho.png",
+      "artwork/roupas-recebidas/icones/terno_vinho.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/icones/touca_amarela.png",
+      "artwork/roupas-recebidas/icones/touca_amarela.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/icones/touca_vermelha.png",
+      "artwork/roupas-recebidas/icones/touca_vermelha.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/camisa/cor/E_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/camisa/cor/E_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/camisa/cor/N_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/camisa/cor/N_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/camisa/cor/NE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/camisa/cor/NE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/camisa/cor/S_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/camisa/cor/S_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/camisa/cor/S_wave_1.png",
+      "assets/sprites/urso/roupas/quadros/camisa/cor/S_wave_3.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/camisa/cor/S_wave_2.png",
+      "assets/sprites/urso/roupas/quadros/camisa/cor/S_wave_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/camisa/cor/SE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/camisa/cor/SE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/E_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/E_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/E_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/E_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/E_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/N_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/N_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/N_walk_3.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_walk_3.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_wave_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_wave_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_wave_3.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_wave_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/N_idle_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/N_sit.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/N_sit_mao.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_sit.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/N_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/N_walk_4.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/S_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/NE_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/NE_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/NE_walk_3.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/SE_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/SE_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/SE_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/NE_idle_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/SE_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/NE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/NE_walk_4.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/SE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/cor/SE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/E_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/E_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/E_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/E_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/E_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/N_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/N_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/N_walk_3.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_walk_3.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_wave_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_wave_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_wave_3.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_wave_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/N_idle_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/N_sit.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/N_sit_mao.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_sit.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/N_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/N_walk_4.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/S_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/NE_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/NE_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/NE_walk_3.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/SE_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/SE_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/SE_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/NE_idle_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/SE_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/NE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/NE_walk_4.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/SE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/chapeu/detalhe/SE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/cor/E_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/cor/E_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/cor/N_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/cor/N_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/cor/NE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/cor/NE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/cor/S_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/cor/S_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/cor/S_wave_1.png",
+      "assets/sprites/urso/roupas/quadros/terno/cor/S_wave_3.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/cor/S_wave_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/cor/S_wave_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/cor/SE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/cor/SE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/E_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/E_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/N_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/N_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/NE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/NE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/S_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/S_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/S_wave_1.png",
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/S_wave_3.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/S_wave_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/S_wave_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/SE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/terno/detalhe/SE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/touca/cor/E_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/E_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/E_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/touca/cor/E_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/E_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/touca/cor/N_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/N_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/N_walk_3.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_walk_3.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_wave_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_wave_2.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_wave_3.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_wave_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/touca/cor/N_idle_2.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/touca/cor/N_sit.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/N_sit_mao.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_sit.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/touca/cor/N_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/N_walk_4.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/S_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/touca/cor/NE_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/NE_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/NE_walk_3.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/SE_idle_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/SE_walk_1.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/SE_walk_3.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/touca/cor/NE_idle_2.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/SE_idle_2.png"
+    ],
+    [
+      "assets/sprites/urso/roupas/quadros/touca/cor/NE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/NE_walk_4.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/SE_walk_2.png",
+      "assets/sprites/urso/roupas/quadros/touca/cor/SE_walk_4.png"
+    ],
+    [
+      "assets/sprites/urso/urso_spritesheet.png",
+      "artwork/MundoDosUrsos3/assets/sprites/urso/urso_spritesheet.png"
+    ],
+    [
+      "assets/ui/quests/mapa-de-descobertas.png",
+      "artwork/porto-glacial-ia/hud/mapa-de-descobertas.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/camisa/cor/S_wave_1.png",
+      "artwork/roupas-recebidas/quadros/camisa/cor/S_wave_3.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/camisa/cor/S_wave_2.png",
+      "artwork/roupas-recebidas/quadros/camisa/cor/S_wave_4.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/chapeu/cor/S_wave_1.png",
+      "artwork/roupas-recebidas/quadros/chapeu/cor/S_wave_3.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/chapeu/cor/S_wave_2.png",
+      "artwork/roupas-recebidas/quadros/chapeu/cor/S_wave_4.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/chapeu/detalhe/S_wave_1.png",
+      "artwork/roupas-recebidas/quadros/chapeu/detalhe/S_wave_3.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/chapeu/detalhe/S_wave_2.png",
+      "artwork/roupas-recebidas/quadros/chapeu/detalhe/S_wave_4.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/terno/cor/S_wave_1.png",
+      "artwork/roupas-recebidas/quadros/terno/cor/S_wave_3.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/terno/cor/S_wave_2.png",
+      "artwork/roupas-recebidas/quadros/terno/cor/S_wave_4.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/terno/detalhe/S_wave_1.png",
+      "artwork/roupas-recebidas/quadros/terno/detalhe/S_wave_3.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/terno/detalhe/S_wave_2.png",
+      "artwork/roupas-recebidas/quadros/terno/detalhe/S_wave_4.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/touca/cor/S_wave_1.png",
+      "artwork/roupas-recebidas/quadros/touca/cor/S_wave_3.png"
+    ],
+    [
+      "artwork/roupas-recebidas/quadros/touca/cor/S_wave_2.png",
+      "artwork/roupas-recebidas/quadros/touca/cor/S_wave_4.png"
+    ]
+  ],
+  "sheet_counts": {
+    "cenarios": 4,
+    "interface": 2,
+    "pets": 9,
+    "minijogos": 1,
+    "urso": 2,
+    "roupas": 7,
+    "arquivo": 9,
+    "referencias": 1
+  },
+  "category_unique_counts": {
+    "cenarios": 113,
+    "interface": 44,
+    "pets": 243,
+    "minijogos": 3,
+    "urso": 44,
+    "roupas": 186,
+    "arquivo": 247,
+    "referencias": 23
+  },
+  "largest_dimensions": [
+    {
+      "id": "I0762",
+      "path": "assets/sprites/urso/fonte/urso_spritesheet.svg",
+      "bytes": 96797,
+      "sha256": "74ffac3a4770b379030e56e4fa9b5cd8cf1efd49fe4eed52573f0a348806913e",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        11,
+        18,
+        1586,
+        1391
+      ],
+      "transparent_pct": 66.15,
+      "partial_alpha_pct": 3.07,
+      "preview": "svg_preview/5e88d6bba3ebe45d19f4.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0806",
+      "path": "assets/sprites/urso/roupas/camisa_cor.png",
+      "bytes": 147385,
+      "sha256": "0ed86b32e33a27296c0639a702587351e927c111eb39603bac9136f7299aa15e",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        37,
+        87,
+        2007,
+        1733
+      ],
+      "transparent_pct": 84.92,
+      "partial_alpha_pct": 0.7,
+      "preview": "../../assets/sprites/urso/roupas/camisa_cor.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0807",
+      "path": "assets/sprites/urso/roupas/chapeu_cor.png",
+      "bytes": 78147,
+      "sha256": "b558112778a5fad267df4373dcc081b957cf04f969c50b52739ed64fe810156f",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        64,
+        11,
+        1984,
+        1616
+      ],
+      "transparent_pct": 95.16,
+      "partial_alpha_pct": 0.53,
+      "preview": "../../assets/sprites/urso/roupas/chapeu_cor.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0808",
+      "path": "assets/sprites/urso/roupas/chapeu_detalhe.png",
+      "bytes": 29961,
+      "sha256": "14f5ecb4e040d1396ef3b395139527706bb69bc193092983210464829b4ce430",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        94,
+        39,
+        1954,
+        1599
+      ],
+      "transparent_pct": 99.15,
+      "partial_alpha_pct": 0.16,
+      "preview": "../../assets/sprites/urso/roupas/chapeu_detalhe.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0810",
+      "path": "assets/sprites/urso/roupas/fonte/camisa_cor_sobreposicao.svg",
+      "bytes": 196660,
+      "sha256": "89460201debdb4ffb16c6a3a332fcb18fb9057d54725ccdf0dba40c21aefad66",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "alpha_bbox": [
+        28,
+        68,
+        1568,
+        1316
+      ],
+      "transparent_pct": 95.87,
+      "partial_alpha_pct": 4.13,
+      "preview": "svg_preview/e8de616ae51ee8767713.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0813",
+      "path": "assets/sprites/urso/roupas/fonte/chapeu_cor_sobreposicao.svg",
+      "bytes": 140451,
+      "sha256": "df9c9e8df40da200355f56a9ba1fb3376e47a7301bbe1118da4515541a8331db",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "alpha_bbox": [
+        50,
+        8,
+        1550,
+        1263
+      ],
+      "transparent_pct": 94.95,
+      "partial_alpha_pct": 5.05,
+      "preview": "svg_preview/4bee1d607ecac3f19c4f.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0814",
+      "path": "assets/sprites/urso/roupas/fonte/chapeu_detalhe_sobreposicao.svg",
+      "bytes": 126471,
+      "sha256": "80f2cff41d788b86b2832dcc018bc95ee8fff0f415d7459cb229d5544c333ca6",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "alpha_bbox": [
+        73,
+        30,
+        1527,
+        1250
+      ],
+      "transparent_pct": 99.09,
+      "partial_alpha_pct": 0.91,
+      "preview": "svg_preview/cdffe1e1e81aec4d60d0.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0819",
+      "path": "assets/sprites/urso/roupas/fonte/terno_cor_sobreposicao.svg",
+      "bytes": 214522,
+      "sha256": "fe06db8b92c5408af3c60799f44b186e998b5ac2e5c6d5c21454d9940e62e24f",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "alpha_bbox": [
+        14,
+        68,
+        1583,
+        1338
+      ],
+      "transparent_pct": 92.84,
+      "partial_alpha_pct": 7.16,
+      "preview": "svg_preview/cec7075a671f5ecca67f.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0820",
+      "path": "assets/sprites/urso/roupas/fonte/terno_detalhe_sobreposicao.svg",
+      "bytes": 189847,
+      "sha256": "8061c8d8a7e7462727cd374988dc00f94380a8a058ec4a9d4bcef1ffbadf4a3e",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "alpha_bbox": [
+        14,
+        111,
+        1583,
+        1342
+      ],
+      "transparent_pct": 99.52,
+      "partial_alpha_pct": 0.48,
+      "preview": "svg_preview/a215777e3ddb23fb95f4.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0823",
+      "path": "assets/sprites/urso/roupas/fonte/touca_cor_sobreposicao.svg",
+      "bytes": 169879,
+      "sha256": "d326d93a7c1cd5c482fe1befbb8d241b87305d96b7e1e72f731e86c6209041bc",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "alpha_bbox": [
+        57,
+        9,
+        1542,
+        1264
+      ],
+      "transparent_pct": 94.64,
+      "partial_alpha_pct": 5.36,
+      "preview": "svg_preview/5339b4473ef7f91c857f.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0825",
+      "path": "assets/sprites/urso/roupas/fonte/urso_com_camisa.svg",
+      "bytes": 142515,
+      "sha256": "1a317b2460e6f4967197ffca8ee8986c50298a8eb1660fe7303024d50523dea8",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        11,
+        18,
+        1586,
+        1399
+      ],
+      "transparent_pct": 65.77,
+      "partial_alpha_pct": 3.07,
+      "preview": "svg_preview/c8cc5e768464de34c0f3.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0826",
+      "path": "assets/sprites/urso/roupas/fonte/urso_com_chapeu.svg",
+      "bytes": 117719,
+      "sha256": "b2364e9e8ecccbee73dd5dff303cf823668815878e622908e0203c3b6cf423c5",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        11,
+        8,
+        1586,
+        1399
+      ],
+      "transparent_pct": 64.1,
+      "partial_alpha_pct": 3.16,
+      "preview": "svg_preview/18fe2ce1f2d22b4acaf5.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0827",
+      "path": "assets/sprites/urso/roupas/fonte/urso_com_terno.svg",
+      "bytes": 158466,
+      "sha256": "813eb0bd23fe2780965a0f7afd0ffa3b1784d497a7760df4e1f8c78de4d44b8e",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        11,
+        18,
+        1586,
+        1399
+      ],
+      "transparent_pct": 65.5,
+      "partial_alpha_pct": 3.04,
+      "preview": "svg_preview/93c87b33bc6b3c66fd50.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I0828",
+      "path": "assets/sprites/urso/roupas/fonte/urso_com_touca.svg",
+      "bytes": 130582,
+      "sha256": "954b83ca72fcce0c83dcfd840bc1a7809a07503141132db1cfb95cae481d2472",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        11,
+        9,
+        1586,
+        1399
+      ],
+      "transparent_pct": 64.7,
+      "partial_alpha_pct": 3.0,
+      "preview": "svg_preview/69dc96cd3f6d76a33454.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I1091",
+      "path": "assets/sprites/urso/roupas/terno_cor.png",
+      "bytes": 186901,
+      "sha256": "2ae2eb99f04cb586617cd7751f80b208feaa4e6b419d09b17773d886c7070c6e",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        18,
+        87,
+        2026,
+        1748
+      ],
+      "transparent_pct": 80.73,
+      "partial_alpha_pct": 0.88,
+      "preview": "../../assets/sprites/urso/roupas/terno_cor.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I1092",
+      "path": "assets/sprites/urso/roupas/terno_detalhe.png",
+      "bytes": 73617,
+      "sha256": "5f57ab14b75ee1d8e05cf06be83ef333cca0ad20699df6ecf291ffa958fb29ac",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        19,
+        128,
+        2026,
+        1748
+      ],
+      "transparent_pct": 98.91,
+      "partial_alpha_pct": 0.34,
+      "preview": "../../assets/sprites/urso/roupas/terno_detalhe.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I1093",
+      "path": "assets/sprites/urso/roupas/touca_cor.png",
+      "bytes": 79438,
+      "sha256": "aca75c22181e8808a19a9ea315e679f2eac799e5c6d6aa0039077516eb15c7cf",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        12,
+        1973,
+        1617
+      ],
+      "transparent_pct": 94.8,
+      "partial_alpha_pct": 0.31,
+      "preview": "../../assets/sprites/urso/roupas/touca_cor.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I1094",
+      "path": "assets/sprites/urso/urso_spritesheet.png",
+      "bytes": 404090,
+      "sha256": "d0f72e7d76317a3a7ada893cf08651e7d0f62b67174a7fc7f026577420faf934",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        15,
+        24,
+        2030,
+        1780
+      ],
+      "transparent_pct": 66.63,
+      "partial_alpha_pct": 1.95,
+      "preview": "../../assets/sprites/urso/urso_spritesheet.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I1215",
+      "path": "artwork/MundoDosUrsos3/assets/sprites/urso/fonte/urso_spritesheet.svg",
+      "bytes": 96797,
+      "sha256": "74ffac3a4770b379030e56e4fa9b5cd8cf1efd49fe4eed52573f0a348806913e",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        11,
+        18,
+        1586,
+        1391
+      ],
+      "transparent_pct": 66.15,
+      "partial_alpha_pct": 3.07,
+      "preview": "svg_preview/5aab667304a852a6ade2.png",
+      "decoded_rgba_mib": 14.0
+    },
+    {
+      "id": "I1258",
+      "path": "artwork/MundoDosUrsos3/assets/sprites/urso/urso_spritesheet.png",
+      "bytes": 404090,
+      "sha256": "d0f72e7d76317a3a7ada893cf08651e7d0f62b67174a7fc7f026577420faf934",
+      "width": 2048,
+      "height": 1792,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        15,
+        24,
+        2030,
+        1780
+      ],
+      "transparent_pct": 66.63,
+      "partial_alpha_pct": 1.95,
+      "preview": "../../artwork/MundoDosUrsos3/assets/sprites/urso/urso_spritesheet.png",
+      "decoded_rgba_mib": 14.0
+    }
+  ]
+}

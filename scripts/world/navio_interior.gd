@@ -158,6 +158,7 @@ func _process(delta: float) -> void:
 	else: dica.text = "Aproxime-se dos botes ou siga a seta para voltar ao porto." if modo_botes else "Explore o salão ou siga a seta para voltar ao porto."
 	tempo_fala = maxf(0,tempo_fala - delta)
 	if tempo_fala <= 0: fala.text = ""
+	if modo_botes: queue_redraw()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if is_instance_valid(desafio): return
@@ -200,20 +201,26 @@ func _ajustar() -> void:
 func _draw() -> void:
 	draw_texture_rect(textura_fundo,Rect2(0,36,1152,648),false)
 	load("res://scripts/world/ground_arrow.gd").paint(self,_ponto_saida(),0.0)
+	if modo_botes and not is_instance_valid(desafio):
+		for ponto in _pontos():
+			if not ponto.has("bote"): continue
+			var center: Vector2 = ponto.ponto
+			var radius := 28.0 + sin(Time.get_ticks_msec() / 300.0) * 3.0
+			draw_circle(center, radius, Color(1,0.78,0.26,0.16))
+			draw_arc(center, radius, 0, TAU, 48, Color("ffd36c"), 3, true)
+			load("res://scripts/ui/game_fonts.gd").nameplate(self,"JOGAR • BOTE %d" % ponto.bote,center.x,center.y-40,18)
 
 func _iniciar_bote(indice: int) -> void:
 	if is_instance_valid(desafio): return
 	bote_selecionado.emit(indice)
-	desafio=load("res://scripts/minigames/learning_room.gd").new()
-	desafio.zone="ship"
-	desafio.texto_retorno="Voltar ao deque"
+	desafio=load("res://scripts/minigames/arcade_game.gd").new()
+	desafio.kind="race"
 	jogador.hide()
 	desafio.finished.connect(_voltar_deque)
 	add_child(desafio)
-	Learning.act.call_deferred("start")
 
 func _voltar_deque(_result: Dictionary) -> void:
-	Learning.act("cancel")
+	Arcade.command("leave")
 	if is_instance_valid(desafio): desafio.queue_free()
 	desafio=null
 	jogador.show()

@@ -87,26 +87,24 @@ func _panel(rect: Rect2) -> void:
 	panel.add_theme_stylebox_override("panel",_style(CREAM))
 	overlay.add_child(panel)
 
-func _hud_panel(rect: Rect2, texture: Texture2D) -> void:
-	var panel := NinePatchRect.new()
-	panel.texture = texture
+func _hud_panel(rect: Rect2, _texture: Texture2D) -> void:
+	var panel := Panel.new()
+	panel.add_theme_stylebox_override("panel",_style(CREAM,Color("b48a43")))
 	panel.position = rect.position
 	panel.size = rect.size
-	panel.patch_margin_left = 20
-	panel.patch_margin_right = 20
-	panel.patch_margin_top = 20
-	panel.patch_margin_bottom = 20
 	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	overlay.add_child(panel)
 
 func _label(text: String, rect: Rect2, font_size := 22, color := INK) -> Label:
 	var label:=Label.new()
 	label.text=text
+	label.add_theme_font_override("font",preload("res://assets/fonts/Lato-Bold.ttf"))
 	label.position=rect.position
 	label.size=rect.size
 	label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
 	label.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
 	label.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART
+	label.clip_text=true
 	label.add_theme_font_size_override("font_size",font_size)
 	label.add_theme_color_override("font_color",color)
 	label.mouse_filter=Control.MOUSE_FILTER_IGNORE
@@ -116,13 +114,15 @@ func _label(text: String, rect: Rect2, font_size := 22, color := INK) -> Label:
 func _button(text: String, rect: Rect2, action: Callable, enabled := true, light := false) -> Button:
 	var button:=Button.new()
 	button.text=text
+	button.add_theme_font_override("font",preload("res://assets/fonts/Lato-Bold.ttf"))
 	button.position=rect.position
 	button.size=rect.size
 	button.disabled=not enabled
 	button.add_theme_font_size_override("font_size",18)
 	button.add_theme_color_override("font_color",INK if light else Color.WHITE)
-	button.add_theme_stylebox_override("normal",_style(CREAM if light else Color("259dcb")))
-	button.add_theme_stylebox_override("hover",_style(Color("e7d6a4") if light else Color("3db3df"),Color("e4b347")))
+	button.add_theme_color_override("font_disabled_color",Color("756b56"))
+	button.add_theme_stylebox_override("normal",_style(CREAM if light else Color("226779"),Color("b48a43")))
+	button.add_theme_stylebox_override("hover",_style(Color("f7df9e") if light else Color("318598"),Color("e4b347")))
 	button.add_theme_stylebox_override("disabled",_style(Color("d5d1bf")))
 	button.pressed.connect(action)
 	overlay.add_child(button)
@@ -163,9 +163,16 @@ func _refresh() -> void:
 		var fill:=ColorRect.new()
 		fill.position=bar.position
 		fill.size=Vector2(180.0*energy/5.0,9)
-		fill.color=Color("6cae4b")
+		fill.color=Color("d89e31")
 		fill.mouse_filter=Control.MOUSE_FILTER_IGNORE
 		overlay.add_child(fill)
+		for segment in range(1,5):
+			var gap := ColorRect.new()
+			gap.position = bar.position + Vector2(segment*36-2,0)
+			gap.size = Vector2(4,9)
+			gap.color = CREAM
+			gap.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			overlay.add_child(gap)
 		_label("%d/5" % energy if occupied else "—",Rect2(x+198,62,50,28),16)
 		fighters[side].visible=occupied
 		fighter_pets[side].visible=occupied
@@ -183,29 +190,32 @@ func _refresh() -> void:
 	timer_label=_label("%ds" % ceili(remaining) if remaining>0 else "",Rect2(638,62,74,28),16)
 	_button("‹ Sair",Rect2(26,118,92,32),_return,true,true)
 	if phase in ["idle","waiting","watch_wait"]:
-		_panel(Rect2(396,200,360,236))
-		_label("Duelo de multiplicação" if phase=="idle" else ("Você está na plateia" if phase=="watch_wait" else "Aguardando outro urso…"),Rect2(410,210,332,54),23)
-		_label("Aguardando dois jogadores\npara começar o duelo." if phase=="watch_wait" else "Ataque com uma carta.\nAcerte a resposta para se defender.",Rect2(416,270,320,60),18)
+		_panel(Rect2(326,191,500,330))
+		_label("DESAFIO DO BAMBU",Rect2(350,210,452,24),14,Color("996c27"))
+		_label("Duelo de multiplicação" if phase=="idle" else ("Você está na plateia" if phase=="watch_wait" else "Aguardando outro urso…"),Rect2(350,242,452,42),28)
+		_label("Aguardando dois jogadores\npara começar o duelo." if phase=="watch_wait" else "Escolha sua carta. Defenda com a resposta certa.\nCada acerto protege a energia do seu urso.",Rect2(350,295,452,58),18)
+		_label("1 favo: fácil   •   2: médio   •   3: difícil",Rect2(350,363,452,28),16,Color("996c27"))
 		if phase=="watch_wait":
-			_button("Levantar",Rect2(436,369,280,36),func(): Duel.act("leave"))
+			_button("Levantar",Rect2(376,416,400,46),func(): Duel.act("leave"))
 		else:
-			_button("Procurar adversário" if phase=="idle" else "Cancelar",Rect2(436,339,280,36),func(): Duel.act("join" if phase=="idle" else "leave"))
-			_button("Assistir sentado",Rect2(436,385,280,36),func(): Duel.act("watch"))
+			_button("Procurar adversário" if phase=="idle" else "Cancelar busca",Rect2(356,405,440,46),func(): Duel.act("join" if phase=="idle" else "leave"))
+			_button("Assistir da plateia",Rect2(356,461,440,40),func(): Duel.act("watch"),true,true)
 	elif phase=="answer":
-		_panel(Rect2(376,203,400,300))
+		_panel(Rect2(376,203,400,374))
 		_label("Defenda seu urso" if mine!=v.attacker and not spectator else "O defensor está respondendo",Rect2(391,215,370,34),19,Color("1478a2"))
 		_label(v.question,Rect2(390,256,372,65),38)
 		for index in range(v.options.size()):
-			var button:=_button(str(v.options[index]),Rect2(396+(index%2)*184,338+(index/2)*65,176,52),func(): selected_answer=index; _refresh(),not spectator and mine!=v.attacker,true)
+			var button:=_button(str(v.options[index]),Rect2(396+(index%2)*184,338+floori(index/2.0)*65,176,52),func(): selected_answer=index; _refresh(),not spectator and mine!=v.attacker,true)
 			if index==selected_answer: button.add_theme_stylebox_override("normal",_style(Color("d1edfa"),Color("259dcb")))
 		_button("Confirmar",Rect2(456,520,240,44),func(): Duel.act("answer",selected_answer),selected_answer>=0 and not spectator and mine!=v.attacker)
 	elif phase in ["resolve","finished"]:
-		_panel(Rect2(376,220,400,258))
+		_panel(Rect2(346,203,460,310))
 		var title: String=v.feedback
 		if phase=="finished" and not spectator: title=("Empate!" if v.winner==-1 else ("Vitória!" if v.winner==mine else "Derrota"))+"\n"+v.feedback
-		_label(title,Rect2(397,238,358,158),24)
-		if phase=="finished": _button("Jogar novamente" if not spectator else "Entrar na fila",Rect2(446,412,260,44),func(): Duel.act("join"))
-	if not spectator and phase in ["idle","waiting","choose"]:
+		_label(title,Rect2(366,220,420,202),22)
+		if phase=="finished": _button("Jogar novamente" if not spectator else "Entrar na fila",Rect2(446,445,260,44),func(): Duel.act("join"))
+	if not spectator and phase=="choose":
+		_label("SUA MÃO  •  Favos de mel indicam a dificuldade  •  Todas causam 1 de dano",Rect2(245,475,662,32),16,CREAM)
 		_fan(v.cards[mine] if v.has("cards") else [2,2,1],phase=="choose" and mine==v.attacker)
 		if phase=="choose": _button("Jogar carta",Rect2(924,622,202,48),func(): Duel.act("card",selected_card),selected_card>=0 and mine==v.attacker)
 	if spectator and v.has("ids"):
@@ -233,6 +243,10 @@ func _fan(counts: Array, playable: bool) -> void:
 
 func _draw() -> void:
 	draw_texture_rect(ROOM,Rect2(0,0,1152,720),false)
+	draw_rect(Rect2(0,0,1152,110),Color(0.07,0.16,0.17,0.88))
+	draw_line(Vector2(0,110),Vector2(1152,110),Color("b48a43"),3)
+	if Duel.view.get("phase","")=="choose":
+		draw_rect(Rect2(175,468,802,252),Color(0.07,0.16,0.17,0.85))
 	var audience: Array=Duel.view.get("spectators",[])
 	for seat in range(8):
 		var desk_point: Vector2=SEATS[seat]

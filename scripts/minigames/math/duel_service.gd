@@ -138,9 +138,9 @@ func generate_question(level: int) -> Dictionary:
 		if candidate>0 and not options.has(candidate): options.append(candidate)
 		if options.size()==4: break
 	options.shuffle()
-	var tens := (b/10)*10
+	var tens := b - b % 10
 	var units := b%10
-	var explanation := "%d × %d = %d. Separe %d em %d + %d: %d + %d = %d." % [a,b,answer,b,tens,units,a*tens,a*units,answer]
+	var explanation := "%d × %d = %d\n%d × %d + %d × %d\n= %d + %d = %d" % [a,b,answer,a,tens,a,units,a*tens,a*units,answer]
 	return {"question":"%d × %d = ?" % [a,b],"answer":answer,"options":options,"explanation":explanation}
 
 func _resolve(m: Dictionary, correct: bool) -> void:
@@ -151,9 +151,9 @@ func _resolve(m: Dictionary, correct: bool) -> void:
 		Progress.record(m.ids[defender],"math_correct")
 	else:
 		m.energy[defender] -= 1
-	m.feedback = ("Defesa perfeita! " if correct else "Ataque acertou: −1 energia. ") + m.explanation
+	m.feedback = ("Defesa perfeita!\n" if correct else "Ataque acertou: −1 energia.\n") + m.explanation
 	m.phase = "resolve"
-	m.seconds = 3.5
+	m.seconds = 7.0
 	_publish(m)
 
 func _next(m: Dictionary) -> void:

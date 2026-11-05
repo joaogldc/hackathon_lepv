@@ -2,6 +2,10 @@
 
 # 🐻 Mundo dos Ursos — Hackathon LEPV
 
+**Novidades integradas:** [Corrida Glacial e cartas com favos de mel](docs/HUD_COLMEIAS_E_CORRIDA.md), [habitat do Observatório e Foguete de Madeira](docs/OBSERVATORIO_E_FOGUETE.md), e [correção da movimentação dos minijogos](docs/MOVIMENTO_MINIJOGOS.md). Para executar essas novidades, importe o `project.godot` da raiz no Godot. O pacote em `build/kBear-jogo.zip` é uma distribuição anterior e não foi reexportado nesta atualização.
+
+**Revisão visual:** [relatório, galeria e comparação das áreas](docs/revisao_visual_2026-11-03/README.md). As recomendações de enquadramento, HUD e acessórios são propostas; os relatórios distinguem o que foi observado do que foi implementado.
+
 **Abrir em outro PC:** [guia de importação e execução](docs/ABRIR_EM_OUTRO_PC.md).
 
 > Mundo social online 2D em que aprender gera conquistas, moedas e novas formas de se expressar entre amigos.
